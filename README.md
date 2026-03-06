@@ -19,7 +19,8 @@ Repositorio de notas personales sobre política construido con [Astro](https://a
 ``` text
 /
 ├── public/                 # Archivos estáticos
-│   └── favicon.svg
+│   ├── favicon.svg
+│   └── screenshot.png      # Imagen para previsualización en redes
 ├── src/
 │   ├── content/
 │   │   └── docs/           # Contenido en Markdown

@@ -19,7 +19,8 @@ Personal notes repository about politics built with [Astro](https://astro.build)
 ```
 /
 ├── public/                 # Static assets
-│   └── favicon.svg
+│   ├── favicon.svg
+│   └── screenshot.png      # Social media preview image
 ├── src/
 │   ├── content/
 │   │   └── docs/           # Markdown content
