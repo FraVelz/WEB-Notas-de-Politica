@@ -13,9 +13,11 @@ type PageProps = {
 
 export async function generateStaticParams() {
   const { getStaticPaths } = await import('@/lib/content/docs');
-  return getStaticPaths()
-    .filter(({ slug }) => slug.length > 0)
-    .map(({ tema, slug }) => ({ tema, slug }));
+  const params: { tema: string; slug: string[] }[] = [];
+  for (const { tema, slug } of getStaticPaths()) {
+    if (slug.length > 0) params.push({ tema, slug });
+  }
+  return params;
 }
 
 export async function generateMetadata({

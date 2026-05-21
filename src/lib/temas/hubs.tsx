@@ -9,6 +9,12 @@ const customHubs: Record<
     import('@/features/filosofia/FilosofiaHub').then((m) => ({
       default: m.FilosofiaHub,
     })),
+  'estadisticas-mundiales': () =>
+    import('@/features/estadisticas-mundiales/EstadisticasMundialesHub').then(
+      (m) => ({
+        default: m.EstadisticasMundialesHub,
+      }),
+    ),
 };
 
 export async function resolveTemaHub(

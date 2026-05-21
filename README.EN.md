@@ -1,27 +1,41 @@
 # Political Notes
 
-[Version en español](./README.md)
+[Spanish version](./README.md)
 
 Personal notes on **politics, philosophy**, and related topics, built with [Next.js](https://nextjs.org).
 
-![Screenshot](./public/screenshot.png)
+![Screenshot](./src/app/opengraph-image.png)
 
 ## Project documentation
 
-All technical docs live in **[docs/](./docs/)**:
-
-- [Architecture and features](./docs/arquitectura.md)
-- [Topic catalog](./docs/temas.md)
-- [Published site content](./docs/contenido-del-sitio.md)
-- [Development and deploy](./docs/desarrollo.md)
+All technical docs live in **[docs/en/overview.md](./docs/en/overview.md)** ([Spanish version](./docs/es/overview.md)).
 
 ## Features
 
-- **Light/dark theme**
-- **One feature folder per topic** (`src/features/{topic}/`) with TSX hub and Markdown notes
-- **Landing** at `/` with grouped topic index
-- **Search** by title and description
-- **Static export** (`out/`)
+- **25 topic sections** in 7 groups (philosophy, geopolitics, economics, data, etc.) with *With content*, *In progress*, and *Coming soon* states
+- **Landing** at `/` with hero, anchor navigation, and topic cards
+- **Feature-based architecture** — one folder per topic (`src/features/{topic}/`) with TSX hub, own sidebar, and Markdown notes
+- **Dynamic routes** `/{topic}` and `/{topic}/...` resolving TSX pages or `.md` notes automatically
+- **Light/dark theme** persisted via `next-themes`, toggle in the header
+- **Per-topic styling** — grayscale palettes by topic group
+- **Search** within each topic’s docs (title, description, URL, and section)
+- **Rich Markdown** with tables, lists, and GFM (`react-markdown`, `remark-gfm`)
+- **Interactive map** on World statistics (MapLibre GL / [mapcn](https://mapcn.vercel.app/docs))
+- **Static export** (`output: 'export'` → `out/`) for Vercel or GitHub Pages
+- **Bilingual technical docs** in `docs/es/` and `docs/en/`
+
+## Technologies
+
+| Area      | Stack                                                                         |
+| --------- | ----------------------------------------------------------------------------- |
+| Framework | [Next.js 15](https://nextjs.org) (App Router) · [React 19](https://react.dev) |
+| Language  | [TypeScript](https://www.typescriptlang.org)                                  |
+| Styling   | [Tailwind CSS 4](https://tailwindcss.com) · per-topic CSS tokens              |
+| Content   | `gray-matter` · `react-markdown` · `remark-gfm`                               |
+| UI        | `next-themes` · [Lucide](https://lucide.dev) · `clsx` / `tailwind-merge`      |
+| Maps      | [MapLibre GL](https://maplibre.org)                                           |
+| Quality   | ESLint · Prettier · `react-doctor`                                            |
+| Packages  | [pnpm](https://pnpm.io)                                                       |
 
 ## Quick start
 
@@ -30,18 +44,28 @@ pnpm install
 pnpm dev
 ```
 
-See [docs/desarrollo.md](./docs/desarrollo.md) for build, lint, and env vars.
+[http://localhost:3000](http://localhost:3000) — build, lint, and env vars: [development.md](./docs/en/development.md).
 
 ## Structure (summary)
 
 ```text
 /
-├── docs/           # project documentation (not public site content)
-├── src/features/   # per-topic folders + content/ for published notes
-├── src/app/
+├── docs/es/overview.md   # technical docs (Spanish)
+├── docs/en/overview.md   # technical docs (English)
+├── src/
+│   ├── app/              # App Router routes (/, /[topic], /[topic]/...)
+│   ├── features/         # one folder per topic + content/ for .md notes
+│   ├── components/
+│   └── lib/temas/        # registry.ts, navigation, skins
 └── public/
 ```
 
 ## Information
 
-**License:** Apache 2.0 · **Author:** Fravelz
+|             |                                                                       |
+| ----------- | --------------------------------------------------------------------- |
+| **Project** | Personal notes site under active development; content grows per topic |
+| **Author**  | Fravelz                                                               |
+| **License** | [Apache License 2.0](./LICENSE)                                       |
+
+Architecture, topics, content, and deploy details: [docs/en/overview.md](./docs/en/overview.md).

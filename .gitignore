@@ -5,6 +5,7 @@ dist/
 .pnpm-store/
 .next/
 out/
+*.tsbuildinfo
 
 # dependencies
 node_modules/

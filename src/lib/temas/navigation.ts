@@ -1,4 +1,5 @@
 import type { NavItem } from '@/lib/navigation';
+import { featureConfigLoaders } from './feature-config-loaders';
 import { getTemaById, temas } from './registry';
 
 /** Navegación global (landing): inicio + todos los temas */
@@ -13,9 +14,11 @@ export const globalNavigation: NavItem[] = [
 export async function getFeatureNavigation(
   temaId: string,
 ): Promise<NavItem[]> {
+  const load = featureConfigLoaders[temaId];
+  if (!load) return defaultFeatureNav(temaId);
   try {
-    const mod = await import(`@/features/${temaId}/config`);
-    return (mod.nav as NavItem[]) ?? defaultFeatureNav(temaId);
+    const mod = await load();
+    return mod.nav ?? defaultFeatureNav(temaId);
   } catch {
     return defaultFeatureNav(temaId);
   }

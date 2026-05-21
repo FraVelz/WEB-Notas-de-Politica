@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'maplibre-gl/dist/maplibre-gl.css';
 
 /*
  * Paleta global blanco y negro (claro/oscuro vía data-theme en <html>).
@@ -167,4 +168,66 @@
 .tema-scope ::selection {
   background-color: var(--selection-bg);
   color: var(--selection-text);
+}
+
+/*
+ * Cabecera fija: no hereda tokens del skin del apartado (evita barras invertidas raras).
+ */
+[data-theme='light'] .site-header {
+  --bg: #f5f5f5;
+  --bg-muted: #ebebeb;
+  --bg-elevated: #ffffff;
+  --text: #0a0a0a;
+  --text-muted: #525252;
+  --border: #d4d4d4;
+  --accent-low: #e5e5e5;
+  --accent: #171717;
+  --accent-high: #000000;
+  --accent-on: #ffffff;
+}
+
+[data-theme='dark'] .site-header {
+  --bg: #000000;
+  --bg-muted: #0a0a0a;
+  --bg-elevated: #0a0a0a;
+  --text: #ffffff;
+  --text-muted: #888888;
+  --border: #333333;
+  --accent-low: #1a1a1a;
+  --accent: #ffffff;
+  --accent-high: #ffffff;
+  --accent-on: #000000;
+}
+
+@layer components {
+  /* Fuera del skin del apartado: tipografía y tokens fijos en .site-header */
+  .tema-scope .site-header {
+    font-family:
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      Arial,
+      sans-serif;
+    line-height: 1.25;
+  }
+
+  .site-header {
+    @apply text-foreground;
+  }
+
+  .site-header a.site-header-link {
+    @apply text-muted-foreground no-underline hover:text-link;
+  }
+}
+
+@layer base {
+  .maplibregl-popup-content {
+    @apply rounded-none bg-transparent p-0 shadow-none!;
+  }
+
+  .maplibregl-popup-tip {
+    @apply hidden!;
+  }
 }

@@ -14,8 +14,9 @@ export function ThemeToggle({ onDarkBar = false }: { onDarkBar?: boolean }) {
   if (!mounted) {
     return (
       <button
+        type="button"
         className={cn(
-          'h-9 w-9 rounded-md border',
+          'inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border',
           onDarkBar
             ? 'border-background/30 bg-background/10'
             : 'border-border bg-muted',
@@ -42,7 +43,7 @@ export function ThemeToggle({ onDarkBar = false }: { onDarkBar?: boolean }) {
     <button
       type="button"
       className={cn(
-        'h-9 w-9 cursor-pointer rounded-md border text-base leading-none',
+        'inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md border text-base leading-none',
         onDarkBar
           ? 'border-background/35 bg-background/15 text-background hover:bg-background/25'
           : 'border-border bg-muted text-foreground',

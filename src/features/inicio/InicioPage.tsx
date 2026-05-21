@@ -30,13 +30,24 @@ export function InicioPage() {
         <div className="mt-7 flex flex-wrap gap-3">
           <a
             href="#apartados"
-            className="inline-flex items-center rounded-lg border border-accent bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground no-underline hover:border-accent-strong hover:bg-accent-strong"
+            className={cn(
+              'inline-flex items-center rounded-lg border border-accent bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground no-underline',
+              'transition-colors duration-150',
+              'hover:border-accent-strong hover:bg-accent-strong',
+              '[[data-theme=dark]_&]:hover:border-neutral-400 [[data-theme=dark]_&]:hover:bg-neutral-400',
+              'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]',
+            )}
           >
             Ver apartados
           </a>
           <Link
             href="/inicio/bienvenida"
-            className="inline-flex items-center rounded-lg border border-border bg-elevated px-4 py-2.5 text-sm font-medium text-foreground no-underline hover:border-link hover:bg-link-muted hover:text-link"
+            className={cn(
+              'inline-flex items-center rounded-lg border border-border bg-elevated px-4 py-2.5 text-sm font-medium text-foreground no-underline',
+              'transition-colors duration-150',
+              'hover:border-link hover:bg-link-muted hover:text-link',
+              'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]',
+            )}
           >
             Texto de bienvenida
           </Link>

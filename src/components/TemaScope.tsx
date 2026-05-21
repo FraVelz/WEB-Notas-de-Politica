@@ -13,11 +13,10 @@ export function TemaScope({
     <div
       data-tema={temaId}
       data-tema-skin={skin.id}
-      data-tema-header={skin.headerStyle}
       className="tema-scope flex min-h-screen flex-col bg-background text-foreground"
       style={{ fontFamily: 'var(--font-tema, inherit)' }}
     >
-      <style dangerouslySetInnerHTML={{ __html: skin.css }} />
+      <style>{skin.css}</style>
       {children}
     </div>
   );

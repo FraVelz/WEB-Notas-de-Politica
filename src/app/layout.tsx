@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     url: siteUrl,
     images: [
       {
-        url: '/screenshot.png',
-        width: 1843,
-        height: 1074,
+        url: '/opengraph-image.png',
+        width: 1200,
+        height: 630,
       },
     ],
   },
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description,
-    images: ['/screenshot.png'],
-  }
+    images: ['/opengraph-image.png'],
+  },
 };
 
 export default function RootLayout({

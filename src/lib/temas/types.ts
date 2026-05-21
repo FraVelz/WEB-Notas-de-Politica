@@ -41,6 +41,8 @@ export type TemaDefinition = {
   hiddenOnLanding?: boolean;
   /** Estilo propio bajo /[tema]; por defecto según `group` */
   skin?: TemaSkinId;
+  /** Si false, sin sidebar de docs (p. ej. apartados tipo dashboard/datos) */
+  showSidebar?: boolean;
 };
 
 export type TemaGroup = {

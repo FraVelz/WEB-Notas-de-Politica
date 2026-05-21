@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { collectNavLinks } from '@/lib/navigation-links';
 import { cn } from '@/lib/utils';
 import { nav, temaMeta } from './config';
 
@@ -11,7 +12,7 @@ export function TemaHub() {
     <div className="space-y-8">
       <header className="space-y-2">
         <p className="text-sm text-[var(--text-muted)]">Tema principal</p>
-        <h1 className="text-3xl font-bold tracking-tight">{temaMeta.title}</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">{temaMeta.title}</h1>
         <p className="text-lg text-[var(--text-muted)]">{temaMeta.description}</p>
       </header>
 
@@ -36,13 +37,7 @@ export function TemaHub() {
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">Explorar</h2>
         <ul className="flex flex-wrap gap-2">
-          {nav.flatMap((item) =>
-            'href' in item
-              ? [item]
-              : item.items.flatMap((child) =>
-                  'href' in child ? [child] : [],
-                ),
-          ).map((link) => (
+          {collectNavLinks(nav).map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
