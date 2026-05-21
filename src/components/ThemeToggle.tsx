@@ -10,7 +10,13 @@ export function ThemeToggle() {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
-    return <button className="theme-toggle" aria-label="Tema" disabled />;
+    return (
+      <button
+        className="h-9 w-9 rounded-md border border-border bg-muted"
+        aria-label="Tema"
+        disabled
+      />
+    );
   }
 
   const cycle = () => {
@@ -28,7 +34,7 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
-      className="theme-toggle"
+      className="h-9 w-9 cursor-pointer rounded-md border border-border bg-muted text-base leading-none text-foreground"
       onClick={cycle}
       aria-label={label}
       title={label}

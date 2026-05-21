@@ -140,8 +140,6 @@ EOF
 
 3. `git status` para verificar.
 4. Si un **hook** rechaza el commit: corregir y **nuevo** commit; no usar `--no-verify` salvo petición explícita del usuario.
-5. **No** añadir al mensaje ningún pie `Co-authored-by:` (en particular no firmar como coautor a Cursor ni a la IA). El commit debe reflejar solo el resumen acordado arriba.
-6. Si el entorno **insertó** igualmente `Co-authored-by: Cursor ...` y el commit **aún no se ha empujado**, enmendar el último commit repitiendo el mismo texto **sin** esa línea final (no usar `--no-verify` salvo petición explícita del usuario).
 
 ## Romper compatibilidad (`BREAKING CHANGE`)
 
@@ -157,5 +155,4 @@ BREAKING CHANGE: Markdown paths outside src/content/docs are no longer read.
 - Commits que tocan **muchas carpetas** → **formato lista** (`type(scope): acción` por línea).
 - Commits **atómicos** → formato clásico o una sola línea lista.
 - Mensaje del commit en **inglés**; respuesta al usuario en **español** salvo que pida otro idioma.
-- **Sin** `Co-authored-by:` en el mensaje; si aparece tras el commit local, enmendar y eliminarlo (commit no publicado).
 - No commitear `.next/`, `out/` ni duplicados de migración en la raíz del repo.

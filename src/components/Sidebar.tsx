@@ -2,16 +2,24 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { navigation, type NavItem } from '@/lib/navigation';
+import type { NavItem } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 
 function NavLink({ href, label }: { href: string; label: string }) {
   const pathname = usePathname();
   const active =
-    pathname === href || (href !== '/' && pathname.startsWith(href));
+    pathname === href || (href !== '/' && pathname.startsWith(`${href}/`));
 
   return (
-    <Link href={href} className={cn('nav-link', active && 'active')}>
+    <Link
+      href={href}
+      className={cn(
+        'block rounded px-2 py-1.5 text-sm no-underline',
+        active
+          ? 'bg-accent-muted font-medium text-accent-strong'
+          : 'text-muted-foreground hover:bg-accent-muted hover:text-accent',
+      )}
+    >
       {label}
     </Link>
   );
@@ -23,9 +31,11 @@ function NavGroup({ item }: { item: NavItem }) {
   }
 
   return (
-    <details className="nav-group" open>
-      <summary className="nav-group-label">{item.label}</summary>
-      <ul className="nav-list">
+    <details className="m-0" open>
+      <summary className="cursor-pointer list-none px-2 py-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase [&::-webkit-details-marker]:hidden">
+        {item.label}
+      </summary>
+      <ul className="m-0 list-none pl-2">
         {item.items.map((child) => (
           <li key={'href' in child ? child.href : child.label}>
             <NavGroup item={child} />
@@ -36,10 +46,10 @@ function NavGroup({ item }: { item: NavItem }) {
   );
 }
 
-export function Sidebar() {
+export function Sidebar({ navigation }: { navigation: NavItem[] }) {
   return (
-    <nav className="sidebar" aria-label="Documentación">
-      <ul className="nav-list nav-list-root">
+    <nav aria-label="Documentación">
+      <ul className="m-0 list-none space-y-1 p-0">
         {navigation.map((item) => (
           <li key={'href' in item ? item.href : item.label}>
             <NavGroup item={item} />

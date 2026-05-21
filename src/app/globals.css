@@ -1,328 +1,143 @@
 @import 'tailwindcss';
 
-/* Notas de Política — tema claro/oscuro (acento #1e40af) */
+/*
+ * Tokens de tema (claro/oscuro vía data-theme en <html>).
+ * En componentes usa utilidades Tailwind mapeadas en @theme.
+ */
 
 :root,
 [data-theme='light'] {
-  --bg: #ffffff;
-  --bg-muted: #f8fafc;
-  --text: #0f172a;
-  --text-muted: #475569;
-  --border: #e2e8f0;
-  --accent-low: #dbeafe;
-  --accent: #1e40af;
-  --accent-high: #1e3a8a;
-  --sidebar-width: 16rem;
+  --bg: #f8fafc;
+  --bg-muted: #eef2f6;
+  --bg-elevated: #ffffff;
+  --text: #0c1524;
+  --text-muted: #3d4f66;
+  --border: #c5d0dc;
+  --accent-low: #dbe8f8;
+  --accent: #1a4fb3;
+  --accent-high: #123876;
+  --accent-on: #ffffff;
+  --selection-bg: #1a4fb3;
+  --selection-text: #ffffff;
+  --focus-ring: #1a4fb3;
+  --shadow: 0 8px 24px rgb(12 21 36 / 10%);
 }
 
 [data-theme='dark'] {
-  --bg: #0f172a;
-  --bg-muted: #1e293b;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --border: #334155;
-  --accent-low: #1e3a8a;
-  --accent: #60a5fa;
-  --accent-high: #93c5fd;
+  --bg: #0a0f18;
+  --bg-muted: #121a28;
+  --bg-elevated: #182233;
+  --text: #edf1f7;
+  --text-muted: #9dadc4;
+  --border: #2a3a52;
+  --accent-low: #1a3358;
+  --accent: #6eb0f7;
+  --accent-high: #a8d4ff;
+  --accent-on: #0a0f18;
+  --selection-bg: #5b9fd4;
+  --selection-text: #0a0f18;
+  --focus-ring: #8ec5ff;
+  --shadow: 0 8px 28px rgb(0 0 0 / 45%);
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@theme inline {
+  --color-background: var(--bg);
+  --color-muted: var(--bg-muted);
+  --color-elevated: var(--bg-elevated);
+  --color-foreground: var(--text);
+  --color-muted-foreground: var(--text-muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-muted: var(--accent-low);
+  --color-accent-strong: var(--accent-high);
+  --color-accent-foreground: var(--accent-on);
+  --shadow-theme: var(--shadow);
+  --width-sidebar: 16rem;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-}
-
-a {
-  color: var(--accent);
-}
-
-a:hover {
-  color: var(--accent-high);
-}
-
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1.25rem;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-}
-
-.site-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--text);
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.site-title:hover {
-  color: var(--accent);
-}
-
-.header-actions {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.search {
-  position: relative;
-}
-
-.search input {
-  width: min(14rem, 40vw);
-  padding: 0.4rem 0.65rem;
-  border: 1px solid var(--border);
-  border-radius: 0.375rem;
-  background: var(--bg-muted);
-  color: var(--text);
-  font-size: 0.875rem;
-}
-
-.search-results {
-  position: absolute;
-  top: calc(100% + 0.25rem);
-  right: 0;
-  min-width: 16rem;
-  max-width: 22rem;
-  margin: 0;
-  padding: 0.25rem;
-  list-style: none;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 0.375rem;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
-}
-
-.search-results a {
-  display: block;
-  padding: 0.5rem 0.65rem;
-  text-decoration: none;
-  border-radius: 0.25rem;
-}
-
-.search-results a:hover {
-  background: var(--bg-muted);
-}
-
-.search-title {
-  display: block;
-  font-weight: 600;
-  color: var(--text);
-  font-size: 0.875rem;
-}
-
-.search-desc {
-  display: block;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.theme-toggle {
-  border: 1px solid var(--border);
-  background: var(--bg-muted);
-  color: var(--text);
-  border-radius: 0.375rem;
-  width: 2.25rem;
-  height: 2.25rem;
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.layout {
-  display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
-  min-height: calc(100vh - 3.5rem);
-}
-
-.sidebar {
-  border-right: 1px solid var(--border);
-  padding: 1rem 0.75rem 2rem;
-  background: var(--bg-muted);
-  overflow-y: auto;
-  position: sticky;
-  top: 3.5rem;
-  height: calc(100vh - 3.5rem);
-}
-
-.nav-list,
-.nav-list-root {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-list-root > li + li {
-  margin-top: 0.35rem;
-}
-
-.nav-link {
-  display: block;
-  padding: 0.35rem 0.5rem;
-  border-radius: 0.25rem;
-  text-decoration: none;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: var(--accent);
-  background: var(--accent-low);
-}
-
-.nav-group {
-  margin: 0;
-}
-
-.nav-group-label {
-  cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
-  padding: 0.35rem 0.5rem;
-  list-style: none;
-}
-
-.nav-group summary::-webkit-details-marker {
-  display: none;
-}
-
-.nav-group .nav-list {
-  padding-left: 0.5rem;
-}
-
-.main {
-  padding: 1.5rem 2rem 3rem;
-  max-width: 52rem;
-}
-
-.main h1 {
-  font-size: 2rem;
-  margin-top: 0;
-  line-height: 1.2;
-}
-
-.main h2 {
-  margin-top: 2rem;
-  padding-bottom: 0.35rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.main h3 {
-  margin-top: 1.5rem;
-}
-
-.main p,
-.main ul,
-.main ol {
-  margin: 1rem 0;
-}
-
-.main li {
-  margin: 0.35rem 0;
-}
-
-.main code {
-  background: var(--bg-muted);
-  padding: 0.1rem 0.35rem;
-  border-radius: 0.25rem;
-  font-size: 0.9em;
-}
-
-.main pre {
-  overflow-x: auto;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background: var(--bg-muted);
-  border: 1px solid var(--border);
-}
-
-.main table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-.main th,
-.main td {
-  border: 1px solid var(--border);
-  padding: 0.5rem 0.75rem;
-  text-align: left;
-}
-
-.main th {
-  background: var(--bg-muted);
-}
-
-.page-description {
-  color: var(--text-muted);
-  font-size: 1.05rem;
-  margin-top: -0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.menu-button {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .layout {
-    grid-template-columns: 1fr;
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
 
-  .menu-button {
-    display: inline-flex;
-    border: 1px solid var(--border);
-    background: var(--bg-muted);
-    color: var(--text);
-    border-radius: 0.375rem;
-    padding: 0.35rem 0.6rem;
-    cursor: pointer;
+  body {
+    @apply m-0 bg-background text-foreground antialiased;
+    font-family:
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      Arial,
+      sans-serif;
+    line-height: 1.6;
   }
 
-  .sidebar {
-    display: none;
-    position: fixed;
-    inset: 3.5rem 0 0 0;
-    z-index: 15;
-    height: auto;
-    width: min(var(--sidebar-width), 85vw);
+  ::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-text);
   }
 
-  .sidebar.open {
-    display: block;
+  a {
+    @apply text-accent;
   }
 
-  .main {
-    padding: 1rem 1.25rem 2rem;
+  a:hover {
+    @apply text-accent-strong;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Prosa de artículos Markdown (react-markdown) */
+@layer components {
+  .article {
+    @apply max-w-3xl;
+  }
+
+  .article h1 {
+    @apply mt-0 text-3xl font-semibold leading-tight text-foreground;
+  }
+
+  .article h2 {
+    @apply mt-8 border-b border-border pb-1.5 text-foreground;
+  }
+
+  .article h3 {
+    @apply mt-6 text-foreground;
+  }
+
+  .article p,
+  .article ul,
+  .article ol {
+    @apply my-4;
+  }
+
+  .article li {
+    @apply my-1.5;
+  }
+
+  .article code {
+    @apply rounded border border-border bg-muted px-1 py-0.5 text-[0.9em] text-foreground;
+  }
+
+  .article pre {
+    @apply overflow-x-auto rounded-lg border border-border bg-muted p-4;
+  }
+
+  .article table {
+    @apply w-full border-collapse text-sm;
+  }
+
+  .article th,
+  .article td {
+    @apply border border-border px-3 py-2 text-left;
+  }
+
+  .article th {
+    @apply bg-muted;
   }
 }
