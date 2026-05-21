@@ -2,57 +2,61 @@
 
 [Version en español](./README.md)
 
-Personal notes repository about politics built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build).
+Personal notes on **politics, philosophy**, and related topics (history, society, ideas), built with [Next.js](https://nextjs.org).
 
 ![Screenshot](./public/screenshot.png)
 
 ## Features
 
-- **Light/dark theme**: Built-in selector in the navigation bar (light, dark, automatic)
+- **Light/dark theme**: Selector in the navigation bar (system preference by default)
 - **Sidebar**: Visible on all pages, including the main one
-- **Search**: Search index with Pagefind
-- **Navigation**: Organized by sections (General, Countries, Statistics, Projects)
+- **Search**: Filter by page title and description
+- **Navigation**: Organized by sections (General, Countries, Philosophy, Statistics, Projects)
 - **Responsive**: Layout adapts to mobile and desktop
+- **Static export**: Ready for Vercel, GitHub Pages, or other static hosting
 
 ## Project structure
 
-```
+```text
 /
-├── public/                 # Static assets
-│   ├── favicon.svg
-│   └── screenshot.png      # Social media preview image
 ├── src/
-│   ├── content/
-│   │   └── docs/           # Markdown content
-│   │       ├── index.md    # Main page
-│   │       ├── general.md  # Comparative study
-│   │       ├── paises/
-│   │       │   ├── suramerica/  (colombia, ecuador)
-│   │       │   └── asiaticos/   (china, corea-del-sur)
-│   │       ├── estadistica/
-│   │       │   └── poblacion.md
-│   │       └── proyectos/
-│   │           └── general.md
-│   ├── styles/
-│   │   └── custom.css      # Theme colors
-│   └── content.config.ts
-├── astro.config.mjs
+│   ├── app/                # Next.js App Router
+│   ├── components/
+│   ├── content/docs/       # Markdown content
+│   └── lib/
+├── public/
 └── package.json
 ```
 
 ## Technologies
 
 | Technology | Use |
-|------------|-----|
-| [Astro](https://astro.build) | Web framework |
-| [Starlight](https://starlight.astro.build) | Documentation theme |
-| [Pagefind](https://pagefind.app) | Search (included in Starlight) |
+| --- | --- |
+| [Next.js](https://nextjs.org) | Framework (App Router, static export) |
+| [react-markdown](https://github.com/remarkjs/react-markdown) | Markdown rendering |
+| [next-themes](https://github.com/pacocoursey/next-themes) | Light/dark theme |
 | pnpm | Package manager |
+
+## Development
+
+```bash
+pnpm install
+pnpm dev
+```
+
+## Build
+
+```bash
+pnpm build
+```
+
+Output is written to `out/`.
 
 ## Content
 
 - **General**: Comparative study between Colombia and reference countries
 - **Countries**: Notes by region (South America, Asia)
+- **Philosophy**: Ethics, ideologies, political theory and critical thought
 - **Statistics**: Population data and more
 - **Projects**: Ideas, advice and proposals
 

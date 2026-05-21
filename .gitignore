@@ -1,8 +1,10 @@
 # build output
 dist/
 .output/
-.pnpm-store/
 .astro/
+.pnpm-store/
+.next/
+out/
 
 # dependencies
 node_modules/

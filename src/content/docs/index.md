@@ -1,9 +1,9 @@
 ---
-title: Política
-description: Notas personales sobre política - ideas, estudios comparativos y análisis
+title: Política y más allá
+description: Notas personales sobre política, filosofía e ideas para comprender el mundo
 ---
 
-# Política
+# Política y más allá
 
 ## Objetivos
 
@@ -14,8 +14,9 @@ Más adelante organizaré la información para que las ideas sean más lógicas 
 
 Algunos pensarán y dirán: "¿para qué rayos sirve este Git?" Bueno, aquí se los cuento :v
 
-Este repositorio fue creado con el objetivo de reunir **notas personales** sobre un campo que me interesa mucho:
-**la política**.
+Este repositorio reúne **notas personales** sobre un campo que me interesa mucho: **la política** y todo lo que orbita a su alrededor —desde **filosofía** e **historia** hasta **economía**, **sociedad** y **cultura**— cuando ayudan a entender cómo se organiza el poder y la vida en común.
+
+No es solo “quién gobierna qué país”. También es **por qué** se piensa así, **qué ideas** sostienen las decisiones y **qué debates** merecen leerse con calma.
 
 Y puede que algunos se pregunten: "¿qué tiene de interesante la política?"
 
@@ -26,16 +27,25 @@ Pero, ¿qué hacen la mayoría de los políticos en Latinoamérica?
 Efectivamente, **roban al pueblo**, hacen **negocios con grupos criminales**, y
 **dejan nuestras naciones sumidas en el caos, la desesperanza y la inseguridad**.
 
-Con este Git, buscamos **mantener una visión neutral** y **convertirlo, si no en una biblioteca,
-al menos en una fuente de ideas e ideales útiles** para que nuestros líderes puedan inspirarse y ayudar a que nuestras regiones progresen.
+Con este sitio buscamos **mantener una visión neutral** y **convertirlo, si no en una biblioteca,
+al menos en una fuente de ideas e ideales útiles** para quien quiera pensar el mundo con más claridad —líderes, estudiantes o cualquiera con curiosidad seria.
 
-Ese es mi objetivo: **entender absolutamente todo** —lo actual, desde las guerras, desacuerdos y problemas de cada país,
-hasta sus posibles soluciones—. En resumen, quiero **comprender el mundo en el que vivimos y el mundo en el que viven los demás**,
-y organizar toda esta información de manera ordenada y útil.
+Ese es el objetivo: **entender absolutamente todo** lo que encaje —lo actual (guerras, desacuerdos, problemas por país y sus posibles soluciones), lo conceptual (filosofía política, ética, ideologías) y lo que conecte ambos mundos—.
+En resumen: **comprender el mundo en el que vivimos y el mundo en el que viven los demás**, y ordenar esa información de forma útil.
+
+## Ámbitos del sitio
+
+| Ámbito | Qué encontrarás |
+| --- | --- |
+| **General** | Comparaciones entre países y temas transversales |
+| **Países** | Notas por región y estado |
+| **Filosofía** | Ideas, conceptos y pensamiento político |
+| **Estadísticas** | Datos que contextualizan la realidad |
+| **Proyectos** | Propuestas e ideas aplicables |
 
 ## Temáticas por países
 
-Archivo general, compara entre Colombia y los mejores países tops en sus campos:
+Archivo general: compara entre Colombia y los mejores países tops en sus campos:
 
 - [Ir al archivo general](/general)
 
@@ -46,16 +56,22 @@ Archivo general, compara entre Colombia y los mejores países tops en sus campos
 
 ### Centroamérica
 
-- Próximamente...
+- Próximamente…
 
 ### Norteamérica
 
-- Próximamente...
+- Próximamente…
 
 ### Asia
 
 - [China](/paises/asiaticos/china)
 - [Corea del Sur](/paises/asiaticos/corea-del-sur)
+
+## Filosofía
+
+Reflexiones que van más allá del dato o del mapa:
+
+- [Introducción a la sección](/filosofia)
 
 ## Estadísticas
 
