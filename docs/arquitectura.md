@@ -50,6 +50,13 @@ src/
 - Hubs personalizados: p. ej. `FilosofiaHub.tsx` (registro en `lib/temas/hubs.tsx`)
 - Resto de temas: `DefaultTemaHub` hasta que se implemente un hub propio
 
+## Estilo por apartado (`/{tema}`)
+
+- `src/app/[tema]/layout.tsx` envuelve todo el apartado en `TemaScope`.
+- Paletas en escala de grises en `src/lib/temas/skins.ts` (por grupo o `skin` en `registry.ts`; tokens base en `globals.css`).
+- Cabecera con **← Inicio** y título del tema; la landing `/` mantiene el estilo global.
+- Para un look distinto: `skin: 'atlas'` en el registry o edita tokens en `skins.ts`.
+
 ## Crear un tema nuevo
 
 1. Añadir entrada en `src/lib/temas/registry.ts`

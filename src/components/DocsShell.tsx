@@ -6,22 +6,38 @@ import { Sidebar } from '@/components/Sidebar';
 import { SiteHeader } from '@/components/SiteHeader';
 import type { DocMeta } from '@/lib/content/docs';
 import type { NavItem } from '@/lib/navigation';
+import { getTemaById } from '@/lib/temas/registry';
+import { getTemaSkin } from '@/lib/temas/skins';
 import { cn } from '@/lib/utils';
 
 export function DocsShell({
   docs,
   navigation,
+  temaId,
   children,
 }: {
   docs: DocMeta[];
   navigation: NavItem[];
+  /** Activa cabecera contextual y paleta del apartado (vía TemaScope en layout). */
+  temaId: string;
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const meta = getTemaById(temaId);
+  const skin = getTemaSkin(temaId);
 
   return (
     <>
       <SiteHeader
+        tema={
+          meta
+            ? {
+                id: temaId,
+                title: meta.title,
+                headerStyle: skin.headerStyle,
+              }
+            : undefined
+        }
         trailing={
           <>
             <DocsSearch docs={docs} />

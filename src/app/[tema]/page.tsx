@@ -43,7 +43,7 @@ export default async function TemaHubPage({ params }: PageProps) {
   const navigation = await getFeatureNavigation(tema);
 
   return (
-    <DocsShell docs={docs} navigation={navigation}>
+    <DocsShell docs={docs} navigation={navigation} temaId={tema}>
       <Hub temaId={tema} />
     </DocsShell>
   );

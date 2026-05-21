@@ -16,8 +16,8 @@ function NavLink({ href, label }: { href: string; label: string }) {
       className={cn(
         'block rounded px-2 py-1.5 text-sm no-underline',
         active
-          ? 'bg-accent-muted font-medium text-accent-strong'
-          : 'text-muted-foreground hover:bg-accent-muted hover:text-accent',
+          ? 'bg-link-muted font-medium text-link'
+          : 'text-muted-foreground hover:bg-link-muted hover:text-link',
       )}
     >
       {label}

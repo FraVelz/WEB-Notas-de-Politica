@@ -2,8 +2,10 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
-export function ThemeToggle() {
+/** Botones legibles sobre la barra del header (`onDarkBar` = barra oscura en tema claro). */
+export function ThemeToggle({ onDarkBar = false }: { onDarkBar?: boolean }) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -12,7 +14,12 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <button
-        className="h-9 w-9 rounded-md border border-border bg-muted"
+        className={cn(
+          'h-9 w-9 rounded-md border',
+          onDarkBar
+            ? 'border-background/30 bg-background/10'
+            : 'border-border bg-muted',
+        )}
         aria-label="Tema"
         disabled
       />
@@ -34,7 +41,12 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
-      className="h-9 w-9 cursor-pointer rounded-md border border-border bg-muted text-base leading-none text-foreground"
+      className={cn(
+        'h-9 w-9 cursor-pointer rounded-md border text-base leading-none',
+        onDarkBar
+          ? 'border-background/35 bg-background/15 text-background hover:bg-background/25'
+          : 'border-border bg-muted text-foreground',
+      )}
       onClick={cycle}
       aria-label={label}
       title={label}

@@ -48,7 +48,7 @@ export default async function TemaDocPage({ params }: PageProps) {
   const navigation = await getFeatureNavigation(tema);
 
   return (
-    <DocsShell docs={docs} navigation={navigation}>
+    <DocsShell docs={docs} navigation={navigation} temaId={tema}>
       <article className="article">
         {doc.description && (
           <p className="-mt-2 mb-6 text-lg text-muted-foreground">

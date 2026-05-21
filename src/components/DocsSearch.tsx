@@ -47,7 +47,7 @@ export function DocsSearch({ docs }: { docs: DocMeta[] }) {
               <Link
                 href={doc.href}
                 onClick={() => setQuery('')}
-                className="block rounded px-2.5 py-2 no-underline hover:bg-muted"
+                className="block rounded px-2.5 py-2 no-underline hover:bg-link-muted"
               >
                 <span className="block text-sm font-semibold text-foreground">
                   {doc.title}

@@ -56,6 +56,7 @@ export const temas: TemaDefinition[] = [
     status: 'active',
     hub: 'tsx',
     hiddenOnLanding: true,
+    skin: 'default',
   },
   // —— Fundamentos ——
   {
@@ -67,6 +68,7 @@ export const temas: TemaDefinition[] = [
     order: 1,
     status: 'active',
     hub: 'tsx',
+    skin: 'parchment',
   },
   {
     id: 'teoria-del-estado',
@@ -85,6 +87,7 @@ export const temas: TemaDefinition[] = [
     order: 3,
     status: 'active',
     hub: 'tsx',
+    skin: 'institution',
   },
 
   // —— Sistemas e ideas ——
@@ -115,6 +118,7 @@ export const temas: TemaDefinition[] = [
     order: 3,
     status: 'active',
     hub: 'tsx',
+    skin: 'atlas',
   },
 
   // —— Instituciones ——

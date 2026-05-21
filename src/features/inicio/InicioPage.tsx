@@ -16,7 +16,7 @@ export function InicioPage() {
   return (
     <>
       <section className="border-b border-border py-10 pb-8">
-        <p className="m-0 mb-2 text-sm font-semibold tracking-widest text-accent uppercase">
+        <p className="m-0 mb-2 text-sm font-semibold tracking-widest text-link uppercase">
           Notas personales · política y más
         </p>
         <h1 className="m-0 text-4xl leading-tight font-semibold tracking-tight text-foreground sm:text-5xl">
@@ -36,7 +36,7 @@ export function InicioPage() {
           </a>
           <Link
             href="/inicio/bienvenida"
-            className="inline-flex items-center rounded-lg border border-border bg-elevated px-4 py-2.5 text-sm font-medium text-foreground no-underline hover:border-accent hover:bg-accent-muted hover:text-accent"
+            className="inline-flex items-center rounded-lg border border-border bg-elevated px-4 py-2.5 text-sm font-medium text-foreground no-underline hover:border-link hover:bg-link-muted hover:text-link"
           >
             Texto de bienvenida
           </Link>
@@ -52,7 +52,7 @@ export function InicioPage() {
           <a
             key={group.id}
             href={`#${group.id}`}
-            className="rounded-full border border-border bg-elevated px-3 py-1.5 text-sm font-medium text-muted-foreground no-underline hover:border-accent hover:bg-accent-muted hover:text-accent"
+            className="rounded-full border border-border bg-elevated px-3 py-1.5 text-sm font-medium text-muted-foreground no-underline hover:border-link hover:bg-link-muted hover:text-link"
           >
             {group.label}
           </a>
@@ -83,7 +83,7 @@ export function InicioPage() {
                 <li key={tema.id}>
                   <Link
                     href={`/${tema.id}`}
-                    className="flex h-full flex-col rounded-lg border border-border bg-elevated p-4 no-underline transition hover:-translate-y-0.5 hover:border-accent hover:shadow-[var(--shadow-theme)]"
+                    className="flex h-full flex-col rounded-lg border border-border bg-elevated p-4 no-underline transition hover:-translate-y-0.5 hover:border-link hover:shadow-[var(--shadow-theme)]"
                   >
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="m-0 text-base leading-snug font-semibold text-foreground">
@@ -93,7 +93,7 @@ export function InicioPage() {
                         className={cn(
                           'shrink-0 rounded border border-border px-1.5 py-0.5 text-[0.625rem] font-semibold tracking-wide uppercase',
                           tema.status === 'active'
-                            ? 'border-accent bg-accent-muted text-accent-strong'
+                            ? 'border-link bg-link-muted text-link'
                             : 'text-muted-foreground',
                         )}
                       >
@@ -103,7 +103,7 @@ export function InicioPage() {
                     <p className="m-0 flex-1 text-sm leading-snug text-muted-foreground">
                       {tema.description}
                     </p>
-                    <span className="mt-3 text-sm font-medium text-accent">
+                    <span className="mt-3 text-sm font-medium text-link">
                       Entrar al tema →
                     </span>
                   </Link>
@@ -136,7 +136,7 @@ export function InicioPage() {
               <li className="list-none">
                 <Link
                   href="/inicio/bienvenida"
-                  className="font-medium text-accent no-underline hover:text-accent-strong"
+                  className="font-medium text-link no-underline hover:text-link-hover"
                 >
                   Texto de bienvenida
                 </Link>
@@ -144,7 +144,7 @@ export function InicioPage() {
               <li className="list-none">
                 <a
                   href="#apartados"
-                  className="font-medium text-accent no-underline hover:text-accent-strong"
+                  className="font-medium text-link no-underline hover:text-link-hover"
                 >
                   Volver a los apartados
                 </a>

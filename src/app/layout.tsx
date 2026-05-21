@@ -38,8 +38,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     images: ['/screenshot.png'],
-  },
-  icons: { icon: '/favicon.svg' },
+  }
 };
 
 export default function RootLayout({

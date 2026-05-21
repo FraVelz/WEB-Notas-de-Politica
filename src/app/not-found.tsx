@@ -7,7 +7,7 @@ export default function NotFound() {
         Página no encontrada
       </h1>
       <p className="mt-4">
-        <Link href="/" className="text-accent hover:text-accent-strong">
+        <Link href="/" className="text-link hover:text-link-hover">
           Volver al inicio
         </Link>
       </p>

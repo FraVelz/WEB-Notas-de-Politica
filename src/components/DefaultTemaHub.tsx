@@ -1,6 +1,4 @@
-import Link from 'next/link';
 import { getTemaById } from '@/lib/temas/registry';
-import { cn } from '@/lib/utils';
 
 export function DefaultTemaHub({ temaId }: { temaId: string }) {
   const meta = getTemaById(temaId);
@@ -24,14 +22,6 @@ export function DefaultTemaHub({ temaId }: { temaId: string }) {
         </code>
         .
       </p>
-      <Link
-        href="/"
-        className={cn(
-          'inline-block text-sm text-[var(--accent)] hover:text-[var(--accent-high)]',
-        )}
-      >
-        ← Volver al inicio
-      </Link>
     </div>
   );
 }

@@ -31,7 +31,7 @@ export function FilosofiaHub({ temaId: _temaId }: { temaId?: string }) {
                   href={link.href}
                   className={cn(
                     'inline-block rounded-md border border-[var(--border)] px-3 py-1.5 text-sm',
-                    'hover:bg-[var(--accent-low)] hover:text-[var(--accent)]',
+                    'hover:bg-link-muted hover:text-link',
                   )}
                 >
                   {link.label}
