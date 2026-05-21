@@ -20,6 +20,7 @@ En paralelo cuando tenga sentido:
 - Secretos (`.env`, credenciales, etc.).
 - Artefactos de build: `.next/`, `out/` (deben estar ignorados; si aparecen, no añadirlos).
 - Copias sueltas en la raíz (`app/`, `components/`, `content/`, `lib/` fuera de `src/`) — el código canónico está en **`src/`**.
+- **`Co-authored-by: Cursor`** ni ningún pie de coautoría del agente. Los commits son del autor humano del repo.
 
 ## Formas de mensaje (elegir una)
 
@@ -113,7 +114,7 @@ chore(setup): ignore .next and out build directories
 ## Cómo crear el commit
 
 1. Añadir solo lo necesario: `git add -p` o rutas concretas bajo `src/`, `public/`, configs en raíz.
-2. Mensaje con **heredoc**:
+2. Mensaje con **heredoc** (sin líneas `Co-authored-by` al final):
 
 **Formato lista (varios cambios):**
 
@@ -156,3 +157,4 @@ BREAKING CHANGE: Markdown paths outside src/content/docs are no longer read.
 - Commits **atómicos** → formato clásico o una sola línea lista.
 - Mensaje del commit en **inglés**; respuesta al usuario en **español** salvo que pida otro idioma.
 - No commitear `.next/`, `out/` ni duplicados de migración en la raíz del repo.
+- **Nunca** añadir `Co-authored-by: Cursor` (ni variantes). Si un hook o plantilla lo inserta, quitarlo antes de cerrar el commit.
