@@ -8,13 +8,6 @@ import { cn } from '@/lib/utils';
 
 const navCategories = getNavCategoriesGrouped();
 
-const navTriggerClass = cn(
-  'inline-flex h-9 cursor-pointer items-center gap-0.5 px-1 text-sm font-medium',
-  'text-muted-foreground no-underline',
-  'hover:text-foreground',
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]',
-);
-
 export function SiteSectionsNav() {
   const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -44,12 +37,12 @@ export function SiteSectionsNav() {
   return (
     <nav
       ref={navRef}
-      className="min-w-0"
+      className="w-full min-w-0"
       aria-label="Apartados del sitio"
     >
       <ul
         id={listId}
-        className="m-0 flex list-none items-center justify-end gap-3 overflow-x-auto sm:justify-center sm:gap-5 md:gap-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="m-0 flex w-full list-none items-center justify-start gap-4 overflow-x-auto sm:justify-center sm:gap-5 md:gap-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {navCategories.map(({ category, sections }) => {
           const isOpen = openCategoryId === category.id;
@@ -67,7 +60,12 @@ export function SiteSectionsNav() {
             >
               <button
                 type="button"
-                className={cn(navTriggerClass, isOpen && 'text-foreground')}
+                className={cn(
+                  'inline-flex h-9 shrink-0 cursor-pointer items-center gap-0.5 px-1 text-sm font-medium',
+                  'text-foreground/75 hover:text-foreground',
+                  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]',
+                  isOpen && 'text-foreground',
+                )}
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() =>

@@ -61,13 +61,6 @@ export function GlobeMapControls({ containerRef }: GlobeMapControlsProps) {
     }
   }, [containerRef]);
 
-  const btnClass = cn(
-    'flex size-8 items-center justify-center transition-all',
-    'hover:bg-accent dark:hover:bg-accent/40',
-    'focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:outline-none focus-visible:ring-inset',
-    'disabled:pointer-events-none disabled:opacity-50',
-  );
-
   return (
     <div
       className={cn(
@@ -79,7 +72,7 @@ export function GlobeMapControls({ containerRef }: GlobeMapControlsProps) {
       <button
         type="button"
         onClick={handleReset}
-        className={btnClass}
+        className="flex size-8 items-center justify-center transition-all hover:bg-accent focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:outline-none focus-visible:ring-inset disabled:pointer-events-none disabled:opacity-50 dark:hover:bg-accent/40"
         aria-label="Restablecer zoom y orientación (vista sobre Colombia)"
       >
         <RotateCcw className="size-4" aria-hidden />
@@ -87,7 +80,7 @@ export function GlobeMapControls({ containerRef }: GlobeMapControlsProps) {
       <button
         type="button"
         onClick={handleFullscreen}
-        className={btnClass}
+        className="flex size-8 items-center justify-center transition-all hover:bg-accent focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:outline-none focus-visible:ring-inset disabled:pointer-events-none disabled:opacity-50 dark:hover:bg-accent/40"
         aria-label={
           isFullscreen ? 'Salir de pantalla completa' : 'Ver mapa en pantalla completa'
         }

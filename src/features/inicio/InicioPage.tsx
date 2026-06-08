@@ -59,7 +59,7 @@ export function InicioPage() {
           <section
             key={group.id}
             id={group.id}
-            className="scroll-mt-28 pb-10 not-first:border-t not-first:border-border not-first:pt-10"
+            className="scroll-mt-32 pb-10 not-first:border-t not-first:border-border not-first:pt-10 md:scroll-mt-28"
             aria-labelledby={`heading-${group.id}`}
           >
             <header className="mb-5">

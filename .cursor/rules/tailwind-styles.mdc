@@ -1,0 +1,63 @@
+---
+description: No extraer clases Tailwind a constantes; reutilizar con componentes
+alwaysApply: true
+---
+
+# Estilos Tailwind (`className`)
+
+## Prohibido
+
+- **Nunca** refactorizar clases Tailwind a constantes de módulo (`const fooClass = cn(...)`, `const styles = '...'`) solo para “limpiar” el JSX.
+- **Nunca** crear helpers/archivos cuyo único propósito sea agrupar strings de `className`.
+- **Nunca** mover estilos tw de un elemento a una variable si el cambio es solo cosmético en el mismo archivo.
+
+```tsx
+// ❌
+const brandLinkClass = cn(
+  'inline-flex shrink-0 items-center no-underline',
+  'text-sm font-semibold text-foreground sm:text-base',
+);
+<Link className={brandLinkClass} />
+
+// ✅
+<Link
+  className="site-header-link inline-flex shrink-0 items-center no-underline text-sm font-semibold text-foreground sm:text-base"
+/>
+```
+
+## Permitido
+
+- `className` **inline** en el JSX/TSX del elemento.
+- `cn(...)` **en el prop `className`** para variantes condicionales (`isOpen && 'text-foreground'`), sin extraer la base a una constante aparte.
+- Extraer un **componente completo** si el mismo bloque UI (marcado + clases + comportamiento) se repite en 2+ sitios.
+
+```tsx
+// ✅ variante condicional en el mismo prop
+<button className={cn('text-sm text-muted-foreground hover:text-foreground', isOpen && 'text-foreground')} />
+
+// ✅ reutilización real → componente, no string
+function NavTrigger({ children, isOpen }: { children: React.ReactNode; isOpen: boolean }) {
+  return (
+    <button
+      type="button"
+      className={cn(
+        'inline-flex h-9 cursor-pointer items-center gap-0.5 px-1 text-sm font-medium',
+        'text-muted-foreground no-underline hover:text-foreground',
+        isOpen && 'text-foreground',
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+## Excepciones (no son Tailwind)
+
+- Objetos de estilo de librerías (MapLibre, Three.js, `style={{}}`, tokens en `skins.ts`, CSS en `globals.css`).
+- Clases semánticas globales ya definidas en CSS (p. ej. `site-header-link`, `article`).
+
+## Si el agente “limpia” estilos
+
+- Revertir extracciones de clases tw a constantes.
+- Si hace falta DRY: **nuevo componente** en el scope correcto (`features/.../components/`, `components/ui/` solo con 2+ consumidores), manteniendo las clases **dentro** de ese componente.

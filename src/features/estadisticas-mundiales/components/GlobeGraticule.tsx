@@ -1,7 +1,6 @@
 'use client';
 
 import { MapMarker, MapRoute, MarkerContent, MarkerLabel } from '@/components/ui/map';
-import { cn } from '@/lib/utils';
 import { globeGraticuleLines } from './globe-graticule';
 import { useGlobeGraticuleColors } from './use-globe-graticule-colors';
 
@@ -15,11 +14,6 @@ const SECONDARY_STYLE = {
   opacity: 0.35,
   dashArray: [3, 4] as [number, number],
 } as const;
-
-const labelClass = cn(
-  'pointer-events-none rounded border border-border bg-elevated/95 px-1.5 py-0.5',
-  'text-[9px] font-medium text-muted-foreground shadow-sm backdrop-blur',
-);
 
 export function GlobeGraticule() {
   const { primary, secondary } = useGlobeGraticuleColors();
@@ -51,7 +45,10 @@ export function GlobeGraticule() {
             <span className="block size-0 overflow-hidden" aria-hidden>
               ·
             </span>
-            <MarkerLabel position="top" className={labelClass}>
+            <MarkerLabel
+              position="top"
+              className="pointer-events-none rounded border border-border bg-elevated/95 px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground shadow-sm backdrop-blur"
+            >
               {line.name}
             </MarkerLabel>
           </MarkerContent>
