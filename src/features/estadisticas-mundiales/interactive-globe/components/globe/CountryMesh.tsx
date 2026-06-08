@@ -7,6 +7,7 @@ import gsap from "gsap";
 import type { CountryFeature } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
 import { createCountryGeometry } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
 import { getFeatureIso2 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/getCountryCentroid";
+import { COMPARE_SLOT_COLORS } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 import { useGlobeSceneTheme } from "@/features/estadisticas-mundiales/interactive-globe/hooks/useGlobeSceneTheme";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
 
@@ -19,9 +20,12 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const iso2 = getFeatureIso2(feature);
   const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
+  const compareMode = useGlobeStore((s) => s.compareMode);
+  const compareIso2s = useGlobeStore((s) => s.compareIso2s);
   const hoveredIso2 = useGlobeStore((s) => s.hoveredIso2);
   const activeLayer = useGlobeStore((s) => s.activeLayer);
   const selectCountry = useGlobeStore((s) => s.selectCountry);
+  const toggleCompareCountry = useGlobeStore((s) => s.toggleCompareCountry);
   const setHoveredCountry = useGlobeStore((s) => s.setHoveredCountry);
   const countriesIndex = useGlobeStore((s) => s.countriesIndex);
   const sceneTheme = useGlobeSceneTheme();
@@ -36,7 +40,13 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
     return null;
   }, [feature]);
 
-  const isSelected = selectedIso2 === iso2 && iso2 !== "-99" && iso2 !== "";
+  const compareIndex = compareIso2s.indexOf(iso2);
+  const isCompareSlot = compareIndex >= 0;
+  const isSelected =
+    !compareMode &&
+    selectedIso2 === iso2 &&
+    iso2 !== "-99" &&
+    iso2 !== "";
   const isHovered = hoveredIso2 === iso2 && iso2 !== "-99" && iso2 !== "";
 
   useEffect(() => {
@@ -45,12 +55,15 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
     const hasChoropleth = activeLayer !== "none" && !!choroplethColor;
 
     let targetColor: THREE.ColorRepresentation = sceneTheme.countryHover;
-    if (isSelected) targetColor = sceneTheme.countrySelected;
+    if (isCompareSlot) {
+      targetColor = COMPARE_SLOT_COLORS[compareIndex] ?? sceneTheme.countrySelected;
+    } else if (isSelected) targetColor = sceneTheme.countrySelected;
     else if (isHovered) targetColor = sceneTheme.countryHover;
     else if (hasChoropleth) targetColor = choroplethColor;
 
     let targetOpacity = 0;
-    if (isSelected) targetOpacity = 0.92;
+    if (isCompareSlot) targetOpacity = 0.9;
+    else if (isSelected) targetOpacity = 0.92;
     else if (isHovered) targetOpacity = 0.78;
     else if (hasChoropleth) targetOpacity = 0.72;
 
@@ -66,6 +79,8 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
       duration: 0.3,
     });
   }, [
+    isCompareSlot,
+    compareIndex,
     isSelected,
     isHovered,
     activeLayer,
@@ -75,7 +90,7 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
   ]);
 
   useFrame(() => {
-    if (meshRef.current && isSelected) {
+    if (meshRef.current && (isSelected || isCompareSlot)) {
       meshRef.current.scale.setScalar(1 + Math.sin(Date.now() * 0.003) * 0.008);
     } else if (meshRef.current) {
       meshRef.current.scale.setScalar(1);
@@ -91,7 +106,9 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
       onClick={(e) => {
         e.stopPropagation();
         const meta = countriesIndex.get(iso2);
-        if (meta) selectCountry(iso2, meta);
+        if (!meta) return;
+        if (compareMode) toggleCompareCountry(iso2, meta);
+        else selectCountry(iso2, meta);
       }}
       onPointerOver={(e) => {
         e.stopPropagation();

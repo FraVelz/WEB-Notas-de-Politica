@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 export type GlobeSceneTheme = {
   ambient: number;
   directional: number;
+  hemisphereIntensity: number;
+  fillIntensity: number;
   pointLight: string;
   pointIntensity: number;
   starsCount: number;
@@ -19,22 +21,26 @@ export type GlobeSceneTheme = {
 
 const PALETTES: Record<'light' | 'dark', GlobeSceneTheme> = {
   light: {
-    ambient: 0.72,
-    directional: 1.5,
-    pointLight: '#d4d4d4',
-    pointIntensity: 0.12,
+    ambient: 1.05,
+    directional: 1.9,
+    hemisphereIntensity: 0.82,
+    fillIntensity: 0.62,
+    pointLight: '#f5f5f5',
+    pointIntensity: 0.28,
     starsCount: 800,
     starsFactor: 1.2,
     atmosphereColor: '#0070f3',
     atmosphereOpacity: 0.07,
     countryHover: '#0070f3',
     countrySelected: '#0059c9',
-    earthEmissive: '#000000',
-    earthEmissiveIntensity: 0,
+    earthEmissive: '#ffffff',
+    earthEmissiveIntensity: 0.1,
   },
   dark: {
     ambient: 0.9,
     directional: 1.65,
+    hemisphereIntensity: 0.35,
+    fillIntensity: 0.18,
     pointLight: '#ffffff',
     pointIntensity: 0.22,
     starsCount: 2200,

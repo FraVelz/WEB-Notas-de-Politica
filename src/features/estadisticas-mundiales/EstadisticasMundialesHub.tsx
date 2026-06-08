@@ -8,6 +8,8 @@ import { GlobeProvider } from '@/features/estadisticas-mundiales/interactive-glo
 import { SearchBar } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/SearchBar';
 import { CountryPanel } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/CountryPanel';
 import { LayerControls } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/LayerControls';
+import { ViewControls } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/ViewControls';
+import { ComparePanel } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/ComparePanel';
 import { LoadingOverlay } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/LoadingOverlay';
 import { HoverTooltip } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/HoverTooltip';
 import { useGlobeStore } from '@/features/estadisticas-mundiales/interactive-globe/store/globeStore';
@@ -33,6 +35,9 @@ const meta = getTemaById('estadisticas-mundiales')!;
 export function EstadisticasMundialesHub({ temaId: _temaId }: { temaId?: string }) {
   const [countries, setCountries] = useState<CountrySummary[]>([]);
   const setCountryStats = useGlobeStore((s) => s.setCountryStats);
+  const compareMode = useGlobeStore((s) => s.compareMode);
+  const compareIso2s = useGlobeStore((s) => s.compareIso2s);
+  const showComparePanel = compareMode && compareIso2s.length > 1;
 
   useEffect(() => {
     fetchAllCountries()
@@ -85,16 +90,19 @@ export function EstadisticasMundialesHub({ temaId: _temaId }: { temaId?: string 
           <HoverTooltip />
           <LoadingOverlay />
 
-          <div className="pointer-events-auto mt-auto flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <LayerControls />
+          <div className="pointer-events-auto mt-auto flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:max-w-xl">
+              <ViewControls />
+              <LayerControls />
+            </div>
             <div className="hidden md:block md:w-80">
-              <CountryPanel />
+              {showComparePanel ? <ComparePanel /> : <CountryPanel />}
             </div>
           </div>
         </div>
 
         <div className="pointer-events-auto fixed inset-x-0 bottom-0 z-20 max-h-[50vh] overflow-y-auto p-4 md:hidden">
-          <CountryPanel />
+          {showComparePanel ? <ComparePanel /> : <CountryPanel />}
         </div>
       </div>
     </GlobeProvider>

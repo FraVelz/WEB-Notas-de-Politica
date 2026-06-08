@@ -9,7 +9,20 @@ export function useCameraCinematic() {
   const camera = useThree((s) => s.camera);
   const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
   const showTradeArcs = useGlobeStore((s) => s.showTradeArcs);
+  const focusRequest = useGlobeStore((s) => s.focusRequest);
   const tweenRef = useRef<gsap.core.Timeline | null>(null);
+
+  useEffect(() => {
+    if (focusRequest.resetZoom) {
+      tweenRef.current?.kill();
+      gsap.to(camera.position, {
+        z: 5.5,
+        duration: 1.2,
+        ease: "power2.out",
+      });
+      return;
+    }
+  }, [focusRequest.id, focusRequest.resetZoom, camera]);
 
   useEffect(() => {
     if (!selectedIso2) {

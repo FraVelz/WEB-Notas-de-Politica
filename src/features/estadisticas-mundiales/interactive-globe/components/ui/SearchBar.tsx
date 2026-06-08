@@ -1,8 +1,12 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import { Search } from "lucide-react";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
-import type { CountrySummary } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
+import type {
+  CountryMeta,
+  CountrySummary,
+} from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
 
 interface SearchBarProps {
   countries: CountrySummary[];
@@ -13,7 +17,9 @@ export function SearchBar({ countries }: SearchBarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const compareMode = useGlobeStore((s) => s.compareMode);
   const selectCountry = useGlobeStore((s) => s.selectCountry);
+  const toggleCompareCountry = useGlobeStore((s) => s.toggleCompareCountry);
   const countriesIndex = useGlobeStore((s) => s.countriesIndex);
 
   const filtered = useMemo(() => {
@@ -31,15 +37,18 @@ export function SearchBar({ countries }: SearchBarProps) {
   const handleSelect = useCallback(
     (country: CountrySummary) => {
       const meta = countriesIndex.get(country.cca2);
-      selectCountry(country.cca2, meta ?? {
-        iso2: country.cca2,
-        name: country.nameEs,
-        centroid: [country.latlng[0], country.latlng[1]],
-      });
+      const resolved: CountryMeta =
+        meta ?? {
+          iso2: country.cca2,
+          name: country.nameEs,
+          centroid: [country.latlng[0], country.latlng[1]],
+        };
+      if (compareMode) toggleCompareCountry(country.cca2, resolved);
+      else selectCountry(country.cca2, resolved);
       setQuery(country.nameEs);
       setIsOpen(false);
     },
-    [countriesIndex, selectCountry],
+    [compareMode, countriesIndex, selectCountry, toggleCompareCountry],
   );
 
   useEffect(() => {
@@ -60,9 +69,10 @@ export function SearchBar({ countries }: SearchBarProps) {
   return (
     <div className="relative w-full max-w-md">
       <div className="flex items-center gap-2 rounded-xl border border-border bg-elevated/85 px-4 py-3 shadow-[var(--shadow-theme)] backdrop-blur-md">
-        <span className="text-link" aria-hidden>
-          🔍
-        </span>
+        <Search
+          className="size-4 shrink-0 text-link"
+          aria-hidden
+        />
         <input
           ref={inputRef}
           type="text"

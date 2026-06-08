@@ -9,7 +9,11 @@ export function SceneEnvironment() {
   return (
     <>
       <ambientLight intensity={theme.ambient} />
+      <hemisphereLight
+        args={['#ffffff', '#94a3b8', theme.hemisphereIntensity]}
+      />
       <directionalLight position={[5, 3, 5]} intensity={theme.directional} />
+      <directionalLight position={[0, 0, 8]} intensity={theme.fillIntensity} />
       <pointLight
         position={[-5, -3, -5]}
         intensity={theme.pointIntensity}

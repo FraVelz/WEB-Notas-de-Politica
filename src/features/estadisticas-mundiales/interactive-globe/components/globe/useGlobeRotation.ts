@@ -2,50 +2,80 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import * as THREE from "three";
 import type { Group } from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { ROTATION_DURATION } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
-import { latLngToVector3 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
+import {
+  averageLongitude,
+  getHorizontalFocusYaw,
+  normalizeYawTarget,
+} from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
-
-function getTargetRotation(lat: number, lng: number): THREE.Euler {
-  const target = latLngToVector3(lat, lng, 1).normalize();
-  const desired = new THREE.Vector3(0, 0, 1);
-  const quaternion = new THREE.Quaternion().setFromUnitVectors(target, desired);
-  return new THREE.Euler().setFromQuaternion(quaternion, "YXZ");
-}
 
 export function useGlobeRotation(
   globeRef: React.RefObject<Group | null>,
   controlsRef: React.RefObject<OrbitControlsImpl | null>,
 ) {
-  const countryMeta = useGlobeStore((s) => s.countryMeta);
+  const focusRequest = useGlobeStore((s) => s.focusRequest);
+  const compareIso2s = useGlobeStore((s) => s.compareIso2s);
+  const compareMode = useGlobeStore((s) => s.compareMode);
+  const countriesIndex = useGlobeStore((s) => s.countriesIndex);
   const setIsRotating = useGlobeStore((s) => s.setIsRotating);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
-    if (!countryMeta || !globeRef.current) return;
+    if (!globeRef.current || focusRequest.id === 0) return;
 
-    const [lat, lng] = countryMeta.centroid;
-    const { x, y, z } = getTargetRotation(lat, lng);
+    const globe = globeRef.current;
+    let focusLng = focusRequest.lng;
+
+    if (compareMode && compareIso2s.length > 1) {
+      const points = compareIso2s
+        .map((iso) => countriesIndex.get(iso))
+        .filter((meta): meta is NonNullable<typeof meta> => meta != null)
+        .map((meta) => meta.centroid as [number, number]);
+      if (points.length > 1) {
+        focusLng = averageLongitude(points);
+      }
+    }
+
+    const targetY = normalizeYawTarget(
+      globe.rotation.y,
+      getHorizontalFocusYaw(focusLng),
+    );
 
     controlsRef.current?.reset();
+    controlsRef.current?.update();
 
     tweenRef.current?.kill();
     setIsRotating(true);
 
-    tweenRef.current = gsap.to(globeRef.current.rotation, {
-      x,
-      y,
-      z,
+    tweenRef.current = gsap.to(globe.rotation, {
+      x: 0,
+      y: targetY,
+      z: 0,
       duration: ROTATION_DURATION,
       ease: "power2.inOut",
-      onComplete: () => setIsRotating(false),
+      onComplete: () => {
+        globe.rotation.set(0, targetY, 0);
+        globe.quaternion.setFromEuler(globe.rotation);
+        controlsRef.current?.update();
+        setIsRotating(false);
+      },
     });
 
     return () => {
       tweenRef.current?.kill();
     };
-  }, [countryMeta, globeRef, controlsRef, setIsRotating]);
+  }, [
+    focusRequest.id,
+    focusRequest.lat,
+    focusRequest.lng,
+    compareMode,
+    compareIso2s,
+    countriesIndex,
+    globeRef,
+    controlsRef,
+    setIsRotating,
+  ]);
 }

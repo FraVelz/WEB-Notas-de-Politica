@@ -22,3 +22,29 @@ export const DATA_LAYERS: { id: DataLayer; label: string }[] = [
   { id: "gdp", label: "PIB per cápita" },
   { id: "area", label: "Área" },
 ];
+
+export const MAX_COMPARE_COUNTRIES = 3;
+
+export const COMPARE_SLOT_COLORS = ["#0070f3", "#e67700", "#7928ca"] as const;
+
+export type GlobeViewPresetId =
+  | "home"
+  | "equator"
+  | "greenwich"
+  | "americas"
+  | "europe"
+  | "asia";
+
+export const GLOBE_VIEW_PRESETS: {
+  id: GlobeViewPresetId;
+  label: string;
+  lat: number;
+  lng: number;
+}[] = [
+  { id: "home", label: "Colombia", lat: 4.711, lng: -74.0721 },
+  { id: "equator", label: "Ecuador", lat: 0, lng: -30 },
+  { id: "greenwich", label: "Meridiano 0°", lat: 12, lng: 0 },
+  { id: "americas", label: "Américas", lat: 8, lng: -78 },
+  { id: "europe", label: "Europa", lat: 48, lng: 12 },
+  { id: "asia", label: "Asia", lat: 28, lng: 105 },
+];

@@ -13,6 +13,7 @@ import { CapitalMarker } from "./CapitalMarker";
 import { TradeArcs } from "./TradeArcs";
 import { CameraController } from "./CameraController";
 import { SceneEnvironment } from "./SceneEnvironment";
+import { GlobeGraticule3D } from "./GlobeGraticule3D";
 import { useGlobeRotation } from "./useGlobeRotation";
 import { getCountryCentroid, getFeatureIso2 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/getCountryCentroid";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
@@ -29,8 +30,14 @@ function GlobeContent({
   const setCountriesIndex = useGlobeStore((s) => s.setCountriesIndex);
   const countryDetail = useGlobeStore((s) => s.countryDetail);
   const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
+  const showGraticule = useGlobeStore((s) => s.showGraticule);
 
   useGlobeRotation(globeRef, controlsRef);
+
+  useEffect(() => {
+    const { focusRequest, applyViewPreset } = useGlobeStore.getState();
+    if (focusRequest.id === 0) applyViewPreset("home");
+  }, []);
 
   useEffect(() => {
     const index = new Map<
@@ -52,6 +59,7 @@ function GlobeContent({
   return (
     <group ref={globeRef}>
       <Earth />
+      <GlobeGraticule3D visible={showGraticule} />
       <Countries data={geoData} />
       <Atmosphere />
       {selectedIso2 && countryDetail && (
@@ -78,6 +86,7 @@ function SceneLoader() {
 export function GlobeScene() {
   const globeRef = useRef<Group>(null);
   const controlsRef = useRef<OrbitControlsImpl>(null);
+  const isRotating = useGlobeStore((s) => s.isRotating);
   const [geoData, setGeoData] = useState<CountriesCollection | null>(null);
 
   useEffect(() => {
@@ -98,6 +107,7 @@ export function GlobeScene() {
       <OrbitControls
         ref={controlsRef}
         enablePan={false}
+        enableRotate={!isRotating}
         minDistance={3.5}
         maxDistance={8}
         rotateSpeed={0.5}

@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import type { CountryDetail, CountryMeta, CountrySummary } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
-import type { DataLayer } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
+import {
+  GLOBE_VIEW_PRESETS,
+  type DataLayer,
+  type GlobeViewPresetId,
+  MAX_COMPARE_COUNTRIES,
+} from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 import { estimateGdpPerCapita } from "@/features/estadisticas-mundiales/interactive-globe/lib/api/countries";
 
 export interface CountryStats {
@@ -8,6 +13,13 @@ export interface CountryStats {
   area: number;
   gdpPerCapita: number;
 }
+
+export type GlobeFocusRequest = {
+  id: number;
+  lat: number;
+  lng: number;
+  resetZoom?: boolean;
+};
 
 interface GlobeState {
   selectedIso2: string | null;
@@ -19,13 +31,20 @@ interface GlobeState {
   isRotating: boolean;
   activeLayer: DataLayer;
   showTradeArcs: boolean;
+  showGraticule: boolean;
+  compareMode: boolean;
+  compareIso2s: string[];
   history: string[];
   countriesIndex: Map<string, CountryMeta>;
   countryStats: Map<string, CountryStats>;
+  focusRequest: GlobeFocusRequest;
 
   setCountriesIndex: (index: Map<string, CountryMeta>) => void;
   setCountryStats: (countries: CountrySummary[]) => void;
   selectCountry: (iso2: string, meta?: CountryMeta) => void;
+  toggleCompareCountry: (iso2: string, meta?: CountryMeta) => void;
+  setCompareMode: (enabled: boolean) => void;
+  removeCompareCountry: (iso2: string) => void;
   setHoveredCountry: (iso2: string | null) => void;
   setCountryDetail: (detail: CountryDetail | null) => void;
   setLoadingDetail: (loading: boolean) => void;
@@ -33,7 +52,38 @@ interface GlobeState {
   setIsRotating: (rotating: boolean) => void;
   setActiveLayer: (layer: DataLayer) => void;
   setShowTradeArcs: (show: boolean) => void;
+  setShowGraticule: (show: boolean) => void;
+  applyViewPreset: (presetId: GlobeViewPresetId) => void;
+  resetHomeView: () => void;
   clearSelection: () => void;
+}
+
+let focusSeq = 0;
+
+function pushFocus(
+  lat: number,
+  lng: number,
+  opts?: { resetZoom?: boolean },
+): GlobeFocusRequest {
+  focusSeq += 1;
+  return { id: focusSeq, lat, lng, resetZoom: opts?.resetZoom };
+}
+
+function focusFromCompare(
+  compareIso2s: string[],
+  index: Map<string, CountryMeta>,
+): GlobeFocusRequest | null {
+  const points = compareIso2s
+    .map((iso) => index.get(iso))
+    .filter((meta): meta is CountryMeta => meta != null)
+    .map((meta) => meta.centroid as [number, number]);
+
+  if (points.length === 0) return null;
+  if (points.length === 1) return pushFocus(points[0][0], points[0][1]);
+
+  const sumLat = points.reduce((acc, [lat]) => acc + lat, 0) / points.length;
+  const sumLng = points.reduce((acc, [, lng]) => acc + lng, 0) / points.length;
+  return pushFocus(sumLat, sumLng);
 }
 
 export const useGlobeStore = create<GlobeState>((set, get) => ({
@@ -46,9 +96,13 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
   isRotating: false,
   activeLayer: "none",
   showTradeArcs: false,
+  showGraticule: true,
+  compareMode: false,
+  compareIso2s: [],
   history: [],
   countriesIndex: new Map(),
   countryStats: new Map(),
+  focusRequest: { id: 0, lat: 4.711, lng: -74.0721 },
 
   setCountriesIndex: (index) => set({ countriesIndex: index }),
 
@@ -69,11 +123,71 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
     const resolvedMeta = meta ?? index.get(iso2) ?? null;
     const history = get().history.filter((h) => h !== iso2);
     history.unshift(iso2);
+    const [lat, lng] = resolvedMeta?.centroid ?? [0, 0];
+
     set({
       selectedIso2: iso2,
       countryMeta: resolvedMeta,
       detailError: null,
       history: history.slice(0, 8),
+      focusRequest: pushFocus(lat, lng),
+    });
+  },
+
+  toggleCompareCountry: (iso2, meta) => {
+    const state = get();
+    const index = state.countriesIndex;
+    const resolvedMeta = meta ?? index.get(iso2) ?? null;
+    const current = [...state.compareIso2s];
+    const existing = current.indexOf(iso2);
+
+    let next: string[];
+    if (existing >= 0) {
+      next = current.filter((id) => id !== iso2);
+    } else if (current.length >= MAX_COMPARE_COUNTRIES) {
+      next = [...current.slice(1), iso2];
+    } else {
+      next = [...current, iso2];
+    }
+
+    const focus = focusFromCompare(next, index);
+    set({
+      compareIso2s: next,
+      selectedIso2: next[0] ?? null,
+      countryMeta:
+        next[0] != null
+          ? (index.get(next[0]) ??
+            (resolvedMeta?.iso2 === next[0] ? resolvedMeta : null))
+          : null,
+      detailError: null,
+      focusRequest: focus ?? state.focusRequest,
+    });
+  },
+
+  setCompareMode: (enabled) => {
+    if (!enabled) {
+      set({
+        compareMode: false,
+        compareIso2s: [],
+        selectedIso2: null,
+        countryMeta: null,
+        countryDetail: null,
+        detailError: null,
+      });
+      return;
+    }
+    set({ compareMode: true });
+  },
+
+  removeCompareCountry: (iso2) => {
+    const state = get();
+    const next = state.compareIso2s.filter((id) => id !== iso2);
+    const focus = focusFromCompare(next, state.countriesIndex);
+    set({
+      compareIso2s: next,
+      selectedIso2: next[0] ?? null,
+      countryMeta: next[0] ? state.countriesIndex.get(next[0]) ?? null : null,
+      focusRequest: focus ?? state.focusRequest,
     });
   },
 
@@ -103,11 +217,39 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
 
   setShowTradeArcs: (show) => set({ showTradeArcs: show }),
 
+  setShowGraticule: (show) => set({ showGraticule: show }),
+
+  applyViewPreset: (presetId) => {
+    const preset = GLOBE_VIEW_PRESETS.find((p) => p.id === presetId);
+    if (!preset) return;
+
+    const resetZoom = presetId === "home";
+    const clearOnHome = presetId === "home";
+
+    set({
+      ...(clearOnHome
+        ? {
+            selectedIso2: null,
+            countryMeta: null,
+            countryDetail: null,
+            compareIso2s: [],
+            detailError: null,
+          }
+        : {}),
+      focusRequest: pushFocus(preset.lat, preset.lng, { resetZoom }),
+    });
+  },
+
+  resetHomeView: () => {
+    get().applyViewPreset("home");
+  },
+
   clearSelection: () =>
     set({
       selectedIso2: null,
       countryMeta: null,
       countryDetail: null,
+      compareIso2s: [],
       detailError: null,
     }),
 }));

@@ -15,6 +15,7 @@ export function Countries({ data }: CountriesProps) {
   const countryDetail = useGlobeStore((s) => s.countryDetail);
   const countryStats = useGlobeStore((s) => s.countryStats);
   const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
+  const compareIso2s = useGlobeStore((s) => s.compareIso2s);
 
   const layerValues = useMemo(() => {
     if (activeLayer === "none") return new Map<string, number>();
@@ -53,7 +54,12 @@ export function Countries({ data }: CountriesProps) {
         const value = layerValues.get(iso2) ?? 0;
         const color =
           activeLayer !== "none" && value > 0
-            ? valueToColor(value, min, max, selectedIso2 === iso2)
+            ? valueToColor(
+                value,
+                min,
+                max,
+                selectedIso2 === iso2 || compareIso2s.includes(iso2),
+              )
             : undefined;
 
         return (

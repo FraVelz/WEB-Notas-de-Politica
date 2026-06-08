@@ -12,7 +12,8 @@ export function Atmosphere() {
   const theme = useGlobeSceneTheme();
   const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
   const hoveredIso2 = useGlobeStore((s) => s.hoveredIso2);
-  const isActive = !!(selectedIso2 || hoveredIso2);
+  const compareIso2s = useGlobeStore((s) => s.compareIso2s);
+  const isActive = !!(selectedIso2 || hoveredIso2 || compareIso2s.length > 0);
 
   useEffect(() => {
     if (!meshRef.current) return;

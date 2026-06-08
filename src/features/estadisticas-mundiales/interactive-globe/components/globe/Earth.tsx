@@ -21,8 +21,8 @@ export function Earth() {
       <sphereGeometry args={[GLOBE_RADIUS, 64, 64]} />
       <meshPhongMaterial
         map={earthMap}
-        specular="#222222"
-        shininess={14}
+        specular="#444444"
+        shininess={10}
         emissive={theme.earthEmissive}
         emissiveIntensity={theme.earthEmissiveIntensity}
       />
