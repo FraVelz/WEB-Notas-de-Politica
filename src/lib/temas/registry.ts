@@ -292,6 +292,15 @@ export const temas: TemaDefinition[] = [
     order: 1,
     status: 'active',
     hub: 'tsx',
+  },
+  {
+    id: 'globo-teraqueo-politico',
+    title: 'Globo terráqueo político',
+    description: 'Mapa global interactivo para explorar conexiones geopolíticas.',
+    group: 'datos',
+    order: 2,
+    status: 'active',
+    hub: 'tsx',
     showSidebar: false,
   },
 ];

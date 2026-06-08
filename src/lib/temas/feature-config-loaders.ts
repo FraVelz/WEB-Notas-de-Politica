@@ -42,4 +42,6 @@ export const featureConfigLoaders: Record<
     import('@/features/poder-y-control-social/config'),
   'estadisticas-mundiales': () =>
     import('@/features/estadisticas-mundiales/config'),
+  'globo-teraqueo-politico': () =>
+    import('@/features/globo-teraqueo-politico/config'),
 };

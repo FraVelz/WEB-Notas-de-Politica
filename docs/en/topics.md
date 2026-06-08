@@ -62,6 +62,7 @@ Each `id` is a feature in `src/features/{id}/` and the first URL segment.
 | ID | Title |
 | --- | --- |
 | `estadisticas-mundiales` | General world statistics |
+| `globo-teraqueo-politico` | Political terrestrial globe |
 
 ## Special topic: `inicio`
 

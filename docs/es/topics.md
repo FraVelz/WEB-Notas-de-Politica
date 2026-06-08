@@ -62,6 +62,7 @@ Cada `id` es un feature en `src/features/{id}/` y el primer segmento de la URL.
 | ID | Título |
 | --- | --- |
 | `estadisticas-mundiales` | Estadísticas mundiales generales |
+| `globo-teraqueo-politico` | Globo terráqueo político |
 
 ## Tema especial: `inicio`
 

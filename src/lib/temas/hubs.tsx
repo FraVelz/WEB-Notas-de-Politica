@@ -15,6 +15,12 @@ const customHubs: Record<
         default: m.EstadisticasMundialesHub,
       }),
     ),
+  'globo-teraqueo-politico': () =>
+    import('@/features/globo-teraqueo-politico/GloboTerraqueoPoliticoHub').then(
+      (m) => ({
+        default: m.GloboTerraqueoPoliticoHub,
+      }),
+    ),
 };
 
 export async function resolveTemaHub(
