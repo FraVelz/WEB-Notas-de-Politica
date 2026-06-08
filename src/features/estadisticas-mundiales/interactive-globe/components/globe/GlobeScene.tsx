@@ -1,9 +1,8 @@
 "use client";
 
-import { Suspense, useRef, useEffect, useState } from "react";
+import { Suspense, useRef, useEffect, useState, type ComponentRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import type { Group } from "three";
 import type { CountriesCollection } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
 import { Earth } from "./Earth";
@@ -18,6 +17,8 @@ import { GlobeOrientationSync } from "./GlobeOrientationSync";
 import { useGlobeRotation } from "./useGlobeRotation";
 import { getCountryCentroid, getFeatureIso2 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/getCountryCentroid";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
+
+type OrbitControlsImpl = ComponentRef<typeof OrbitControls>;
 
 function GlobeContent({
   geoData,

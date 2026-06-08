@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ComponentRef } from "react";
 import gsap from "gsap";
 import * as THREE from "three";
+import { OrbitControls } from "@react-three/drei";
 import type { Group } from "three";
-import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { ROTATION_DURATION } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 import {
   averageLatitude,
@@ -19,6 +19,8 @@ import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-glo
 const syncEuler = new THREE.Euler();
 const endEuler = new THREE.Euler();
 const ORIENT_DURATION = ROTATION_DURATION * 0.75;
+
+type OrbitControlsImpl = ComponentRef<typeof OrbitControls>;
 
 export function useGlobeRotation(
   globeRef: React.RefObject<Group | null>,
