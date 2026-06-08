@@ -54,21 +54,27 @@ export const temaNavCategories: TemaNavCategory[] = [
   {
     id: 'marco-teorico',
     label: 'Marco teórico',
+    description:
+      'Base conceptual: sociedad, ideas que la organizan e instituciones que la sostienen.',
     groups: ['fundamentos', 'sistemas-e-ideas', 'instituciones'],
   },
   {
     id: 'poder-y-accion',
     label: 'Poder y acción',
+    description: 'Cómo se ejerce el poder y cómo se manifiesta en la sociedad.',
     groups: ['estado-en-accion', 'sociedad-y-poder'],
   },
   {
     id: 'debate-actual',
     label: 'Debate actual',
+    description:
+      'Temas del presente: comunicación, ética y tecnología aplicadas al poder.',
     groups: ['debate-contemporaneo'],
   },
   {
     id: 'datos',
     label: 'Datos',
+    description: 'Estadísticas y contexto cuantitativo para entender el mundo.',
     groups: ['datos'],
   },
 ];
@@ -327,7 +333,7 @@ export const temas: TemaDefinition[] = [
   {
     id: 'globo-teraqueo-politico',
     title: 'Globo terráqueo político',
-    description: 'Mapa global interactivo para explorar conexiones geopolíticas.',
+    description: 'Mapa global interactivo para ver mejor las fronteras y los países.',
     group: 'datos',
     order: 2,
     status: 'active',

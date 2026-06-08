@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { siteConfig } from '@/lib/navigation';
-import { getTemasGrouped } from '@/lib/temas/registry';
+import { getNavCategoriesGrouped } from '@/lib/temas/registry';
 import type { TemaStatus } from '@/lib/temas/types';
 import { cn } from '@/lib/utils';
 
@@ -11,7 +11,7 @@ const statusLabel: Record<TemaStatus, string> = {
 };
 
 export function InicioPage() {
-  const grouped = getTemasGrouped();
+  const categories = getNavCategoriesGrouped();
 
   return (
     <>
@@ -55,56 +55,82 @@ export function InicioPage() {
       </section>
 
       <div id="apartados" className="pt-8">
-        {grouped.map(({ group, temas: items }) => (
+        {categories.map(({ category, sections }, categoryIndex) => (
           <section
-            key={group.id}
-            id={group.id}
-            className="scroll-mt-32 pb-10 not-first:border-t not-first:border-border not-first:pt-10 md:scroll-mt-28"
-            aria-labelledby={`heading-${group.id}`}
+            key={category.id}
+            id={category.id}
+            className={cn(
+              'scroll-mt-32 pb-12 md:scroll-mt-28',
+              categoryIndex > 0 && 'border-t border-border pt-10',
+            )}
+            aria-labelledby={`heading-${category.id}`}
           >
-            <header className="mb-5">
+            <header className="mb-8 text-center">
               <h2
-                id={`heading-${group.id}`}
-                className="m-0 text-xl font-semibold text-foreground"
+                id={`heading-${category.id}`}
+                className="m-0 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
               >
-                {group.label}
+                {category.label}
               </h2>
-              <p className="mt-1.5 max-w-xl text-sm text-muted-foreground">
-                {group.description}
+              <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
+                {category.description}
               </p>
             </header>
-            <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map((tema) => (
-                <li key={tema.id}>
-                  <Link
-                    href={`/${tema.id}`}
-                    className="flex h-full flex-col rounded-lg border border-border bg-elevated p-4 no-underline transition hover:-translate-y-0.5 hover:border-link hover:shadow-[var(--shadow-theme)]"
-                  >
-                    <div className="mb-2 flex items-start justify-between gap-2">
-                      <h3 className="m-0 text-base leading-snug font-semibold text-foreground">
-                        {tema.title}
-                      </h3>
-                      <span
-                        className={cn(
-                          'shrink-0 rounded border border-border px-1.5 py-0.5 text-[0.625rem] font-semibold tracking-wide uppercase',
-                          tema.status === 'active'
-                            ? 'border-link bg-link-muted text-link'
-                            : 'text-muted-foreground',
-                        )}
-                      >
-                        {statusLabel[tema.status]}
-                      </span>
-                    </div>
-                    <p className="m-0 flex-1 text-sm leading-snug text-muted-foreground">
-                      {tema.description}
+
+            <div className="flex flex-col gap-10">
+              {sections.map(({ group, temas: items }) => (
+                <section
+                  key={group.id}
+                  id={group.id}
+                  className="scroll-mt-32 md:scroll-mt-28"
+                  aria-labelledby={`heading-${group.id}`}
+                >
+                  <header className="mb-5">
+                    <h3
+                      id={`heading-${group.id}`}
+                      className="m-0 text-xl font-semibold text-foreground"
+                    >
+                      {group.label}
+                    </h3>
+                    <p className="mt-1.5 max-w-xl text-sm text-muted-foreground">
+                      {group.description}
                     </p>
-                    <span className="mt-3 text-sm font-medium text-link">
-                      Entrar al tema →
-                    </span>
-                  </Link>
-                </li>
+                  </header>
+                  <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
+                    {items.map((tema) => (
+                      <li key={tema.id}>
+                        <Link
+                          href={`/${tema.id}`}
+                          className="flex h-full flex-col rounded-lg border border-border bg-elevated p-4 no-underline transition hover:-translate-y-0.5 hover:border-link hover:shadow-[var(--shadow-theme)]"
+                        >
+                          <div className="mb-2 flex items-start justify-between gap-2">
+                            <h4 className="m-0 text-base leading-snug font-semibold text-foreground">
+                              {tema.title}
+                            </h4>
+                            <span
+                              className={cn(
+                                'shrink-0 rounded border border-border px-1.5 py-0.5 text-[0.625rem] font-semibold tracking-wide uppercase',
+                                tema.status === 'active'
+                                  ? 'border-link bg-link-muted text-link'
+                                  : 'text-muted-foreground',
+                              )}
+                            >
+                              {statusLabel[tema.status]}
+                            </span>
+                          </div>
+                          <p className="m-0 flex-1 text-sm leading-snug text-muted-foreground">
+                            {tema.description}
+                          </p>
+                          <span className="mt-3 text-sm font-medium text-link">
+                            Entrar al tema →
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               ))}
-            </ul>
+            </div>
           </section>
         ))}
       </div>

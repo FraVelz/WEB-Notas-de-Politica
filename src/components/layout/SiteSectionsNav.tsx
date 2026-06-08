@@ -47,34 +47,45 @@ export function SiteSectionsNav() {
         {navCategories.map(({ category, sections }) => {
           const isOpen = openCategoryId === category.id;
           const panelId = `${listId}-${category.id}`;
-          const firstSectionId = sections[0]?.group.id;
 
           return (
             <li
               key={category.id}
-              className="group/nav relative shrink-0"
+              className="group/nav relative flex shrink-0 items-center"
               onMouseEnter={() => setOpenCategoryId(category.id)}
               onMouseLeave={() =>
                 setOpenCategoryId((id) => (id === category.id ? null : id))
               }
             >
+              <a
+                href={`/#${category.id}`}
+                className={cn(
+                  'inline-flex h-9 items-center text-sm font-medium no-underline',
+                  'text-foreground/75 hover:text-foreground',
+                  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]',
+                  isOpen && 'text-foreground',
+                )}
+                onClick={close}
+              >
+                {category.label}
+              </a>
               <button
                 type="button"
                 className={cn(
-                  'inline-flex h-9 shrink-0 cursor-pointer items-center gap-0.5 px-1 text-sm font-medium',
+                  'inline-flex h-9 w-6 cursor-pointer items-center justify-center',
                   'text-foreground/75 hover:text-foreground',
                   'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]',
                   isOpen && 'text-foreground',
                 )}
                 aria-expanded={isOpen}
                 aria-controls={panelId}
+                aria-label={`Subsecciones de ${category.label}`}
                 onClick={() =>
                   setOpenCategoryId((id) =>
                     id === category.id ? null : category.id,
                   )
                 }
               >
-                {category.label}
                 <ChevronDown
                   className={cn(
                     'size-3 shrink-0 opacity-50 transition-transform',
@@ -99,15 +110,13 @@ export function SiteSectionsNav() {
                 role="region"
                 aria-label={category.label}
               >
-                {firstSectionId && (
-                  <a
-                    href={`/#${firstSectionId}`}
-                    className="mx-2 mb-1 block px-2 py-1.5 text-xs font-medium text-link no-underline hover:underline"
-                    onClick={close}
-                  >
-                    Ver {category.label.toLowerCase()}
-                  </a>
-                )}
+                <a
+                  href={`/#${category.id}`}
+                  className="mx-2 mb-1 block px-2 py-1.5 text-xs font-medium text-link no-underline hover:underline"
+                  onClick={close}
+                >
+                  Ver {category.label.toLowerCase()}
+                </a>
 
                 <ul className="m-0 max-h-[min(18rem,55vh)] list-none overflow-y-auto px-1">
                   {sections.map(({ group, temas }) => (

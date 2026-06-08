@@ -61,6 +61,8 @@ export type TemaNavCategoryId =
 export type TemaNavCategory = {
   id: TemaNavCategoryId;
   label: string;
+  /** Texto bajo el h2 del bloque en la landing */
+  description: string;
   /** Secciones menores de la landing (`temaGroups`) incluidas en este bloque */
   groups: TemaGroupId[];
 };
