@@ -91,19 +91,23 @@ export function EstadisticasMundialesHub({ temaId: _temaId }: { temaId?: string 
           <GlobeCompass />
           <LoadingOverlay />
 
-          <div className="pointer-events-auto mt-auto flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:max-w-xl">
+          <div className="pointer-events-none mt-auto flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="pointer-events-auto flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:max-w-xl">
               <ViewControls />
               <LayerControls />
             </div>
-            <div className="hidden md:block md:w-80">
-              {showComparePanel ? <ComparePanel /> : <CountryPanel />}
+            <div className="pointer-events-auto hidden md:block md:w-80">
+              {!showComparePanel ? <CountryPanel /> : null}
             </div>
           </div>
         </div>
 
-        <div className="pointer-events-auto fixed inset-x-0 bottom-0 z-20 max-h-[50vh] overflow-y-auto p-4 md:hidden">
-          {showComparePanel ? <ComparePanel /> : <CountryPanel />}
+        {showComparePanel ? <ComparePanel /> : null}
+
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 p-4 md:hidden">
+          <div className="pointer-events-auto max-h-[45vh] overflow-y-auto overscroll-contain">
+            {!showComparePanel ? <CountryPanel /> : null}
+          </div>
         </div>
       </div>
     </GlobeProvider>

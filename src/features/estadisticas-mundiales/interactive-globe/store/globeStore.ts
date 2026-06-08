@@ -35,6 +35,9 @@ interface GlobeState {
   showGraticule: boolean;
   compareMode: boolean;
   compareIso2s: string[];
+  compareDetails: Map<string, CountryDetail>;
+  compareLoadingIso2s: string[];
+  comparePanelMinimized: boolean;
   history: string[];
   countriesIndex: Map<string, CountryMeta>;
   countryStats: Map<string, CountryStats>;
@@ -46,6 +49,11 @@ interface GlobeState {
   selectCountry: (iso2: string, meta?: CountryMeta) => void;
   toggleCompareCountry: (iso2: string, meta?: CountryMeta) => void;
   setCompareMode: (enabled: boolean) => void;
+  setCompareDetail: (iso2: string, detail: CountryDetail) => void;
+  removeCompareDetail: (iso2: string) => void;
+  setCompareLoadingIso2s: (iso2s: string[]) => void;
+  clearCompareDetails: () => void;
+  setComparePanelMinimized: (minimized: boolean) => void;
   removeCompareCountry: (iso2: string) => void;
   setHoveredCountry: (iso2: string | null) => void;
   setCountryDetail: (detail: CountryDetail | null) => void;
@@ -100,6 +108,9 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
   showGraticule: true,
   compareMode: false,
   compareIso2s: [],
+  compareDetails: new Map(),
+  compareLoadingIso2s: [],
+  comparePanelMinimized: false,
   history: [],
   countriesIndex: new Map(),
   countryStats: new Map(),
@@ -121,7 +132,13 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
   },
 
   selectCountry: (iso2, meta) => {
-    const index = get().countriesIndex;
+    const state = get();
+    if (state.compareMode) {
+      state.toggleCompareCountry(iso2, meta);
+      return;
+    }
+
+    const index = state.countriesIndex;
     const resolvedMeta = meta ?? index.get(iso2) ?? null;
     const history = get().history.filter((h) => h !== iso2);
     history.unshift(iso2);
@@ -163,6 +180,7 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
           ? (index.get(next[0]) ??
             (resolvedMeta?.iso2 === next[0] ? resolvedMeta : null))
           : null,
+      countryDetail: null,
       detailError: null,
       focusRequest: focus ?? state.focusRequest,
     });
@@ -173,6 +191,9 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
       set({
         compareMode: false,
         compareIso2s: [],
+        compareDetails: new Map(),
+        compareLoadingIso2s: [],
+        comparePanelMinimized: false,
         selectedIso2: null,
         countryMeta: null,
         countryDetail: null,
@@ -197,9 +218,10 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
     set({
       compareMode: true,
       compareIso2s: seed,
+      comparePanelMinimized: false,
       selectedIso2: seed[0] ?? null,
       countryMeta: seed[0] ? state.countriesIndex.get(seed[0]) ?? null : null,
-      countryDetail: seed.length === 1 ? state.countryDetail : null,
+      countryDetail: null,
       ...(focus ? { focusRequest: focus } : {}),
     });
   },
@@ -208,13 +230,46 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
     const state = get();
     const next = state.compareIso2s.filter((id) => id !== iso2);
     const focus = focusFromCompare(next, state.countriesIndex);
+    const nextDetails = new Map(state.compareDetails);
+    nextDetails.delete(iso2);
     set({
       compareIso2s: next,
+      compareDetails: nextDetails,
+      compareLoadingIso2s: state.compareLoadingIso2s.filter((id) => id !== iso2),
       selectedIso2: next[0] ?? null,
       countryMeta: next[0] ? state.countriesIndex.get(next[0]) ?? null : null,
       focusRequest: focus ?? state.focusRequest,
     });
   },
+
+  setCompareDetail: (iso2, detail) => {
+    const stats = new Map(get().countryStats);
+    stats.set(detail.cca2, {
+      population: detail.population,
+      area: detail.area,
+      gdpPerCapita: detail.gdpPerCapita ?? estimateGdpPerCapita(detail.cca2),
+    });
+    const nextDetails = new Map(get().compareDetails);
+    nextDetails.set(iso2, detail);
+    set({
+      compareDetails: nextDetails,
+      countryStats: stats,
+      compareLoadingIso2s: get().compareLoadingIso2s.filter((id) => id !== iso2),
+    });
+  },
+
+  removeCompareDetail: (iso2) => {
+    const nextDetails = new Map(get().compareDetails);
+    nextDetails.delete(iso2);
+    set({ compareDetails: nextDetails });
+  },
+
+  setCompareLoadingIso2s: (iso2s) => set({ compareLoadingIso2s: iso2s }),
+
+  clearCompareDetails: () =>
+    set({ compareDetails: new Map(), compareLoadingIso2s: [] }),
+
+  setComparePanelMinimized: (minimized) => set({ comparePanelMinimized: minimized }),
 
   setHoveredCountry: (iso2) => set({ hoveredIso2: iso2 }),
 
@@ -271,12 +326,25 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
     get().applyViewPreset("home");
   },
 
-  clearSelection: () =>
+  clearSelection: () => {
+    const { compareMode } = get();
+    if (compareMode) {
+      set({
+        compareIso2s: [],
+        compareDetails: new Map(),
+        compareLoadingIso2s: [],
+        selectedIso2: null,
+        countryMeta: null,
+        countryDetail: null,
+        detailError: null,
+      });
+      return;
+    }
     set({
       selectedIso2: null,
       countryMeta: null,
       countryDetail: null,
-      compareIso2s: [],
       detailError: null,
-    }),
+    });
+  },
 }));

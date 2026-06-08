@@ -30,6 +30,7 @@ export function GlobeGraticule3D({ visible }: { visible: boolean }) {
             transparent
             opacity={isPrimary ? 0.55 : 0.35}
             depthWrite={false}
+            raycast={() => {}}
           />
         );
       })}

@@ -1,114 +1,293 @@
 "use client";
 
 import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { Maximize2, Minimize2 } from "lucide-react";
+import {
   COMPARE_SLOT_COLORS,
   MAX_COMPARE_COUNTRIES,
 } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
+import {
+  CountryDetailFields,
+  CountryDetailSkeleton,
+} from "@/features/estadisticas-mundiales/interactive-globe/components/ui/CountryDetailFields";
+import { formatCountryNumberCompact } from "@/features/estadisticas-mundiales/interactive-globe/lib/formatCountryNumber";
+import type { CountryDetail } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
 
-function formatNumber(n: number): string {
-  if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)} mil M`;
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)} M`;
-  if (n >= 1_000) return `${(n / 1_000).toFixed(1)} mil`;
-  return n.toLocaleString("es");
+const METRIC_ROWS: {
+  label: string;
+  format: (detail: CountryDetail) => string;
+}[] = [
+  {
+    label: "Población",
+    format: (d) => formatCountryNumberCompact(d.population),
+  },
+  {
+    label: "PIB/cápita",
+    format: (d) => `$${formatCountryNumberCompact(d.gdpPerCapita ?? 0)}`,
+  },
+  {
+    label: "Área",
+    format: (d) => `${formatCountryNumberCompact(d.area)} km²`,
+  },
+  {
+    label: "Esperanza de vida",
+    format: (d) => `${d.lifeExpectancy ?? "—"} años`,
+  },
+];
+
+function CompareMetricsTable({
+  details,
+  compareIso2s,
+}: {
+  details: Map<string, CountryDetail>;
+  compareIso2s: string[];
+}) {
+  if (compareIso2s.length < 2) return null;
+
+  return (
+    <div className="shrink-0 overflow-x-auto rounded-xl border border-border bg-muted/30">
+      <table className="w-full min-w-full border-collapse text-xs">
+        <thead>
+          <tr className="border-b border-border">
+            <th className="px-3 py-2 text-left font-medium text-muted-foreground">
+              Indicador
+            </th>
+            {compareIso2s.map((iso, index) => {
+              const detail = details.get(iso);
+              const color = COMPARE_SLOT_COLORS[index] ?? COMPARE_SLOT_COLORS[0];
+              return (
+                <th
+                  key={iso}
+                  className="min-w-[5.5rem] px-2 py-2 text-right font-semibold text-foreground"
+                  style={{ borderTop: `2px solid ${color}` }}
+                >
+                  {detail?.nameEs ?? iso}
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {METRIC_ROWS.map((row) => (
+            <tr key={row.label} className="border-b border-border last:border-0">
+              <td className="px-3 py-2 text-muted-foreground">{row.label}</td>
+              {compareIso2s.map((iso) => {
+                const detail = details.get(iso);
+                return (
+                  <td
+                    key={`${iso}-${row.label}`}
+                    className="px-2 py-2 text-right font-medium text-foreground"
+                  >
+                    {detail ? row.format(detail) : "—"}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function CompareCountryChart({
+  detail,
+  color,
+}: {
+  detail: CountryDetail;
+  color: string;
+}) {
+  const chartData = [
+    { name: "Pobl. (M)", value: detail.population / 1_000_000 },
+    { name: "PIB (k$)", value: (detail.gdpPerCapita ?? 0) / 1000 },
+    { name: "Área (k)", value: detail.area / 1000 },
+  ];
+
+  return (
+    <div className="h-28">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 4 }}>
+          <XAxis type="number" hide />
+          <YAxis
+            type="category"
+            dataKey="name"
+            width={48}
+            tick={{ fill: "var(--text-muted)", fontSize: 9 }}
+          />
+          <Tooltip
+            contentStyle={{
+              background: "var(--bg-elevated)",
+              border: "1px solid var(--border)",
+              borderRadius: 8,
+              fontSize: 11,
+              color: "var(--text)",
+            }}
+          />
+          <Bar dataKey="value" fill={color} radius={[0, 3, 3, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function CompareCountryColumn({
+  iso,
+  index,
+  detail,
+  isLoading,
+  color,
+  onRemove,
+}: {
+  iso: string;
+  index: number;
+  detail?: CountryDetail;
+  isLoading: boolean;
+  color: string;
+  onRemove: () => void;
+}) {
+  return (
+    <section
+      className="flex h-full min-h-[15rem] w-[min(17.5rem,78vw)] shrink-0 flex-col rounded-xl border border-border bg-muted/40 p-3 md:w-64"
+      style={{ borderTopWidth: 3, borderTopColor: color }}
+    >
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+          País {index + 1}
+        </span>
+        <button
+          type="button"
+          onClick={onRemove}
+          className="rounded px-1.5 py-0.5 text-xs text-muted-foreground hover:bg-link-muted hover:text-foreground"
+          aria-label={`Quitar ${detail?.nameEs ?? iso}`}
+        >
+          ✕
+        </button>
+      </div>
+
+      {isLoading && !detail ? <CountryDetailSkeleton rows={8} /> : null}
+
+      {detail ? (
+        <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
+          <CountryDetailFields detail={detail} compact />
+          <div>
+            <p className="mb-1.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+              Indicadores
+            </p>
+            <CompareCountryChart detail={detail} color={color} />
+          </div>
+        </div>
+      ) : null}
+
+      {!isLoading && !detail ? (
+        <p className="m-0 text-xs text-muted-foreground">
+          No se pudo cargar la información de este país.
+        </p>
+      ) : null}
+    </section>
+  );
 }
 
 export function ComparePanel() {
   const compareMode = useGlobeStore((s) => s.compareMode);
   const compareIso2s = useGlobeStore((s) => s.compareIso2s);
-  const countriesIndex = useGlobeStore((s) => s.countriesIndex);
-  const countryStats = useGlobeStore((s) => s.countryStats);
+  const compareDetails = useGlobeStore((s) => s.compareDetails);
+  const compareLoadingIso2s = useGlobeStore((s) => s.compareLoadingIso2s);
+  const comparePanelMinimized = useGlobeStore((s) => s.comparePanelMinimized);
   const removeCompareCountry = useGlobeStore((s) => s.removeCompareCountry);
   const clearSelection = useGlobeStore((s) => s.clearSelection);
+  const setComparePanelMinimized = useGlobeStore((s) => s.setComparePanelMinimized);
 
   if (!compareMode) return null;
 
+  if (comparePanelMinimized) {
+    return (
+      <button
+        type="button"
+        onClick={() => setComparePanelMinimized(false)}
+        className="pointer-events-auto fixed right-4 bottom-4 z-30 flex items-center gap-2 rounded-xl border border-border bg-elevated/95 px-4 py-2.5 text-sm font-medium text-foreground shadow-[var(--shadow-theme)] backdrop-blur-md transition-colors hover:border-link hover:bg-link-muted hover:text-link md:right-6 md:bottom-6"
+        aria-label="Maximizar panel de comparación"
+      >
+        <Maximize2 className="size-4 shrink-0 text-link" aria-hidden />
+        Comparación ({compareIso2s.length}/{MAX_COMPARE_COUNTRIES})
+      </button>
+    );
+  }
+
   return (
-    <aside className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-border bg-elevated/90 shadow-[var(--shadow-theme)] backdrop-blur-xl md:w-80">
-      <div className="flex items-center justify-between border-b border-border px-5 py-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-link">
+    <aside className="pointer-events-auto fixed inset-x-3 bottom-3 z-30 flex h-[min(62vh,560px)] max-h-[min(65vh,580px)] flex-col overflow-hidden rounded-2xl border border-border bg-elevated/95 shadow-[var(--shadow-theme)] backdrop-blur-xl lg:inset-x-auto lg:right-4 lg:bottom-4 lg:left-[21rem] lg:h-[min(58vh,540px)]">
+      <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border px-4 py-2.5">
+        <h2 className="m-0 text-sm font-semibold uppercase tracking-wider text-link">
           Comparación ({compareIso2s.length}/{MAX_COMPARE_COUNTRIES})
         </h2>
-        {compareIso2s.length > 0 ? (
+        <div className="flex items-center gap-1">
+          {compareIso2s.length > 0 ? (
+            <button
+              type="button"
+              onClick={clearSelection}
+              className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-link-muted hover:text-foreground"
+            >
+              Limpiar
+            </button>
+          ) : null}
           <button
             type="button"
-            onClick={clearSelection}
-            className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-link-muted hover:text-foreground"
+            onClick={() => setComparePanelMinimized(true)}
+            className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-link hover:bg-link-muted hover:text-link"
+            aria-label="Minimizar panel de comparación"
           >
-            Limpiar
+            <Minimize2 className="size-3.5" aria-hidden />
+            Minimizar
           </button>
-        ) : null}
+        </div>
       </div>
 
-      <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden p-3">
         {compareIso2s.length === 0 ? (
           <p className="m-0 text-sm leading-relaxed text-muted-foreground">
             Modo comparación activo. Haz clic en un país del globo o búscalo
             arriba para añadir hasta {MAX_COMPARE_COUNTRIES} países.
           </p>
-        ) : null}
-        {compareIso2s.map((iso, index) => {
-          const meta = countriesIndex.get(iso);
-          const stats = countryStats.get(iso);
-          const color = COMPARE_SLOT_COLORS[index] ?? COMPARE_SLOT_COLORS[0];
+        ) : (
+          <>
+            {compareIso2s.length >= 2 &&
+            compareIso2s.every((iso) => compareDetails.has(iso)) ? (
+              <CompareMetricsTable
+                details={compareDetails}
+                compareIso2s={compareIso2s}
+              />
+            ) : null}
 
-          return (
-            <div
-              key={iso}
-              className="rounded-xl border border-border bg-muted/50 p-3"
-              style={{ borderLeftWidth: 3, borderLeftColor: color }}
-            >
-              <div className="mb-2 flex items-start justify-between gap-2">
-                <div>
-                  <p className="m-0 text-sm font-semibold text-foreground">
-                    {meta?.name ?? iso}
-                  </p>
-                  <p className="m-0 text-xs text-muted-foreground">{iso}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeCompareCountry(iso)}
-                  className="rounded px-1.5 py-0.5 text-xs text-muted-foreground hover:bg-link-muted hover:text-foreground"
-                  aria-label={`Quitar ${meta?.name ?? iso}`}
-                >
-                  ✕
-                </button>
+            <div className="min-h-0 flex-1 overflow-x-auto overflow-y-auto overscroll-contain">
+              <div className="flex h-full min-h-[15rem] min-w-min items-stretch gap-3 pb-1">
+                {compareIso2s.map((iso, index) => (
+                  <CompareCountryColumn
+                    key={iso}
+                    iso={iso}
+                    index={index}
+                    detail={compareDetails.get(iso)}
+                    isLoading={compareLoadingIso2s.includes(iso)}
+                    color={COMPARE_SLOT_COLORS[index] ?? COMPARE_SLOT_COLORS[0]}
+                    onRemove={() => removeCompareCountry(iso)}
+                  />
+                ))}
               </div>
-              {stats ? (
-                <dl className="grid grid-cols-1 gap-1 text-xs">
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-muted-foreground">Población</dt>
-                    <dd className="font-medium text-foreground">
-                      {formatNumber(stats.population)}
-                    </dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-muted-foreground">PIB/cápita</dt>
-                    <dd className="font-medium text-foreground">
-                      ${formatNumber(stats.gdpPerCapita)}
-                    </dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-muted-foreground">Área</dt>
-                    <dd className="font-medium text-foreground">
-                      {formatNumber(stats.area)} km²
-                    </dd>
-                  </div>
-                </dl>
-              ) : (
-                <p className="m-0 text-xs text-muted-foreground">
-                  Sin datos rápidos
-                </p>
-              )}
             </div>
-          );
-        })}
-      </div>
+          </>
+        )}
 
-      <p className="border-t border-border px-5 py-3 text-[11px] leading-snug text-muted-foreground">
-        Haz clic en un país del globo para añadirlo o quitarlo. Con 2–3
-        seleccionados, la vista se centra entre todos.
-      </p>
+        <p className="m-0 shrink-0 border-t border-border pt-2 text-[11px] leading-snug text-muted-foreground">
+          Haz clic en un país del globo para añadirlo o quitarlo. Desliza
+          horizontalmente si no caben las columnas.
+        </p>
+      </div>
     </aside>
   );
 }

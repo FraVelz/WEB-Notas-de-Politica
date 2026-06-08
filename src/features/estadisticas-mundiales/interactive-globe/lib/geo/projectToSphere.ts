@@ -2,29 +2,28 @@ import * as THREE from "three";
 import earcut from "earcut";
 import { GLOBE_RADIUS, COUNTRY_ALTITUDE } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 
-/** Yaw (rad) to face `lng` on the equator toward +Z. */
-export function getHorizontalFocusYaw(lng: number): number {
-  const equatorPoint = latLngToVector3(0, lng, 1).normalize();
-  return -Math.atan2(equatorPoint.x, equatorPoint.z);
+const CAMERA_FACING = new THREE.Vector3(0, 0, 1);
+const focusScratch = new THREE.Vector3();
+
+/** Target orientation so `lat`/`lng` sits centered toward the camera (+Z). */
+export function getFocusQuaternion(lat: number, lng: number): THREE.Quaternion {
+  focusScratch.copy(latLngToVector3(lat, lng, 1)).normalize();
+  return new THREE.Quaternion().setFromUnitVectors(
+    focusScratch,
+    CAMERA_FACING,
+  );
 }
 
-/** Soft X tilt (rad): equator stays the default, latitude nudges the view north/south. */
-export function getSoftFocusTilt(
-  lat: number,
-  factor = 0.4,
-): number {
-  return (lat * Math.PI) / 180 * factor;
+/** Pick the quaternion hemisphere closest to `from` for slerp. */
+export function alignQuaternionShortestPath(
+  from: THREE.Quaternion,
+  to: THREE.Quaternion,
+): THREE.Quaternion {
+  if (from.dot(to) < 0) {
+    return new THREE.Quaternion(-to.x, -to.y, -to.z, -to.w);
+  }
+  return to.clone();
 }
-
-/** Shortest tilt path from `current` to `target` (both radians). */
-export function normalizeTiltTarget(current: number, target: number): number {
-  let next = target;
-  while (next - current > Math.PI) next -= 2 * Math.PI;
-  while (next - current < -Math.PI) next += 2 * Math.PI;
-  return next;
-}
-
-/** Circular mean longitude for multi-country horizontal focus. */
 export function averageLongitude(points: [number, number][]): number {
   if (points.length === 0) return 0;
 
@@ -43,14 +42,6 @@ export function averageLongitude(points: [number, number][]): number {
 export function averageLatitude(points: [number, number][]): number {
   if (points.length === 0) return 0;
   return points.reduce((acc, [lat]) => acc + lat, 0) / points.length;
-}
-
-/** Shortest yaw path from `current` to `target` (both radians). */
-export function normalizeYawTarget(current: number, target: number): number {
-  let next = target;
-  while (next - current > Math.PI) next -= 2 * Math.PI;
-  while (next - current < -Math.PI) next += 2 * Math.PI;
-  return next;
 }
 
 export function latLngToVector3(

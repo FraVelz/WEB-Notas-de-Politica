@@ -4,17 +4,12 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import type { Group } from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import { ROTATION_DURATION } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 import {
-  LAT_TILT_FACTOR,
-  ROTATION_DURATION,
-} from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
-import {
+  alignQuaternionShortestPath,
   averageLatitude,
   averageLongitude,
-  getHorizontalFocusYaw,
-  getSoftFocusTilt,
-  normalizeTiltTarget,
-  normalizeYawTarget,
+  getFocusQuaternion,
 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
 
@@ -33,6 +28,7 @@ export function useGlobeRotation(
     if (!globeRef.current || focusRequest.id === 0) return;
 
     const globe = globeRef.current;
+
     let focusLat = focusRequest.lat;
     let focusLng = focusRequest.lng;
 
@@ -47,13 +43,10 @@ export function useGlobeRotation(
       }
     }
 
-    const targetY = normalizeYawTarget(
-      globe.rotation.y,
-      getHorizontalFocusYaw(focusLng),
-    );
-    const targetX = normalizeTiltTarget(
-      globe.rotation.x,
-      getSoftFocusTilt(focusLat, LAT_TILT_FACTOR),
+    const startQuat = globe.quaternion.clone();
+    const endQuat = alignQuaternionShortestPath(
+      startQuat,
+      getFocusQuaternion(focusLat, focusLng),
     );
 
     controlsRef.current?.reset();
@@ -62,15 +55,16 @@ export function useGlobeRotation(
     tweenRef.current?.kill();
     setIsRotating(true);
 
-    tweenRef.current = gsap.to(globe.rotation, {
-      x: targetX,
-      y: targetY,
-      z: 0,
+    const proxy = { t: 0 };
+    tweenRef.current = gsap.to(proxy, {
+      t: 1,
       duration: ROTATION_DURATION,
       ease: "power2.inOut",
+      onUpdate: () => {
+        globe.quaternion.slerpQuaternions(startQuat, endQuat, proxy.t);
+      },
       onComplete: () => {
-        globe.rotation.set(targetX, targetY, 0);
-        globe.quaternion.setFromEuler(globe.rotation);
+        globe.quaternion.copy(endQuat);
         controlsRef.current?.update();
         setIsRotating(false);
       },

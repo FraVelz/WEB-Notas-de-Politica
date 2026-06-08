@@ -31,6 +31,7 @@ function GlobeContent({
   const setCountriesIndex = useGlobeStore((s) => s.setCountriesIndex);
   const countryDetail = useGlobeStore((s) => s.countryDetail);
   const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
+  const compareMode = useGlobeStore((s) => s.compareMode);
   const showGraticule = useGlobeStore((s) => s.showGraticule);
 
   useGlobeRotation(globeRef, controlsRef);
@@ -64,7 +65,7 @@ function GlobeContent({
       <GlobeGraticule3D visible={showGraticule} />
       <Countries data={geoData} />
       <Atmosphere />
-      {selectedIso2 && countryDetail && (
+      {selectedIso2 && countryDetail && !compareMode && (
         <CapitalMarker
           lat={countryDetail.latlng[0]}
           lng={countryDetail.latlng[1]}
