@@ -1,5 +1,6 @@
 "use client";
 
+import { Compass } from "lucide-react";
 import {
   GLOBE_VIEW_PRESETS,
   type GlobeViewPresetId,
@@ -12,7 +13,7 @@ export function ViewControls() {
   const setShowGraticule = useGlobeStore((s) => s.setShowGraticule);
   const setCompareMode = useGlobeStore((s) => s.setCompareMode);
   const applyViewPreset = useGlobeStore((s) => s.applyViewPreset);
-  const resetHomeView = useGlobeStore((s) => s.resetHomeView);
+  const orientCurrentView = useGlobeStore((s) => s.orientCurrentView);
 
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-border bg-elevated/85 p-4 shadow-[var(--shadow-theme)] backdrop-blur-md">
@@ -22,11 +23,12 @@ export function ViewControls() {
         </p>
         <button
           type="button"
-          onClick={() => resetHomeView()}
-          className="rounded-lg border border-border bg-muted px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:border-link hover:bg-link-muted hover:text-link"
-          title="Restablecer vista hacia Colombia"
+          onClick={() => orientCurrentView()}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-muted px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:border-link hover:bg-link-muted hover:text-link"
+          title="Enderezar la vista actual: norte arriba, sin cambiar la región visible"
         >
-          ↺ Restablecer
+          <Compass className="size-3.5 shrink-0 text-link" aria-hidden />
+          Orientar
         </button>
       </div>
 

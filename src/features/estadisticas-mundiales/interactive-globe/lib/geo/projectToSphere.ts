@@ -3,15 +3,31 @@ import earcut from "earcut";
 import { GLOBE_RADIUS, COUNTRY_ALTITUDE } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 
 const CAMERA_FACING = new THREE.Vector3(0, 0, 1);
+const NORTH_POLE = new THREE.Vector3(0, 1, 0);
 const focusScratch = new THREE.Vector3();
+const northScratch = new THREE.Vector3();
+const alignScratch = new THREE.Quaternion();
+const rollScratch = new THREE.Quaternion();
 
-/** Target orientation so `lat`/`lng` sits centered toward the camera (+Z). */
+export const GLOBE_EULER_ORDER: THREE.EulerOrder = "YXZ";
+
+/** Shortest signed delta from `current` to `target` (radians). */
+export function shortestAngularDelta(current: number, target: number): number {
+  return Math.atan2(Math.sin(target - current), Math.cos(target - current));
+}
+
+/**
+ * Target orientation: country centered toward the camera (+Z) with north pointing up (+Y).
+ */
 export function getFocusQuaternion(lat: number, lng: number): THREE.Quaternion {
   focusScratch.copy(latLngToVector3(lat, lng, 1)).normalize();
-  return new THREE.Quaternion().setFromUnitVectors(
-    focusScratch,
-    CAMERA_FACING,
-  );
+  alignScratch.setFromUnitVectors(focusScratch, CAMERA_FACING);
+
+  northScratch.copy(NORTH_POLE).applyQuaternion(alignScratch);
+  const roll = Math.atan2(northScratch.x, northScratch.y);
+  rollScratch.setFromAxisAngle(CAMERA_FACING, roll);
+
+  return rollScratch.multiply(alignScratch);
 }
 
 /** Pick the quaternion hemisphere closest to `from` for slerp. */
@@ -57,6 +73,33 @@ export function latLngToVector3(
     radius * Math.cos(phi),
     radius * Math.sin(phi) * Math.sin(theta),
   );
+}
+
+const viewCenterScratch = new THREE.Vector3();
+const viewCenterInverse = new THREE.Quaternion();
+
+/** Inverse of `latLngToVector3` on a unit direction. */
+export function vector3ToLatLng(vector: THREE.Vector3): [number, number] {
+  const unit = vector.clone().normalize();
+  const lat = 90 - (Math.acos(THREE.MathUtils.clamp(unit.y, -1, 1)) * 180) / Math.PI;
+  const sinPhi = Math.sin((90 - lat) * (Math.PI / 180));
+  let lng = 0;
+  if (sinPhi > 1e-6) {
+    const theta = Math.atan2(unit.z, -unit.x);
+    lng = (theta * 180) / Math.PI - 180;
+  }
+  return [lat, lng];
+}
+
+/** Lat/lng currently at the center of the view (camera + globe orientation). */
+export function getViewCenterLatLng(
+  globeQuaternion: THREE.Quaternion,
+  cameraPosition: THREE.Vector3,
+): [number, number] {
+  viewCenterScratch.copy(cameraPosition).normalize();
+  viewCenterInverse.copy(globeQuaternion).invert();
+  viewCenterScratch.applyQuaternion(viewCenterInverse);
+  return vector3ToLatLng(viewCenterScratch);
 }
 
 export function ringToFlatCoords(ring: number[][]): number[] {

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import type { CountryDetail } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
-import { formatCountryNumber } from "@/features/estadisticas-mundiales/interactive-globe/lib/formatCountryNumber";
+import { formatCountryNumber, formatCountryListSummary } from "@/features/estadisticas-mundiales/interactive-globe/lib/formatCountryNumber";
 
 function Row({
   label,
@@ -22,7 +22,9 @@ function Row({
       }
     >
       <dt className="shrink-0 text-muted-foreground">{label}</dt>
-      <dd className="text-right font-medium text-foreground">{value}</dd>
+      <dd className="max-w-[58%] text-right font-medium leading-snug text-foreground">
+        {value}
+      </dd>
     </div>
   );
 }
@@ -30,11 +32,17 @@ function Row({
 export function CountryDetailFields({
   detail,
   compact = false,
+  summarizeLists = false,
 }: {
   detail: CountryDetail;
   compact?: boolean;
+  summarizeLists?: boolean;
 }) {
   const textClass = compact ? "text-xs" : "text-sm";
+  const listValue = (items: string[]) => {
+    if (items.length === 0) return "—";
+    return summarizeLists ? formatCountryListSummary(items) : items.join(", ");
+  };
 
   return (
     <div className={compact ? "space-y-3" : "space-y-5"}>
@@ -100,27 +108,27 @@ export function CountryDetailFields({
         <Row
           compact={compact}
           label="Idiomas"
-          value={detail.languages.join(", ") || "—"}
+          value={listValue(detail.languages)}
         />
         <Row
           compact={compact}
           label="Monedas"
-          value={detail.currencies.join(", ") || "—"}
+          value={listValue(detail.currencies)}
         />
         <Row
           compact={compact}
           label="Continente"
-          value={detail.continents.join(", ") || "—"}
+          value={listValue(detail.continents)}
         />
         <Row
           compact={compact}
           label="Zonas horarias"
-          value={detail.timezones.join(", ") || "—"}
+          value={listValue(detail.timezones)}
         />
         <Row
           compact={compact}
           label="Fronteras"
-          value={detail.borders.join(", ") || "—"}
+          value={listValue(detail.borders)}
         />
       </dl>
     </div>

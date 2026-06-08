@@ -20,6 +20,7 @@ export type GlobeFocusRequest = {
   lat: number;
   lng: number;
   resetZoom?: boolean;
+  mode?: "focus" | "orient";
 };
 
 interface GlobeState {
@@ -65,6 +66,7 @@ interface GlobeState {
   setShowGraticule: (show: boolean) => void;
   setCompassHeading: (heading: number) => void;
   applyViewPreset: (presetId: GlobeViewPresetId) => void;
+  orientCurrentView: () => void;
   resetHomeView: () => void;
   clearSelection: () => void;
 }
@@ -78,6 +80,11 @@ function pushFocus(
 ): GlobeFocusRequest {
   focusSeq += 1;
   return { id: focusSeq, lat, lng, resetZoom: opts?.resetZoom };
+}
+
+function pushOrientFocus(): GlobeFocusRequest {
+  focusSeq += 1;
+  return { id: focusSeq, lat: 0, lng: 0, mode: "orient" };
 }
 
 function focusFromCompare(
@@ -324,6 +331,10 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
 
   resetHomeView: () => {
     get().applyViewPreset("home");
+  },
+
+  orientCurrentView: () => {
+    set({ focusRequest: pushOrientFocus() });
   },
 
   clearSelection: () => {

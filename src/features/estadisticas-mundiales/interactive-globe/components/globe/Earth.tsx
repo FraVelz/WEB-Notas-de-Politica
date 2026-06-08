@@ -24,10 +24,10 @@ export function Earth() {
   return (
     <mesh ref={meshRef}>
       <sphereGeometry args={[GLOBE_RADIUS, 64, 64]} />
-      <meshStandardMaterial
+      <meshPhongMaterial
         map={earthMap}
-        roughness={theme.earthRoughness}
-        metalness={theme.earthMetalness}
+        specular={theme.earthSpecular}
+        shininess={theme.earthShininess}
         emissive={theme.earthEmissive}
         emissiveIntensity={theme.earthEmissiveIntensity}
       />

@@ -19,20 +19,20 @@ export type GlobeSceneTheme = {
   countrySelected: string;
   earthEmissive: string;
   earthEmissiveIntensity: number;
-  earthRoughness: number;
-  earthMetalness: number;
+  earthSpecular: string;
+  earthShininess: number;
 };
 
 const PALETTES: Record<'light' | 'dark', GlobeSceneTheme> = {
   light: {
-    ambient: 0.42,
-    directional: 1.05,
-    hemisphereIntensity: 0.34,
-    hemisphereSky: '#7eb8da',
-    hemisphereGround: '#3d5a40',
-    fillIntensity: 0.18,
-    pointLight: '#ffd8a8',
-    pointIntensity: 0.08,
+    ambient: 0.72,
+    directional: 1.5,
+    hemisphereIntensity: 0.16,
+    hemisphereSky: '#c8e4f5',
+    hemisphereGround: '#64748b',
+    fillIntensity: 0.08,
+    pointLight: '#d4d4d4',
+    pointIntensity: 0.12,
     starsCount: 800,
     starsFactor: 1.2,
     atmosphereColor: '#0070f3',
@@ -41,8 +41,8 @@ const PALETTES: Record<'light' | 'dark', GlobeSceneTheme> = {
     countrySelected: '#0059c9',
     earthEmissive: '#000000',
     earthEmissiveIntensity: 0,
-    earthRoughness: 0.88,
-    earthMetalness: 0.02,
+    earthSpecular: '#2a2a2a',
+    earthShininess: 16,
   },
   dark: {
     ambient: 0.9,
@@ -61,8 +61,8 @@ const PALETTES: Record<'light' | 'dark', GlobeSceneTheme> = {
     countrySelected: '#0070f3',
     earthEmissive: '#1e293b',
     earthEmissiveIntensity: 0.12,
-    earthRoughness: 0.85,
-    earthMetalness: 0.05,
+    earthSpecular: '#111111',
+    earthShininess: 10,
   },
 };
 

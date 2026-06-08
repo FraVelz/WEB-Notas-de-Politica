@@ -155,7 +155,7 @@ function CompareCountryColumn({
 }) {
   return (
     <section
-      className="flex h-full min-h-[15rem] w-[min(17.5rem,78vw)] shrink-0 flex-col rounded-xl border border-border bg-muted/40 p-3 md:w-64"
+      className="flex w-[min(18rem,82vw)] shrink-0 flex-col rounded-xl border border-border bg-muted/40 p-4 md:w-72"
       style={{ borderTopWidth: 3, borderTopColor: color }}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
@@ -175,8 +175,8 @@ function CompareCountryColumn({
       {isLoading && !detail ? <CountryDetailSkeleton rows={8} /> : null}
 
       {detail ? (
-        <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
-          <CountryDetailFields detail={detail} compact />
+        <div className="space-y-4">
+          <CountryDetailFields detail={detail} compact summarizeLists />
           <div>
             <p className="mb-1.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
               Indicadores
@@ -222,7 +222,7 @@ export function ComparePanel() {
   }
 
   return (
-    <aside className="pointer-events-auto fixed inset-x-3 bottom-3 z-30 flex h-[min(62vh,560px)] max-h-[min(65vh,580px)] flex-col overflow-hidden rounded-2xl border border-border bg-elevated/95 shadow-[var(--shadow-theme)] backdrop-blur-xl lg:inset-x-auto lg:right-4 lg:bottom-4 lg:left-[21rem] lg:h-[min(58vh,540px)]">
+    <aside className="pointer-events-auto fixed inset-x-3 bottom-3 z-30 flex max-h-[min(92vh,920px)] w-auto flex-col overflow-y-auto overscroll-contain rounded-2xl border border-border bg-elevated/95 shadow-[var(--shadow-theme)] backdrop-blur-xl lg:inset-x-auto lg:right-4 lg:bottom-4 lg:left-[21rem] lg:max-h-[min(90vh,880px)]">
       <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border px-4 py-2.5">
         <h2 className="m-0 text-sm font-semibold uppercase tracking-wider text-link">
           Comparación ({compareIso2s.length}/{MAX_COMPARE_COUNTRIES})
@@ -249,7 +249,7 @@ export function ComparePanel() {
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden p-3">
+      <div className="flex flex-col gap-3 p-3">
         {compareIso2s.length === 0 ? (
           <p className="m-0 text-sm leading-relaxed text-muted-foreground">
             Modo comparación activo. Haz clic en un país del globo o búscalo
@@ -265,8 +265,8 @@ export function ComparePanel() {
               />
             ) : null}
 
-            <div className="min-h-0 flex-1 overflow-x-auto overflow-y-auto overscroll-contain">
-              <div className="flex h-full min-h-[15rem] min-w-min items-stretch gap-3 pb-1">
+            <div className="overflow-x-auto overscroll-contain">
+              <div className="flex min-w-min items-start gap-3 pb-1">
                 {compareIso2s.map((iso, index) => (
                   <CompareCountryColumn
                     key={iso}
