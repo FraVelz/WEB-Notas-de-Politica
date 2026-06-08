@@ -6,7 +6,7 @@ import './globals.css';
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   process.env.SITE_URL ||
-  'https://notas-de-politica.vercel.app';
+  'https://web-prosperity.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

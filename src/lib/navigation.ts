@@ -5,11 +5,11 @@ export type NavItem =
 export { globalNavigation as navigation } from '@/lib/temas/navigation';
 
 export const siteConfig = {
-  title: 'Notas de Política',
+  title: 'Web Prosperity · Prosperidad',
   version: '0.0.2',
   description:
-    'Notas personales sobre política, filosofía e ideas para comprender el mundo — estudios comparativos, análisis y reflexión',
+    'Web Prosperity: espacio para explorar prosperidad en sentido amplio — política, filosofía, economía y datos para comprender el mundo',
   author: 'Fravelz',
   keywords:
-    'política, filosofía, pensamiento político, ética, ideologías, notas personales, análisis, Colombia, Latinoamérica, estudios comparativos, gobernanza, historia, estadísticas',
+    'prosperidad, política, filosofía, pensamiento político, ética, ideologías, análisis, Colombia, Latinoamérica, estudios comparativos, gobernanza, historia, estadísticas',
 };

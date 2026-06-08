@@ -1,4 +1,4 @@
-# Autocommit (Conventional Commits — Notas de Política)
+# Autocommit (Conventional Commits — Web Prosperity)
 
 Usar cuando el usuario pida **hacer commit** del trabajo actual y quiera mensajes **coherentes con el historial del proyecto**, priorizando **Conventional Commits** y evitando el estilo antiguo de varios prefijos encadenados en una sola línea (`feat: ... feat: ...`).
 

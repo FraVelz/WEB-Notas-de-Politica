@@ -1,8 +1,8 @@
-# Political Notes
+# Web Prosperity
 
 [Spanish version](./README.md)
 
-Personal notes on **politics, philosophy**, and related topics, built with [Next.js](https://nextjs.org).
+**Web Prosperity** explores **prosperity** in a broad sense — **politics, philosophy**, and related topics — built with [Next.js](https://nextjs.org).
 
 ![Screenshot](./src/app/opengraph-image.png)
 

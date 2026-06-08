@@ -1,8 +1,8 @@
-# Notas de Política
+# Web Prosperity · Prosperidad
 
 [English Version](./README.EN.md)
 
-Repositorio de notas personales sobre **política, filosofía** y temas afines, construido con [Next.js](https://nextjs.org).
+Sitio **Web Prosperity** sobre **prosperidad** en sentido amplio: **política, filosofía** y temas afines, construido con [Next.js](https://nextjs.org).
 
 ![Captura de pantalla](./src/app/opengraph-image.png)
 

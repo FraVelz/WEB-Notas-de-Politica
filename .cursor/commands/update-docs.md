@@ -1,4 +1,4 @@
-# Actualizar un archivo `.md` (Notas de Política)
+# Actualizar un archivo `.md` (Web Prosperity)
 
 Usar cuando el usuario pida **actualizar un documento**, **revisar un `.md`**, **sincronizar el par en otro idioma** o invoque este comando **con la ruta de un archivo**.
 

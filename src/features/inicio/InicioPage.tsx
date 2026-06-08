@@ -17,13 +17,13 @@ export function InicioPage() {
     <>
       <section className="border-b border-border py-10 pb-8">
         <p className="m-0 mb-2 text-sm font-semibold tracking-widest text-link uppercase">
-          Notas personales · política y más
+          Web Prosperity
         </p>
         <h1 className="m-0 text-4xl leading-tight font-semibold tracking-tight text-foreground sm:text-5xl">
-          Política y más allá
+          Prosperidad
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Un espacio para ordenar ideas sobre cómo se organiza el poder: desde la
+          Un espacio para explorar prosperidad en sentido amplio: desde la
           filosofía y el Estado hasta economía, geopolítica, datos y debates
           actuales. Elige un apartado para entrar.
         </p>

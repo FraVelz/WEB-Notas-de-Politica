@@ -1,9 +1,9 @@
 ---
-title: Política y más allá
-description: Notas personales sobre política, filosofía e ideas para comprender el mundo
+title: Prosperidad
+description: Web Prosperity — política, filosofía e ideas para comprender el mundo
 ---
 
-# Política y más allá
+# Prosperidad
 
 ## Objetivos
 

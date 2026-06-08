@@ -1,4 +1,4 @@
-# Actualizar toda la documentación IA (Notas de Política)
+# Actualizar toda la documentación IA (Web Prosperity)
 
 Usar cuando el usuario pida **actualizar toda la documentación IA**, **revisar todos los generados con IA**, **refrescar en bloque** la documentación del proyecto o invoque este comando.
 
