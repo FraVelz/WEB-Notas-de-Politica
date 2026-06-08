@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 import { Providers } from '@/components/Providers';
 import { siteConfig } from '@/lib/navigation';
+import { getSiteUrl } from '@/lib/site-url';
 import './globals.css';
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  process.env.SITE_URL ||
-  'https://web-prosperity.vercel.app';
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -25,19 +23,11 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     url: siteUrl,
-    images: [
-      {
-        url: '/opengraph-image.png',
-        width: 1200,
-        height: 630,
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description,
-    images: ['/opengraph-image.png'],
   },
 };
 
