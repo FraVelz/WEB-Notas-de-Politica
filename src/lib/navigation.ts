@@ -9,7 +9,8 @@ export const siteConfig = {
   version: '0.0.2',
   description:
     'Web Prosperity: espacio para explorar prosperidad en sentido amplio — política, filosofía, economía y datos para comprender el mundo',
-  author: 'Fravelz',
+  author: 'fravelz',
+  license: 'Apache v2',
   keywords:
     'prosperidad, política, filosofía, pensamiento político, ética, ideologías, análisis, Colombia, Latinoamérica, estudios comparativos, gobernanza, historia, estadísticas',
 };

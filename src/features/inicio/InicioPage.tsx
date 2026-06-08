@@ -180,7 +180,7 @@ export function InicioPage() {
             {' · '}
             notas personales en construcción
           </p>
-          <p className="m-0 tabular-nums">v{siteConfig.version}</p>
+          <p className="m-0">{siteConfig.license}</p>
         </div>
       </footer>
     </>
