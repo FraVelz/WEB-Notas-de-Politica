@@ -9,7 +9,7 @@ import {
   useState,
   type KeyboardEvent,
 } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Menu } from 'lucide-react';
 import { getNavCategoriesGrouped } from '@/lib/temas/registry';
 import { cn } from '@/lib/utils';
 
@@ -24,14 +24,70 @@ function getFocusables(container: HTMLElement | null): HTMLElement[] {
   );
 }
 
+function NavSectionsList({
+  sections,
+  onNavigate,
+  compact,
+}: {
+  sections: (typeof navCategories)[number]['sections'];
+  onNavigate: () => void;
+  compact?: boolean;
+}) {
+  return (
+    <ul
+      className={cn(
+        'm-0 list-none',
+        compact ? 'px-1' : 'max-h-[min(18rem,55vh)] overflow-y-auto px-1',
+      )}
+      role="none"
+    >
+      {sections.map(({ group, temas }) => (
+        <li
+          key={group.id}
+          role="none"
+          className="not-first:mt-2 not-first:border-t not-first:border-border not-first:pt-2"
+        >
+          <a
+            href={`/#${group.id}`}
+            role="menuitem"
+            className="block rounded-sm px-2 py-1 text-sm font-semibold text-foreground no-underline outline-none hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+            onClick={onNavigate}
+          >
+            {group.label}
+          </a>
+          {temas.length > 0 && (
+            <ul className="m-0 mt-0.5 list-none" role="none">
+              {temas.map((tema) => (
+                <li key={tema.id} role="none">
+                  <Link
+                    href={`/${tema.id}`}
+                    role="menuitem"
+                    className="block rounded-sm px-2 py-1 text-sm leading-snug text-muted-foreground no-underline outline-none hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+                    onClick={onNavigate}
+                  >
+                    {tema.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function SiteSectionsNav() {
   const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const mobileTriggerRef = useRef<HTMLButtonElement>(null);
   const triggerRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const panelRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const listId = useId();
+  const mobilePanelId = `${listId}-mobile-panel`;
 
-  const close = useCallback((returnFocusTo?: string) => {
+  const closeDesktop = useCallback((returnFocusTo?: string) => {
     setOpenCategoryId(null);
     if (returnFocusTo) {
       requestAnimationFrame(() => {
@@ -39,6 +95,20 @@ export function SiteSectionsNav() {
       });
     }
   }, []);
+
+  const closeMobile = useCallback((returnFocus = false) => {
+    setMobileMenuOpen(false);
+    if (returnFocus) {
+      requestAnimationFrame(() => {
+        mobileTriggerRef.current?.focus();
+      });
+    }
+  }, []);
+
+  const closeAll = useCallback(() => {
+    closeDesktop();
+    closeMobile();
+  }, [closeDesktop, closeMobile]);
 
   const open = useCallback((categoryId: string, focusFirst = false) => {
     setOpenCategoryId(categoryId);
@@ -72,7 +142,7 @@ export function SiteSectionsNav() {
       switch (event.key) {
         case 'Escape':
           event.preventDefault();
-          close(categoryId);
+          closeDesktop(categoryId);
           break;
         case 'ArrowDown': {
           event.preventDefault();
@@ -88,16 +158,16 @@ export function SiteSectionsNav() {
         }
         case 'Tab':
           if (event.shiftKey && index <= 0) {
-            close();
+            closeDesktop();
           } else if (!event.shiftKey && index === items.length - 1) {
-            close();
+            closeDesktop();
           }
           break;
         default:
           break;
       }
     },
-    [close],
+    [closeDesktop],
   );
 
   const handleTriggerKeyDown = useCallback(
@@ -110,7 +180,7 @@ export function SiteSectionsNav() {
         case 'ArrowUp':
           event.preventDefault();
           if (openCategoryId === categoryId) {
-            close(categoryId);
+            closeDesktop(categoryId);
           }
           break;
         case 'ArrowLeft':
@@ -123,24 +193,27 @@ export function SiteSectionsNav() {
           break;
         case 'Escape':
           event.preventDefault();
-          close(categoryId);
+          closeDesktop(categoryId);
           break;
         default:
           break;
       }
     },
-    [close, moveBetweenTriggers, open, openCategoryId],
+    [closeDesktop, moveBetweenTriggers, open, openCategoryId],
   );
 
   useEffect(() => {
-    if (!openCategoryId) return;
+    if (!openCategoryId && !mobileMenuOpen) return;
 
     const onPointerDown = (event: MouseEvent) => {
-      if (!navRef.current?.contains(event.target as Node)) close();
+      if (!navRef.current?.contains(event.target as Node)) closeAll();
     };
 
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (event.key === 'Escape') close(openCategoryId);
+      if (event.key === 'Escape') {
+        if (mobileMenuOpen) closeMobile(true);
+        else if (openCategoryId) closeDesktop(openCategoryId);
+      }
     };
 
     document.addEventListener('mousedown', onPointerDown);
@@ -149,19 +222,93 @@ export function SiteSectionsNav() {
       document.removeEventListener('mousedown', onPointerDown);
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [openCategoryId, close]);
+  }, [openCategoryId, mobileMenuOpen, closeAll, closeDesktop, closeMobile]);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const onChange = () => {
+      if (mq.matches) closeMobile();
+    };
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, [closeMobile]);
 
   return (
     <nav
       ref={navRef}
-      className="w-full min-w-0"
+      className="relative w-full min-w-0"
       aria-label="Apartados del sitio"
     >
+      <div className="md:hidden">
+        <button
+          ref={mobileTriggerRef}
+          type="button"
+          id={`${listId}-mobile-trigger`}
+          aria-expanded={mobileMenuOpen}
+          aria-controls={mobilePanelId}
+          aria-haspopup="menu"
+          className={cn(
+            'inline-flex h-10 w-full items-center justify-between gap-2 rounded-lg border border-border bg-muted/50 px-3',
+            'text-sm font-medium text-foreground',
+            'outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]',
+            mobileMenuOpen && 'border-link bg-link-muted/40',
+          )}
+          onClick={() => {
+            setMobileMenuOpen((open) => !open);
+            setOpenCategoryId(null);
+          }}
+        >
+          <span className="inline-flex items-center gap-2">
+            <Menu className="size-4 shrink-0 text-link" aria-hidden />
+            Explorar secciones
+          </span>
+          <ChevronDown
+            className={cn(
+              'size-4 shrink-0 opacity-60 transition-transform',
+              mobileMenuOpen && 'rotate-180',
+            )}
+            aria-hidden
+          />
+        </button>
+
+        <div
+          id={mobilePanelId}
+          role="menu"
+          aria-labelledby={`${listId}-mobile-trigger`}
+          hidden={!mobileMenuOpen}
+          className={cn(
+            'absolute top-[calc(100%+0.375rem)] right-0 left-0 z-40 max-h-[min(70vh,28rem)] overflow-y-auto overscroll-contain',
+            'rounded-lg border border-border bg-elevated py-2 shadow-[var(--shadow-theme)]',
+          )}
+        >
+          {navCategories.map(({ category, sections }) => (
+            <section
+              key={category.id}
+              className="not-first:mt-2 not-first:border-t not-first:border-border not-first:pt-2"
+            >
+              <a
+                href={`/#${category.id}`}
+                role="menuitem"
+                className="mx-2 mb-1 block rounded-sm px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-link no-underline outline-none hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+                onClick={() => closeMobile()}
+              >
+                {category.label}
+              </a>
+              <NavSectionsList
+                sections={sections}
+                onNavigate={() => closeMobile()}
+                compact
+              />
+            </section>
+          ))}
+        </div>
+      </div>
+
       <ul
         id={listId}
         role="menubar"
         aria-orientation="horizontal"
-        className="m-0 flex w-full list-none items-center justify-start gap-4 overflow-x-auto sm:justify-center sm:gap-5 md:gap-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="m-0 hidden w-full list-none items-center justify-center gap-6 md:flex"
       >
         {navCategories.map(({ category, sections }) => {
           const isOpen = openCategoryId === category.id;
@@ -194,7 +341,7 @@ export function SiteSectionsNav() {
                   'outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]',
                   isOpen && 'text-foreground',
                 )}
-                onClick={() => close()}
+                onClick={() => closeDesktop()}
                 onKeyDown={(event) =>
                   handleTriggerKeyDown(event, category.id)
                 }
@@ -221,54 +368,23 @@ export function SiteSectionsNav() {
                   handlePanelKeyDown(event, category.id)
                 }
                 className={cn(
-                  'absolute top-[calc(100%+0.25rem)] right-0 z-30 w-[min(20rem,calc(100vw-2rem))]',
+                  'absolute top-[calc(100%+0.25rem)] left-1/2 z-30 w-[min(20rem,calc(100vw-2rem))] -translate-x-1/2',
                   'rounded-md border border-border bg-elevated py-2 shadow-[var(--shadow-theme)]',
-                  'sm:left-1/2 sm:right-auto sm:-translate-x-1/2',
                 )}
               >
                 <a
                   href={`/#${category.id}`}
                   role="menuitem"
                   className="mx-2 mb-1 block rounded-sm px-2 py-1.5 text-xs font-medium text-link no-underline outline-none hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
-                  onClick={() => close()}
+                  onClick={() => closeDesktop()}
                 >
                   Ver {category.label.toLowerCase()}
                 </a>
 
-                <ul className="m-0 max-h-[min(18rem,55vh)] list-none overflow-y-auto px-1" role="none">
-                  {sections.map(({ group, temas }) => (
-                    <li
-                      key={group.id}
-                      role="none"
-                      className="not-first:mt-2 not-first:border-t not-first:border-border not-first:pt-2"
-                    >
-                      <a
-                        href={`/#${group.id}`}
-                        role="menuitem"
-                        className="block rounded-sm px-2 py-1 text-sm font-semibold text-foreground no-underline outline-none hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
-                        onClick={() => close()}
-                      >
-                        {group.label}
-                      </a>
-                      {temas.length > 0 && (
-                        <ul className="m-0 mt-0.5 list-none" role="none">
-                          {temas.map((tema) => (
-                            <li key={tema.id} role="none">
-                              <Link
-                                href={`/${tema.id}`}
-                                role="menuitem"
-                                className="block rounded-sm px-2 py-1 text-sm leading-snug text-muted-foreground no-underline outline-none hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
-                                onClick={() => close()}
-                              >
-                                {tema.title}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                <NavSectionsList
+                  sections={sections}
+                  onNavigate={() => closeDesktop()}
+                />
               </div>
             </li>
           );
