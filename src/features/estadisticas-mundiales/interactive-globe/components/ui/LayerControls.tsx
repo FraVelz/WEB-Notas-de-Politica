@@ -11,8 +11,8 @@ export function LayerControls() {
   const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-white/10 bg-black/40 p-4 backdrop-blur-md">
-      <p className="text-xs font-semibold uppercase tracking-wider text-white/40">
+    <div className="flex flex-col gap-3 rounded-xl border border-border bg-elevated/85 p-4 shadow-[var(--shadow-theme)] backdrop-blur-md">
+      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         Capas de datos
       </p>
       <div className="flex flex-wrap gap-2">
@@ -23,8 +23,8 @@ export function LayerControls() {
             onClick={() => setActiveLayer(layer.id)}
             className={`rounded-lg px-3 py-1.5 text-xs transition-colors ${
               activeLayer === layer.id
-                ? "bg-cyan-500/30 text-cyan-300"
-                : "bg-white/5 text-white/60 hover:bg-white/10"
+                ? "bg-link-muted text-link"
+                : "bg-muted text-muted-foreground hover:bg-link-muted hover:text-foreground"
             }`}
           >
             {layer.label}
@@ -32,13 +32,13 @@ export function LayerControls() {
         ))}
       </div>
 
-      <label className="flex cursor-pointer items-center gap-2 text-xs text-white/60">
+      <label className="flex cursor-pointer items-center gap-2 text-xs text-muted-foreground">
         <input
           type="checkbox"
           checked={showTradeArcs}
           onChange={(e) => setShowTradeArcs(e.target.checked)}
           disabled={!selectedIso2}
-          className="accent-cyan-400"
+          className="accent-link"
         />
         Conexiones comerciales
       </label>

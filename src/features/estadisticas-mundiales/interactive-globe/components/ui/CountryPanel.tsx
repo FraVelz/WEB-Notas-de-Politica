@@ -22,7 +22,7 @@ function Skeleton() {
   return (
     <div className="animate-pulse space-y-4">
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="h-4 rounded bg-white/10" />
+        <div key={i} className="h-4 rounded bg-muted" />
       ))}
     </div>
   );
@@ -49,15 +49,15 @@ export function CountryPanel() {
     : [];
 
   return (
-    <aside className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl md:w-80">
-      <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-cyan-400">
+    <aside className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-border bg-elevated/90 shadow-[var(--shadow-theme)] backdrop-blur-xl md:w-80">
+      <div className="flex items-center justify-between border-b border-border px-5 py-4">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-link">
           Información
         </h2>
         <button
           type="button"
           onClick={clearSelection}
-          className="rounded-lg px-2 py-1 text-xs text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+          className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-link-muted hover:text-foreground"
         >
           Esc
         </button>
@@ -71,7 +71,7 @@ export function CountryPanel() {
         {countryDetail && !isLoadingDetail && (
           <div className="space-y-5">
             {countryDetail.flagSvg && (
-              <div className="relative h-16 w-24 overflow-hidden rounded-lg border border-white/10">
+              <div className="relative h-16 w-24 overflow-hidden rounded-lg border border-border">
                 <Image
                   src={countryDetail.flagSvg}
                   alt={`Bandera de ${countryDetail.nameEs}`}
@@ -83,8 +83,8 @@ export function CountryPanel() {
             )}
 
             <div>
-              <h3 className="text-2xl font-bold text-white">{countryDetail.nameEs}</h3>
-              <p className="text-sm text-white/40">{countryDetail.name}</p>
+              <h3 className="text-2xl font-bold text-foreground">{countryDetail.nameEs}</h3>
+              <p className="text-sm text-muted-foreground">{countryDetail.name}</p>
             </div>
 
             <dl className="space-y-3 text-sm">
@@ -114,7 +114,7 @@ export function CountryPanel() {
             </dl>
 
             <div className="h-40">
-              <p className="mb-2 text-xs font-medium uppercase tracking-wider text-white/40">
+              <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Indicadores
               </p>
               <ResponsiveContainer width="100%" height="100%">
@@ -124,17 +124,18 @@ export function CountryPanel() {
                     type="category"
                     dataKey="name"
                     width={100}
-                    tick={{ fill: "#94a3b8", fontSize: 10 }}
+                    tick={{ fill: 'var(--text-muted)', fontSize: 10 }}
                   />
                   <Tooltip
                     contentStyle={{
-                      background: "#0f172a",
-                      border: "1px solid rgba(255,255,255,0.1)",
+                      background: 'var(--bg-elevated)',
+                      border: '1px solid var(--border)',
                       borderRadius: 8,
                       fontSize: 12,
+                      color: 'var(--text)',
                     }}
                   />
-                  <Bar dataKey="value" fill="#22d3ee" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="value" fill="var(--link)" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -143,8 +144,8 @@ export function CountryPanel() {
       </div>
 
       {history.length > 1 && (
-        <div className="border-t border-white/10 px-5 py-3">
-          <p className="mb-2 text-xs text-white/40">Recientes</p>
+        <div className="border-t border-border px-5 py-3">
+          <p className="mb-2 text-xs text-muted-foreground">Recientes</p>
           <div className="flex flex-wrap gap-1.5">
             {history.slice(1, 6).map((iso) => {
               const meta = countriesIndex.get(iso);
@@ -153,7 +154,7 @@ export function CountryPanel() {
                   key={iso}
                   type="button"
                   onClick={() => selectCountry(iso, meta ?? undefined)}
-                  className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/60 transition-colors hover:border-cyan-500/50 hover:text-cyan-300"
+                  className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-link hover:bg-link-muted hover:text-link"
                 >
                   {meta?.name ?? iso}
                 </button>
@@ -169,8 +170,8 @@ export function CountryPanel() {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between gap-4">
-      <dt className="text-white/40">{label}</dt>
-      <dd className="text-right font-medium text-white">{value}</dd>
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className="text-right font-medium text-foreground">{value}</dd>
     </div>
   );
 }

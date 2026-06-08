@@ -7,7 +7,7 @@ import gsap from "gsap";
 import type { CountryFeature } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
 import { createCountryGeometry } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
 import { getFeatureIso2 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/getCountryCentroid";
-import { LAYER_COLORS } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
+import { useGlobeSceneTheme } from "@/features/estadisticas-mundiales/interactive-globe/hooks/useGlobeSceneTheme";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
 
 interface CountryMeshProps {
@@ -24,6 +24,7 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
   const selectCountry = useGlobeStore((s) => s.selectCountry);
   const setHoveredCountry = useGlobeStore((s) => s.setHoveredCountry);
   const countriesIndex = useGlobeStore((s) => s.countriesIndex);
+  const sceneTheme = useGlobeSceneTheme();
 
   const geometry = useMemo(() => {
     if (feature.geometry.type === "Polygon") {
@@ -41,12 +42,17 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
   useEffect(() => {
     if (!meshRef.current) return;
     const material = meshRef.current.material as THREE.MeshStandardMaterial;
+    const hasChoropleth = activeLayer !== "none" && !!choroplethColor;
 
-    let targetColor: THREE.ColorRepresentation = LAYER_COLORS.default;
-    if (isSelected) targetColor = LAYER_COLORS.selected;
-    else if (isHovered) targetColor = LAYER_COLORS.hover;
-    else if (activeLayer !== "none" && choroplethColor)
-      targetColor = choroplethColor;
+    let targetColor: THREE.ColorRepresentation = sceneTheme.countryHover;
+    if (isSelected) targetColor = sceneTheme.countrySelected;
+    else if (isHovered) targetColor = sceneTheme.countryHover;
+    else if (hasChoropleth) targetColor = choroplethColor;
+
+    let targetOpacity = 0;
+    if (isSelected) targetOpacity = 0.92;
+    else if (isHovered) targetOpacity = 0.78;
+    else if (hasChoropleth) targetOpacity = 0.72;
 
     gsap.to(material.color, {
       r: new THREE.Color(targetColor).r,
@@ -56,10 +62,17 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
     });
 
     gsap.to(material, {
-      opacity: isSelected ? 0.95 : isHovered ? 0.85 : 0.65,
+      opacity: targetOpacity,
       duration: 0.3,
     });
-  }, [isSelected, isHovered, activeLayer, choroplethColor]);
+  }, [
+    isSelected,
+    isHovered,
+    activeLayer,
+    choroplethColor,
+    sceneTheme.countryHover,
+    sceneTheme.countrySelected,
+  ]);
 
   useFrame(() => {
     if (meshRef.current && isSelected) {
@@ -99,9 +112,9 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
       }}
     >
       <meshStandardMaterial
-        color={LAYER_COLORS.default}
+        color={sceneTheme.countryHover}
         transparent
-        opacity={0.65}
+        opacity={0}
         side={THREE.FrontSide}
         depthWrite={false}
       />

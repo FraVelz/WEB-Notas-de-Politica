@@ -2,7 +2,7 @@
 
 import { Suspense, useRef, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import type { Group } from "three";
 import type { CountriesCollection } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
@@ -12,6 +12,7 @@ import { Countries } from "./Countries";
 import { CapitalMarker } from "./CapitalMarker";
 import { TradeArcs } from "./TradeArcs";
 import { CameraController } from "./CameraController";
+import { SceneEnvironment } from "./SceneEnvironment";
 import { useGlobeRotation } from "./useGlobeRotation";
 import { getCountryCentroid, getFeatureIso2 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/getCountryCentroid";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
@@ -92,10 +93,7 @@ export function GlobeScene() {
       gl={{ antialias: true, alpha: true }}
       style={{ background: "transparent" }}
     >
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[5, 3, 5]} intensity={1.2} />
-      <pointLight position={[-5, -3, -5]} intensity={0.3} color="#22d3ee" />
-      <Stars radius={80} depth={50} count={3000} factor={3} fade speed={0.5} />
+      <SceneEnvironment />
       <CameraController />
       <OrbitControls
         ref={controlsRef}

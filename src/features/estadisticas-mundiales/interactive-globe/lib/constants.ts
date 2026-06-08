@@ -10,11 +10,8 @@ export const ISO_CORRECTIONS: Record<string, string> = {
 };
 
 export const LAYER_COLORS = {
-  default: "#1e3a5f",
-  hover: "#2d6a9f",
-  selected: "#22d3ee",
-  choroplethLow: "#1e3a5f",
-  choroplethHigh: "#22d3ee",
+  choroplethLow: "#94a3b8",
+  choroplethHigh: "#0070f3",
 } as const;
 
 export type DataLayer = "none" | "population" | "gdp" | "area";

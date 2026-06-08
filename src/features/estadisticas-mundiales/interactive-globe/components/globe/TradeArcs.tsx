@@ -4,9 +4,11 @@ import { useMemo } from "react";
 import { Line } from "@react-three/drei";
 import { createArcPoints } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
 import { getTradeConnections } from "@/features/estadisticas-mundiales/interactive-globe/lib/data/tradeConnections";
+import { useGlobeSceneTheme } from "@/features/estadisticas-mundiales/interactive-globe/hooks/useGlobeSceneTheme";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
 
 export function TradeArcs() {
+  const theme = useGlobeSceneTheme();
   const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
   const showTradeArcs = useGlobeStore((s) => s.showTradeArcs);
   const countryDetail = useGlobeStore((s) => s.countryDetail);
@@ -31,7 +33,7 @@ export function TradeArcs() {
         <Line
           key={arc.targetName}
           points={arc.points}
-          color="#22d3ee"
+          color={theme.countrySelected}
           lineWidth={1 + arc.volume * 0.1}
           transparent
           opacity={0.75}

@@ -59,8 +59,10 @@ export function SearchBar({ countries }: SearchBarProps) {
 
   return (
     <div className="relative w-full max-w-md">
-      <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-3 backdrop-blur-md">
-        <span className="text-cyan-400">🔍</span>
+      <div className="flex items-center gap-2 rounded-xl border border-border bg-elevated/85 px-4 py-3 shadow-[var(--shadow-theme)] backdrop-blur-md">
+        <span className="text-link" aria-hidden>
+          🔍
+        </span>
         <input
           ref={inputRef}
           type="text"
@@ -85,27 +87,33 @@ export function SearchBar({ countries }: SearchBarProps) {
             }
           }}
           placeholder="Buscar país... (ej. Japón)"
-          className="flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/40"
+          className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
         />
-        <kbd className="hidden rounded border border-white/10 px-1.5 py-0.5 text-[10px] text-white/30 sm:inline">
+        <kbd className="hidden rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground sm:inline">
           /
         </kbd>
       </div>
 
       {isOpen && filtered.length > 0 && (
-        <ul className="absolute top-full z-50 mt-2 w-full overflow-hidden rounded-xl border border-white/10 bg-black/80 backdrop-blur-md">
+        <ul className="absolute top-full z-50 mt-2 w-full overflow-hidden rounded-xl border border-border bg-elevated/95 shadow-[var(--shadow-theme)] backdrop-blur-md">
           {filtered.map((country, i) => (
             <li key={country.cca2}>
               <button
                 type="button"
                 onClick={() => handleSelect(country)}
-                className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-white/10 ${
-                  i === activeIndex ? "bg-cyan-500/20 text-cyan-300" : "text-white/80"
+                className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-link-muted ${
+                  i === activeIndex
+                    ? "bg-link-muted text-link"
+                    : "text-foreground"
                 }`}
               >
-                <span className="font-mono text-xs text-white/40">{country.cca2}</span>
+                <span className="font-mono text-xs text-muted-foreground">
+                  {country.cca2}
+                </span>
                 <span>{country.nameEs}</span>
-                <span className="ml-auto text-xs text-white/30">{country.capital}</span>
+                <span className="ml-auto text-xs text-muted-foreground">
+                  {country.capital}
+                </span>
               </button>
             </li>
           ))}

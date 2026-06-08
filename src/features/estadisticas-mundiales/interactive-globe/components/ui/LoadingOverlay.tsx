@@ -8,7 +8,7 @@ export function LoadingOverlay() {
   if (!isRotating) return null;
 
   return (
-    <div className="pointer-events-none absolute bottom-6 left-1/2 z-10 -translate-x-1/2 rounded-full border border-cyan-500/30 bg-black/60 px-4 py-2 text-xs text-cyan-300 backdrop-blur-md">
+    <div className="pointer-events-none absolute bottom-6 left-1/2 z-10 -translate-x-1/2 rounded-full border border-border bg-elevated/90 px-4 py-2 text-xs text-link shadow-[var(--shadow-theme)] backdrop-blur-md">
       Girando al país...
     </div>
   );

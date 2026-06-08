@@ -1,5 +1,8 @@
 import type { CountryDetail } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
-import type { DataLayer } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
+import {
+  LAYER_COLORS,
+  type DataLayer,
+} from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 
 export function getChoroplethValue(
   layer: DataLayer,
@@ -27,12 +30,14 @@ export function valueToColor(
   max: number,
   selected: boolean,
 ): string {
-  if (selected) return "#22d3ee";
-  if (max === min) return "#1e3a5f";
+  if (selected) return LAYER_COLORS.choroplethHigh;
+  if (max === min) return LAYER_COLORS.choroplethLow;
 
   const t = Math.max(0, Math.min(1, (value - min) / (max - min)));
-  const r = Math.round(30 + t * (34 - 30));
-  const g = Math.round(58 + t * (211 - 58));
-  const b = Math.round(95 + t * (238 - 95));
+  const low = parseInt(LAYER_COLORS.choroplethLow.slice(1), 16);
+  const high = parseInt(LAYER_COLORS.choroplethHigh.slice(1), 16);
+  const r = Math.round(((low >> 16) & 255) + t * ((((high >> 16) & 255) - ((low >> 16) & 255))));
+  const g = Math.round(((low >> 8) & 255) + t * ((((high >> 8) & 255) - ((low >> 8) & 255))));
+  const b = Math.round((low & 255) + t * (((high & 255) - (low & 255))));
   return `rgb(${r},${g},${b})`;
 }
