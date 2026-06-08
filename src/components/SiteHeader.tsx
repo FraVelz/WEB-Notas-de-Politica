@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { SiteSectionsNav } from '@/components/layout/SiteSectionsNav';
 import { siteConfig } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 
@@ -15,32 +16,36 @@ export function SiteHeader({
   variant = 'landing',
 }: {
   trailing?: React.ReactNode;
-  /** `landing` = título del sitio; `tema` = solo enlace a / */
+  /** `landing` = título del sitio + nav por apartados; `tema` = solo enlace a / */
   variant?: 'landing' | 'tema';
 }) {
   return (
     <header className="site-header sticky top-0 z-20 border-b border-border bg-elevated">
-      <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        {variant === 'tema' ? (
-          <Link href="/" className={cn(headerLinkClass, 'text-sm font-medium')}>
-            ← Inicio
-          </Link>
-        ) : (
-          <Link
-            href="/"
-            className={cn(
-              headerLinkClass,
-              'max-w-[min(100%,20rem)] text-lg font-semibold whitespace-nowrap',
-            )}
-          >
-            {siteConfig.title}
-          </Link>
-        )}
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+        <div className="flex h-14 items-center justify-between gap-4">
+          {variant === 'tema' ? (
+            <Link href="/" className={cn(headerLinkClass, 'text-sm font-medium')}>
+              ← Inicio
+            </Link>
+          ) : (
+            <Link
+              href="/"
+              className={cn(
+                headerLinkClass,
+                'max-w-[min(100%,14rem)] text-base font-semibold whitespace-nowrap sm:max-w-[min(100%,20rem)] sm:text-lg',
+              )}
+            >
+              {siteConfig.title}
+            </Link>
+          )}
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          {trailing}
-          <ThemeToggle />
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            {trailing}
+            <ThemeToggle />
+          </div>
         </div>
+
+        {variant === 'landing' && <SiteSectionsNav />}
       </div>
     </header>
   );

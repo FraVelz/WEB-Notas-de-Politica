@@ -54,28 +54,12 @@ export function InicioPage() {
         </div>
       </section>
 
-      <nav
-        className="sticky top-14 z-10 flex flex-wrap gap-2 border-b border-border py-5 backdrop-blur-sm"
-        style={{ background: 'color-mix(in srgb, var(--bg) 92%, transparent)' }}
-        aria-label="Ir a sección"
-      >
-        {grouped.map(({ group }) => (
-          <a
-            key={group.id}
-            href={`#${group.id}`}
-            className="rounded-full border border-border bg-elevated px-3 py-1.5 text-sm font-medium text-muted-foreground no-underline hover:border-link hover:bg-link-muted hover:text-link"
-          >
-            {group.label}
-          </a>
-        ))}
-      </nav>
-
       <div id="apartados" className="pt-8">
         {grouped.map(({ group, temas: items }) => (
           <section
             key={group.id}
             id={group.id}
-            className="scroll-mt-28 pb-10 not-first:border-t not-first:border-border not-first:pt-10"
+            className="scroll-mt-36 pb-10 not-first:border-t not-first:border-border not-first:pt-10"
             aria-labelledby={`heading-${group.id}`}
           >
             <header className="mb-5">
