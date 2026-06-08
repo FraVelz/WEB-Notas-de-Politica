@@ -23,6 +23,7 @@ export function DocsShell({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const meta = getTemaById(temaId);
   const showSidebar = meta?.showSidebar === true;
+  const immersiveHub = meta?.immersiveHub === true;
 
   return (
     <>
@@ -46,7 +47,9 @@ export function DocsShell({
       />
       <div
         className={cn(
-          'min-h-[calc(100vh-3.5rem)]',
+          immersiveHub
+            ? 'h-[calc(100vh-3.5rem)] overflow-hidden'
+            : 'min-h-[calc(100vh-3.5rem)]',
           showSidebar &&
             'grid md:grid-cols-[var(--width-sidebar)_1fr]',
         )}
@@ -72,10 +75,14 @@ export function DocsShell({
         )}
         <main
           className={cn(
-            'py-6 pb-12',
-            showSidebar
-              ? 'px-5 md:px-8'
-              : 'mx-auto w-full max-w-6xl px-4 sm:px-6',
+            immersiveHub
+              ? 'h-full overflow-hidden p-0'
+              : cn(
+                  'py-6 pb-12',
+                  showSidebar
+                    ? 'px-5 md:px-8'
+                    : 'mx-auto w-full max-w-6xl px-4 sm:px-6',
+                ),
           )}
         >
           {children}

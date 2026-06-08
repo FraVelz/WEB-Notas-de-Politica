@@ -61,12 +61,12 @@ export function EstadisticasMundialesHub({ temaId: _temaId }: { temaId?: string 
 
   return (
     <GlobeProvider>
-      <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-[100vw] min-h-[calc(100vh-3.5rem)] overflow-hidden bg-[#020617]">
+      <div className="relative h-full overflow-hidden bg-[#020617]">
         <div className="absolute inset-0">
           <GlobeScene />
         </div>
 
-        <div className="pointer-events-none relative z-10 flex h-full min-h-[calc(100vh-3.5rem)] flex-col p-4 md:p-6">
+        <div className="pointer-events-none relative z-10 flex h-full flex-col p-4 md:p-6">
           <header className="pointer-events-auto flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div>
               <p className="m-0 mb-1 text-xs font-semibold tracking-widest text-cyan-400/80 uppercase">

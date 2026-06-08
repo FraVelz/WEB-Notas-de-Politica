@@ -43,6 +43,8 @@ export type TemaDefinition = {
   skin?: TemaSkinId;
   /** Si true, muestra sidebar de docs (p. ej. apartados con muchas notas) */
   showSidebar?: boolean;
+  /** Hub a pantalla completa bajo el header, sin padding del shell */
+  immersiveHub?: boolean;
 };
 
 export type TemaGroup = {

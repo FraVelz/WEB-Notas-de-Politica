@@ -3,6 +3,7 @@
 import { Suspense, useRef, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import type { Group } from "three";
 import type { CountriesCollection } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
 import { Earth } from "./Earth";
@@ -18,15 +19,17 @@ import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-glo
 function GlobeContent({
   geoData,
   globeRef,
+  controlsRef,
 }: {
   geoData: CountriesCollection;
   globeRef: React.RefObject<Group | null>;
+  controlsRef: React.RefObject<OrbitControlsImpl | null>;
 }) {
   const setCountriesIndex = useGlobeStore((s) => s.setCountriesIndex);
   const countryDetail = useGlobeStore((s) => s.countryDetail);
   const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
 
-  useGlobeRotation(globeRef);
+  useGlobeRotation(globeRef, controlsRef);
 
   useEffect(() => {
     const index = new Map<
@@ -73,6 +76,7 @@ function SceneLoader() {
 
 export function GlobeScene() {
   const globeRef = useRef<Group>(null);
+  const controlsRef = useRef<OrbitControlsImpl>(null);
   const [geoData, setGeoData] = useState<CountriesCollection | null>(null);
 
   useEffect(() => {
@@ -94,6 +98,7 @@ export function GlobeScene() {
       <Stars radius={80} depth={50} count={3000} factor={3} fade speed={0.5} />
       <CameraController />
       <OrbitControls
+        ref={controlsRef}
         enablePan={false}
         minDistance={3.5}
         maxDistance={8}
@@ -102,7 +107,11 @@ export function GlobeScene() {
       />
       <Suspense fallback={<SceneLoader />}>
         {geoData ? (
-          <GlobeContent geoData={geoData} globeRef={globeRef} />
+          <GlobeContent
+            geoData={geoData}
+            globeRef={globeRef}
+            controlsRef={controlsRef}
+          />
         ) : (
           <SceneLoader />
         )}

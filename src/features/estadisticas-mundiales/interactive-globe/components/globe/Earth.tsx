@@ -1,13 +1,21 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useTexture } from "@react-three/drei";
+import type { Mesh } from "three";
 import { GLOBE_RADIUS } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 
 export function Earth() {
+  const meshRef = useRef<Mesh>(null);
   const [earthMap] = useTexture(["/textures/earth.jpg"]);
 
+  useEffect(() => {
+    if (!meshRef.current) return;
+    meshRef.current.raycast = () => {};
+  }, []);
+
   return (
-    <mesh>
+    <mesh ref={meshRef}>
       <sphereGeometry args={[GLOBE_RADIUS, 64, 64]} />
       <meshPhongMaterial map={earthMap} specular="#111111" shininess={12} />
     </mesh>

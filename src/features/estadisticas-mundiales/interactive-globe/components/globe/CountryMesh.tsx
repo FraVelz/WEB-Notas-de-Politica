@@ -82,6 +82,14 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
       }}
       onPointerOver={(e) => {
         e.stopPropagation();
+        const faceNormal = e.face?.normal;
+        if (faceNormal) {
+          const worldNormal = faceNormal
+            .clone()
+            .transformDirection(e.object.matrixWorld);
+          const toCamera = e.camera.position.clone().sub(e.point).normalize();
+          if (worldNormal.dot(toCamera) < 0) return;
+        }
         document.body.style.cursor = "pointer";
         setHoveredCountry(iso2);
       }}
@@ -94,7 +102,7 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
         color={LAYER_COLORS.default}
         transparent
         opacity={0.65}
-        side={THREE.DoubleSide}
+        side={THREE.FrontSide}
         depthWrite={false}
       />
     </mesh>
