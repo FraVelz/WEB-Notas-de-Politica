@@ -27,7 +27,7 @@ function getFocusables(container: HTMLElement | null): HTMLElement[] {
 export function SiteSectionsNav() {
   const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
-  const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const triggerRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const panelRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const listId = useId();
 
@@ -50,25 +50,12 @@ export function SiteSectionsNav() {
     }
   }, []);
 
-  const toggle = useCallback((categoryId: string, focusFirst = false) => {
-    setOpenCategoryId((current) => {
-      const willOpen = current !== categoryId;
-      if (willOpen && focusFirst) {
-        requestAnimationFrame(() => {
-          const first = getFocusables(panelRefs.current[categoryId] ?? null)[0];
-          first?.focus();
-        });
-      }
-      return willOpen ? categoryId : null;
-    });
-  }, []);
-
   const moveBetweenTriggers = useCallback(
     (direction: 1 | -1, current: HTMLElement) => {
       const triggers = navCategories
         .map((entry) => triggerRefs.current[entry.category.id])
-        .filter((node): node is HTMLButtonElement => node != null);
-      const index = triggers.indexOf(current as HTMLButtonElement);
+        .filter((node): node is HTMLAnchorElement => node != null);
+      const index = triggers.indexOf(current as HTMLAnchorElement);
       if (index === -1) return;
       const next = triggers[index + direction];
       next?.focus();
@@ -114,7 +101,7 @@ export function SiteSectionsNav() {
   );
 
   const handleTriggerKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLButtonElement>, categoryId: string) => {
+    (event: KeyboardEvent<HTMLAnchorElement>, categoryId: string) => {
       switch (event.key) {
         case 'ArrowDown':
           event.preventDefault();
@@ -125,11 +112,6 @@ export function SiteSectionsNav() {
           if (openCategoryId === categoryId) {
             close(categoryId);
           }
-          break;
-        case 'Enter':
-        case ' ':
-          event.preventDefault();
-          toggle(categoryId, true);
           break;
         case 'ArrowLeft':
           event.preventDefault();
@@ -147,7 +129,7 @@ export function SiteSectionsNav() {
           break;
       }
     },
-    [close, moveBetweenTriggers, open, openCategoryId, toggle],
+    [close, moveBetweenTriggers, open, openCategoryId],
   );
 
   useEffect(() => {
@@ -196,23 +178,23 @@ export function SiteSectionsNav() {
                 setOpenCategoryId((id) => (id === category.id ? null : id))
               }
             >
-              <button
+              <a
                 ref={(node) => {
                   triggerRefs.current[category.id] = node;
                 }}
-                type="button"
+                href={`/#${category.id}`}
                 id={triggerId}
                 role="menuitem"
                 aria-haspopup="menu"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 className={cn(
-                  'inline-flex h-9 cursor-pointer items-center gap-0.5 rounded-sm px-1.5',
+                  'inline-flex h-9 items-center gap-0.5 rounded-sm px-1.5 no-underline',
                   'text-sm font-medium text-foreground/75 hover:text-foreground',
                   'outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]',
                   isOpen && 'text-foreground',
                 )}
-                onClick={() => toggle(category.id, false)}
+                onClick={() => close()}
                 onKeyDown={(event) =>
                   handleTriggerKeyDown(event, category.id)
                 }
@@ -225,7 +207,7 @@ export function SiteSectionsNav() {
                   )}
                   aria-hidden
                 />
-              </button>
+              </a>
 
               <div
                 ref={(node) => {
