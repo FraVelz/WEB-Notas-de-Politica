@@ -1,6 +1,8 @@
 export const GLOBE_RADIUS = 2;
 export const COUNTRY_ALTITUDE = 0.012;
 export const ROTATION_DURATION = 1.8;
+/** How much latitude shifts the globe tilt (0 = equator locked, 1 = full lat). */
+export const LAT_TILT_FACTOR = 0.4;
 
 export const ISO_CORRECTIONS: Record<string, string> = {
   "-99": "",

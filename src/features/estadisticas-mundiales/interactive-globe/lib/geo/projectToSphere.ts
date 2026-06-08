@@ -2,10 +2,26 @@ import * as THREE from "three";
 import earcut from "earcut";
 import { GLOBE_RADIUS, COUNTRY_ALTITUDE } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 
-/** Yaw (rad) to face `lng` on the equator toward +Z, keeping the equator level. */
+/** Yaw (rad) to face `lng` on the equator toward +Z. */
 export function getHorizontalFocusYaw(lng: number): number {
   const equatorPoint = latLngToVector3(0, lng, 1).normalize();
   return -Math.atan2(equatorPoint.x, equatorPoint.z);
+}
+
+/** Soft X tilt (rad): equator stays the default, latitude nudges the view north/south. */
+export function getSoftFocusTilt(
+  lat: number,
+  factor = 0.4,
+): number {
+  return (lat * Math.PI) / 180 * factor;
+}
+
+/** Shortest tilt path from `current` to `target` (both radians). */
+export function normalizeTiltTarget(current: number, target: number): number {
+  let next = target;
+  while (next - current > Math.PI) next -= 2 * Math.PI;
+  while (next - current < -Math.PI) next += 2 * Math.PI;
+  return next;
 }
 
 /** Circular mean longitude for multi-country horizontal focus. */
@@ -21,6 +37,12 @@ export function averageLongitude(points: [number, number][]): number {
   }
 
   return (Math.atan2(sinSum, cosSum) * 180) / Math.PI;
+}
+
+/** Mean latitude for multi-country focus. */
+export function averageLatitude(points: [number, number][]): number {
+  if (points.length === 0) return 0;
+  return points.reduce((acc, [lat]) => acc + lat, 0) / points.length;
 }
 
 /** Shortest yaw path from `current` to `target` (both radians). */

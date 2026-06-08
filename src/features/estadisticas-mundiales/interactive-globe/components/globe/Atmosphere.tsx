@@ -17,6 +17,11 @@ export function Atmosphere() {
 
   useEffect(() => {
     if (!meshRef.current) return;
+    meshRef.current.raycast = () => {};
+  }, []);
+
+  useEffect(() => {
+    if (!meshRef.current) return;
     const material = meshRef.current.material as THREE.MeshPhongMaterial;
     material.color.set(theme.atmosphereColor);
     material.opacity = isActive ? theme.atmosphereOpacity : 0;

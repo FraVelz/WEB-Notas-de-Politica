@@ -14,6 +14,7 @@ import { TradeArcs } from "./TradeArcs";
 import { CameraController } from "./CameraController";
 import { SceneEnvironment } from "./SceneEnvironment";
 import { GlobeGraticule3D } from "./GlobeGraticule3D";
+import { GlobeOrientationSync } from "./GlobeOrientationSync";
 import { useGlobeRotation } from "./useGlobeRotation";
 import { getCountryCentroid, getFeatureIso2 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/getCountryCentroid";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
@@ -58,6 +59,7 @@ function GlobeContent({
 
   return (
     <group ref={globeRef}>
+      <GlobeOrientationSync globeRef={globeRef} />
       <Earth />
       <GlobeGraticule3D visible={showGraticule} />
       <Countries data={geoData} />

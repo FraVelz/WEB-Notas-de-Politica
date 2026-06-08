@@ -12,6 +12,7 @@ import { ViewControls } from '@/features/estadisticas-mundiales/interactive-glob
 import { ComparePanel } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/ComparePanel';
 import { LoadingOverlay } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/LoadingOverlay';
 import { HoverTooltip } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/HoverTooltip';
+import { GlobeCompass } from '@/features/estadisticas-mundiales/interactive-globe/components/ui/GlobeCompass';
 import { useGlobeStore } from '@/features/estadisticas-mundiales/interactive-globe/store/globeStore';
 import type { CountrySummary } from '@/features/estadisticas-mundiales/interactive-globe/lib/types';
 
@@ -36,8 +37,7 @@ export function EstadisticasMundialesHub({ temaId: _temaId }: { temaId?: string 
   const [countries, setCountries] = useState<CountrySummary[]>([]);
   const setCountryStats = useGlobeStore((s) => s.setCountryStats);
   const compareMode = useGlobeStore((s) => s.compareMode);
-  const compareIso2s = useGlobeStore((s) => s.compareIso2s);
-  const showComparePanel = compareMode && compareIso2s.length > 1;
+  const showComparePanel = compareMode;
 
   useEffect(() => {
     fetchAllCountries()
@@ -88,6 +88,7 @@ export function EstadisticasMundialesHub({ temaId: _temaId }: { temaId?: string 
           </header>
 
           <HoverTooltip />
+          <GlobeCompass />
           <LoadingOverlay />
 
           <div className="pointer-events-auto mt-auto flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">

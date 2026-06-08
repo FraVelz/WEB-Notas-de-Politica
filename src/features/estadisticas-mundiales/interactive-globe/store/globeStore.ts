@@ -6,6 +6,7 @@ import {
   type GlobeViewPresetId,
   MAX_COMPARE_COUNTRIES,
 } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
+import { averageLatitude, averageLongitude } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
 import { estimateGdpPerCapita } from "@/features/estadisticas-mundiales/interactive-globe/lib/api/countries";
 
 export interface CountryStats {
@@ -38,6 +39,7 @@ interface GlobeState {
   countriesIndex: Map<string, CountryMeta>;
   countryStats: Map<string, CountryStats>;
   focusRequest: GlobeFocusRequest;
+  compassHeading: number;
 
   setCountriesIndex: (index: Map<string, CountryMeta>) => void;
   setCountryStats: (countries: CountrySummary[]) => void;
@@ -53,6 +55,7 @@ interface GlobeState {
   setActiveLayer: (layer: DataLayer) => void;
   setShowTradeArcs: (show: boolean) => void;
   setShowGraticule: (show: boolean) => void;
+  setCompassHeading: (heading: number) => void;
   applyViewPreset: (presetId: GlobeViewPresetId) => void;
   resetHomeView: () => void;
   clearSelection: () => void;
@@ -81,9 +84,7 @@ function focusFromCompare(
   if (points.length === 0) return null;
   if (points.length === 1) return pushFocus(points[0][0], points[0][1]);
 
-  const sumLat = points.reduce((acc, [lat]) => acc + lat, 0) / points.length;
-  const sumLng = points.reduce((acc, [, lng]) => acc + lng, 0) / points.length;
-  return pushFocus(sumLat, sumLng);
+  return pushFocus(averageLatitude(points), averageLongitude(points));
 }
 
 export const useGlobeStore = create<GlobeState>((set, get) => ({
@@ -103,6 +104,7 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
   countriesIndex: new Map(),
   countryStats: new Map(),
   focusRequest: { id: 0, lat: 4.711, lng: -74.0721 },
+  compassHeading: 0,
 
   setCountriesIndex: (index) => set({ countriesIndex: index }),
 
@@ -136,6 +138,8 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
 
   toggleCompareCountry: (iso2, meta) => {
     const state = get();
+    if (!state.compareMode) return;
+
     const index = state.countriesIndex;
     const resolvedMeta = meta ?? index.get(iso2) ?? null;
     const current = [...state.compareIso2s];
@@ -176,7 +180,28 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
       });
       return;
     }
-    set({ compareMode: true });
+
+    const state = get();
+    const seed =
+      state.compareIso2s.length > 0
+        ? state.compareIso2s
+        : state.selectedIso2
+          ? [state.selectedIso2]
+          : [];
+
+    const focus =
+      seed.length > 0
+        ? focusFromCompare(seed, state.countriesIndex)
+        : null;
+
+    set({
+      compareMode: true,
+      compareIso2s: seed,
+      selectedIso2: seed[0] ?? null,
+      countryMeta: seed[0] ? state.countriesIndex.get(seed[0]) ?? null : null,
+      countryDetail: seed.length === 1 ? state.countryDetail : null,
+      ...(focus ? { focusRequest: focus } : {}),
+    });
   },
 
   removeCompareCountry: (iso2) => {
@@ -218,6 +243,8 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
   setShowTradeArcs: (show) => set({ showTradeArcs: show }),
 
   setShowGraticule: (show) => set({ showGraticule: show }),
+
+  setCompassHeading: (heading) => set({ compassHeading: heading }),
 
   applyViewPreset: (presetId) => {
     const preset = GLOBE_VIEW_PRESETS.find((p) => p.id === presetId);

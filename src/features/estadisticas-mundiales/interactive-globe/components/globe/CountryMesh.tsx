@@ -6,7 +6,7 @@ import * as THREE from "three";
 import gsap from "gsap";
 import type { CountryFeature } from "@/features/estadisticas-mundiales/interactive-globe/lib/types";
 import { createCountryGeometry } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
-import { getFeatureIso2 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/getCountryCentroid";
+import { getFeatureIso2, getCountryCentroid } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/getCountryCentroid";
 import { COMPARE_SLOT_COLORS } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 import { useGlobeSceneTheme } from "@/features/estadisticas-mundiales/interactive-globe/hooks/useGlobeSceneTheme";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
@@ -105,8 +105,11 @@ export function CountryMesh({ feature, choroplethColor }: CountryMeshProps) {
       geometry={geometry}
       onClick={(e) => {
         e.stopPropagation();
-        const meta = countriesIndex.get(iso2);
-        if (!meta) return;
+        const meta = countriesIndex.get(iso2) ?? {
+          iso2,
+          name: feature.properties.NAME,
+          centroid: getCountryCentroid(feature),
+        };
         if (compareMode) toggleCompareCountry(iso2, meta);
         else selectCountry(iso2, meta);
       }}

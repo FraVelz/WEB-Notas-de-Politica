@@ -21,7 +21,7 @@ export function ComparePanel() {
   const removeCompareCountry = useGlobeStore((s) => s.removeCompareCountry);
   const clearSelection = useGlobeStore((s) => s.clearSelection);
 
-  if (!compareMode || compareIso2s.length === 0) return null;
+  if (!compareMode) return null;
 
   return (
     <aside className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-border bg-elevated/90 shadow-[var(--shadow-theme)] backdrop-blur-xl md:w-80">
@@ -29,16 +29,24 @@ export function ComparePanel() {
         <h2 className="text-sm font-semibold uppercase tracking-wider text-link">
           Comparación ({compareIso2s.length}/{MAX_COMPARE_COUNTRIES})
         </h2>
-        <button
-          type="button"
-          onClick={clearSelection}
-          className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-link-muted hover:text-foreground"
-        >
-          Limpiar
-        </button>
+        {compareIso2s.length > 0 ? (
+          <button
+            type="button"
+            onClick={clearSelection}
+            className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-link-muted hover:text-foreground"
+          >
+            Limpiar
+          </button>
+        ) : null}
       </div>
 
       <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+        {compareIso2s.length === 0 ? (
+          <p className="m-0 text-sm leading-relaxed text-muted-foreground">
+            Modo comparación activo. Haz clic en un país del globo o búscalo
+            arriba para añadir hasta {MAX_COMPARE_COUNTRIES} países.
+          </p>
+        ) : null}
         {compareIso2s.map((iso, index) => {
           const meta = countriesIndex.get(iso);
           const stats = countryStats.get(iso);

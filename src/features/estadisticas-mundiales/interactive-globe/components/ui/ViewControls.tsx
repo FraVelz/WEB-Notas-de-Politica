@@ -50,7 +50,7 @@ export function ViewControls() {
           onChange={(e) => setShowGraticule(e.target.checked)}
           className="accent-link"
         />
-        Líneas de referencia (ecuador, meridianos…)
+        Líneas de referencia y brújula (ecuador, meridianos…)
       </label>
 
       <label className="flex cursor-pointer items-center gap-2 text-xs text-muted-foreground">

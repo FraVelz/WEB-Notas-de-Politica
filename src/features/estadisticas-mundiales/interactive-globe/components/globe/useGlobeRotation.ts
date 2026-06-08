@@ -4,10 +4,16 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import type { Group } from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import { ROTATION_DURATION } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 import {
+  LAT_TILT_FACTOR,
+  ROTATION_DURATION,
+} from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
+import {
+  averageLatitude,
   averageLongitude,
   getHorizontalFocusYaw,
+  getSoftFocusTilt,
+  normalizeTiltTarget,
   normalizeYawTarget,
 } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
@@ -27,6 +33,7 @@ export function useGlobeRotation(
     if (!globeRef.current || focusRequest.id === 0) return;
 
     const globe = globeRef.current;
+    let focusLat = focusRequest.lat;
     let focusLng = focusRequest.lng;
 
     if (compareMode && compareIso2s.length > 1) {
@@ -35,6 +42,7 @@ export function useGlobeRotation(
         .filter((meta): meta is NonNullable<typeof meta> => meta != null)
         .map((meta) => meta.centroid as [number, number]);
       if (points.length > 1) {
+        focusLat = averageLatitude(points);
         focusLng = averageLongitude(points);
       }
     }
@@ -42,6 +50,10 @@ export function useGlobeRotation(
     const targetY = normalizeYawTarget(
       globe.rotation.y,
       getHorizontalFocusYaw(focusLng),
+    );
+    const targetX = normalizeTiltTarget(
+      globe.rotation.x,
+      getSoftFocusTilt(focusLat, LAT_TILT_FACTOR),
     );
 
     controlsRef.current?.reset();
@@ -51,13 +63,13 @@ export function useGlobeRotation(
     setIsRotating(true);
 
     tweenRef.current = gsap.to(globe.rotation, {
-      x: 0,
+      x: targetX,
       y: targetY,
       z: 0,
       duration: ROTATION_DURATION,
       ease: "power2.inOut",
       onComplete: () => {
-        globe.rotation.set(0, targetY, 0);
+        globe.rotation.set(targetX, targetY, 0);
         globe.quaternion.setFromEuler(globe.rotation);
         controlsRef.current?.update();
         setIsRotating(false);
