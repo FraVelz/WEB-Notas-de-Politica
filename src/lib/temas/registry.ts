@@ -1,4 +1,8 @@
-import type { TemaDefinition, TemaGroup } from './types';
+import type {
+  TemaDefinition,
+  TemaGroup,
+  TemaNavCategory,
+} from './types';
 
 /** Etiquetas de los bloques de la landing */
 export const temaGroups: TemaGroup[] = [
@@ -39,6 +43,33 @@ export const temaGroups: TemaGroup[] = [
     id: 'datos',
     label: 'Datos',
     description: 'Estadísticas y contexto cuantitativo mundial.',
+  },
+];
+
+/**
+ * Títulos mayores del header (pocos, fijos). Cada uno agrupa secciones de `temaGroups`.
+ * Al añadir un tema nuevo, asígnalo a un `group`; el bloque del header se deduce de aquí.
+ */
+export const temaNavCategories: TemaNavCategory[] = [
+  {
+    id: 'marco-teorico',
+    label: 'Marco teórico',
+    groups: ['fundamentos', 'sistemas-e-ideas', 'instituciones'],
+  },
+  {
+    id: 'poder-y-accion',
+    label: 'Poder y acción',
+    groups: ['estado-en-accion', 'sociedad-y-poder'],
+  },
+  {
+    id: 'debate-actual',
+    label: 'Debate actual',
+    groups: ['debate-contemporaneo'],
+  },
+  {
+    id: 'datos',
+    label: 'Datos',
+    groups: ['datos'],
   },
 ];
 
@@ -322,5 +353,18 @@ export function getTemasGrouped() {
   return temaGroups.map((group) => ({
     group,
     temas: getTemasByGroup(group.id).filter((t) => !t.hiddenOnLanding),
+  }));
+}
+
+export function getNavCategoriesGrouped() {
+  const groupedByGroupId = new Map(
+    getTemasGrouped().map((entry) => [entry.group.id, entry]),
+  );
+
+  return temaNavCategories.map((category) => ({
+    category,
+    sections: category.groups
+      .map((groupId) => groupedByGroupId.get(groupId))
+      .filter((entry): entry is NonNullable<typeof entry> => entry != null),
   }));
 }

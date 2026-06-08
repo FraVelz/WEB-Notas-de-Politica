@@ -6,9 +6,9 @@ import { SiteSectionsNav } from '@/components/layout/SiteSectionsNav';
 import { siteConfig } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 
-const headerLinkClass = cn(
-  'site-header-link inline-flex h-9 shrink-0 items-center justify-center',
-  'rounded-md px-1 no-underline',
+const brandLinkClass = cn(
+  'site-header-link inline-flex shrink-0 items-center no-underline',
+  'text-sm font-semibold text-foreground sm:text-base',
 );
 
 export function SiteHeader({
@@ -16,36 +16,38 @@ export function SiteHeader({
   variant = 'landing',
 }: {
   trailing?: React.ReactNode;
-  /** `landing` = título del sitio + nav por apartados; `tema` = solo enlace a / */
+  /** `landing` = marca + nav; `tema` = enlace a inicio */
   variant?: 'landing' | 'tema';
 }) {
   return (
     <header className="site-header sticky top-0 z-20 border-b border-border bg-elevated">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-        <div className="flex h-14 items-center justify-between gap-4">
-          {variant === 'tema' ? (
-            <Link href="/" className={cn(headerLinkClass, 'text-sm font-medium')}>
-              ← Inicio
-            </Link>
-          ) : (
-            <Link
-              href="/"
-              className={cn(
-                headerLinkClass,
-                'max-w-[min(100%,14rem)] text-base font-semibold whitespace-nowrap sm:max-w-[min(100%,20rem)] sm:text-lg',
-              )}
-            >
-              {siteConfig.title}
-            </Link>
-          )}
+      <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-4 sm:gap-6 sm:px-6">
+        {variant === 'tema' ? (
+          <Link href="/" className={cn(brandLinkClass, 'font-medium')}>
+            ← Inicio
+          </Link>
+        ) : (
+          <Link href="/" className={brandLinkClass}>
+            <span className="sm:hidden">Prosperidad</span>
+            <span className="hidden sm:inline">{siteConfig.title}</span>
+          </Link>
+        )}
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            {trailing}
-            <ThemeToggle />
+        {variant === 'landing' && (
+          <div className="min-w-0 flex-1">
+            <SiteSectionsNav />
           </div>
-        </div>
+        )}
 
-        {variant === 'landing' && <SiteSectionsNav />}
+        <div
+          className={cn(
+            'flex shrink-0 items-center gap-2 sm:gap-3',
+            variant === 'tema' && 'ml-auto',
+          )}
+        >
+          {trailing}
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

@@ -50,3 +50,17 @@ export type TemaGroup = {
   label: string;
   description: string;
 };
+
+/** Bloques mayores del header (3–4); agrupan varios `TemaGroup` */
+export type TemaNavCategoryId =
+  | 'marco-teorico'
+  | 'poder-y-accion'
+  | 'debate-actual'
+  | 'datos';
+
+export type TemaNavCategory = {
+  id: TemaNavCategoryId;
+  label: string;
+  /** Secciones menores de la landing (`temaGroups`) incluidas en este bloque */
+  groups: TemaGroupId[];
+};

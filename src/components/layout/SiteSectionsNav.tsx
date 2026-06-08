@@ -3,20 +3,27 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { getTemasGrouped } from '@/lib/temas/registry';
+import { getNavCategoriesGrouped } from '@/lib/temas/registry';
 import { cn } from '@/lib/utils';
 
-const grouped = getTemasGrouped();
+const navCategories = getNavCategoriesGrouped();
+
+const navTriggerClass = cn(
+  'inline-flex h-9 cursor-pointer items-center gap-0.5 px-1 text-sm font-medium',
+  'text-muted-foreground no-underline',
+  'hover:text-foreground',
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]',
+);
 
 export function SiteSectionsNav() {
-  const [openGroupId, setOpenGroupId] = useState<string | null>(null);
+  const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const listId = useId();
 
-  const close = useCallback(() => setOpenGroupId(null), []);
+  const close = useCallback(() => setOpenCategoryId(null), []);
 
   useEffect(() => {
-    if (!openGroupId) return;
+    if (!openCategoryId) return;
 
     const onPointerDown = (event: MouseEvent) => {
       if (!navRef.current?.contains(event.target as Node)) close();
@@ -32,49 +39,48 @@ export function SiteSectionsNav() {
       document.removeEventListener('mousedown', onPointerDown);
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [openGroupId, close]);
+  }, [openCategoryId, close]);
 
   return (
     <nav
       ref={navRef}
-      className="border-t border-border"
+      className="min-w-0"
       aria-label="Apartados del sitio"
     >
       <ul
         id={listId}
-        className="m-0 flex list-none gap-0.5 overflow-x-auto py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="m-0 flex list-none items-center justify-end gap-3 overflow-x-auto sm:justify-center sm:gap-5 md:gap-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {grouped.map(({ group, temas: items }) => {
-          const isOpen = openGroupId === group.id;
-          const panelId = `${listId}-${group.id}`;
+        {navCategories.map(({ category, sections }) => {
+          const isOpen = openCategoryId === category.id;
+          const panelId = `${listId}-${category.id}`;
+          const firstSectionId = sections[0]?.group.id;
 
           return (
             <li
-              key={group.id}
+              key={category.id}
               className="group/nav relative shrink-0"
-              onMouseEnter={() => setOpenGroupId(group.id)}
-              onMouseLeave={() => setOpenGroupId((id) => (id === group.id ? null : id))}
+              onMouseEnter={() => setOpenCategoryId(category.id)}
+              onMouseLeave={() =>
+                setOpenCategoryId((id) => (id === category.id ? null : id))
+              }
             >
               <button
                 type="button"
-                className={cn(
-                  'inline-flex cursor-pointer items-center gap-1 rounded-full border px-3 py-1.5 text-sm font-medium',
-                  'border-border bg-elevated text-muted-foreground',
-                  'hover:border-link hover:bg-link-muted hover:text-link',
-                  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]',
-                  isOpen && 'border-link bg-link-muted text-link',
-                )}
+                className={cn(navTriggerClass, isOpen && 'text-foreground')}
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() =>
-                  setOpenGroupId((id) => (id === group.id ? null : group.id))
+                  setOpenCategoryId((id) =>
+                    id === category.id ? null : category.id,
+                  )
                 }
               >
-                {group.label}
+                {category.label}
                 <ChevronDown
                   className={cn(
-                    'size-3.5 shrink-0 opacity-70 transition-transform',
-                    isOpen && 'rotate-180',
+                    'size-3 shrink-0 opacity-50 transition-transform',
+                    isOpen && 'rotate-180 opacity-80',
                   )}
                   aria-hidden
                 />
@@ -83,9 +89,9 @@ export function SiteSectionsNav() {
               <div
                 id={panelId}
                 className={cn(
-                  'absolute top-full left-0 z-30 mt-1 min-w-[14rem] max-w-[min(18rem,calc(100vw-2rem))]',
-                  'rounded-lg border border-border bg-elevated py-1 shadow-[var(--shadow-theme)]',
-                  'max-md:right-0 max-md:left-auto',
+                  'absolute top-[calc(100%+0.25rem)] right-0 z-30 w-[min(20rem,calc(100vw-2rem))]',
+                  'rounded-md border border-border bg-elevated py-2 shadow-[var(--shadow-theme)]',
+                  'sm:left-1/2 sm:right-auto sm:-translate-x-1/2',
                   isOpen
                     ? 'pointer-events-auto visible opacity-100'
                     : 'pointer-events-none invisible opacity-0 max-md:hidden',
@@ -93,25 +99,46 @@ export function SiteSectionsNav() {
                   'transition-opacity duration-150',
                 )}
                 role="region"
-                aria-label={group.label}
+                aria-label={category.label}
               >
-                <a
-                  href={`/#${group.id}`}
-                  className="block border-b border-border px-3 py-2 text-xs font-semibold tracking-wide text-link uppercase no-underline hover:bg-link-muted"
-                  onClick={close}
-                >
-                  Ver sección · {group.label}
-                </a>
-                <ul className="m-0 max-h-[min(16rem,50vh)] list-none overflow-y-auto p-1">
-                  {items.map((tema) => (
-                    <li key={tema.id}>
-                      <Link
-                        href={`/${tema.id}`}
-                        className="block rounded-md px-2 py-1.5 text-sm leading-snug text-foreground no-underline hover:bg-muted hover:text-link"
+                {firstSectionId && (
+                  <a
+                    href={`/#${firstSectionId}`}
+                    className="mx-2 mb-1 block px-2 py-1.5 text-xs font-medium text-link no-underline hover:underline"
+                    onClick={close}
+                  >
+                    Ver {category.label.toLowerCase()}
+                  </a>
+                )}
+
+                <ul className="m-0 max-h-[min(18rem,55vh)] list-none overflow-y-auto px-1">
+                  {sections.map(({ group, temas }) => (
+                    <li
+                      key={group.id}
+                      className="not-first:mt-2 not-first:border-t not-first:border-border not-first:pt-2"
+                    >
+                      <a
+                        href={`/#${group.id}`}
+                        className="block px-2 py-1 text-sm font-semibold text-foreground no-underline hover:text-link"
                         onClick={close}
                       >
-                        {tema.title}
-                      </Link>
+                        {group.label}
+                      </a>
+                      {temas.length > 0 && (
+                        <ul className="m-0 mt-0.5 list-none">
+                          {temas.map((tema) => (
+                            <li key={tema.id}>
+                              <Link
+                                href={`/${tema.id}`}
+                                className="block px-2 py-1 text-sm leading-snug text-muted-foreground no-underline hover:text-link"
+                                onClick={close}
+                              >
+                                {tema.title}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>
