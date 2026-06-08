@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
   ...(process.env.NEXT_STATIC_EXPORT === '1'
     ? { output: 'export' as const }
     : {}),
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'flagcdn.com' },
+      { protocol: 'https', hostname: 'upload.wikimedia.org' },
+      { protocol: 'https', hostname: 'mainfacts.com' },
+    ],
+  },
 };
 
 export default nextConfig;

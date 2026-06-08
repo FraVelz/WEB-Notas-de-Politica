@@ -22,7 +22,7 @@ export function DocsShell({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const meta = getTemaById(temaId);
-  const showSidebar = meta?.showSidebar !== false;
+  const showSidebar = meta?.showSidebar === true;
 
   return (
     <>

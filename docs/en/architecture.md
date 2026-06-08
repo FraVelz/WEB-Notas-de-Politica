@@ -55,7 +55,7 @@ src/
 - `src/app/[tema]/layout.tsx` wraps the section in `TemaScope`.
 - Grayscale palettes in `src/lib/temas/skins.ts` (by group or `skin` in `registry.ts`; base tokens in `globals.css`).
 - Header on `/[tema]`: only **← Home** + theme toggle (title lives in hub or note).
-- `showSidebar: false` in the registry hides the aside (e.g. `estadisticas-mundiales`).
+- `showSidebar: true` in the registry enables the docs aside (hidden by default).
 - Globe hub: global map via [mapcn](https://mapcn.vercel.app/docs/arcs) (`src/components/ui/map.tsx`, `GloboTerraqueoPoliticoHub.tsx`).
 - Landing `/` uses header with site title.
 - Different look: `skin: 'atlas'` in the registry or edit tokens in `skins.ts`.

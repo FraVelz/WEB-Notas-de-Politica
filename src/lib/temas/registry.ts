@@ -301,7 +301,6 @@ export const temas: TemaDefinition[] = [
     order: 2,
     status: 'active',
     hub: 'tsx',
-    showSidebar: false,
   },
 ];
 
