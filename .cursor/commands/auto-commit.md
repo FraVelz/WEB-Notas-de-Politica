@@ -14,6 +14,7 @@ En paralelo cuando tenga sentido:
 1. `git status` — archivos modificados y sin seguimiento.
 2. `git diff` — qué cambió (staged y unstaged).
 3. `git log -15 --oneline` — tono y tipos usados recientemente.
+4. **Respetar borrados:** si el diff elimina líneas o archivos, **no restaurarlos** ni "arreglar" el contenido antes del commit salvo petición explícita del usuario. Un borrado suele ser intencional.
 
 **No** incluir en el commit:
 
