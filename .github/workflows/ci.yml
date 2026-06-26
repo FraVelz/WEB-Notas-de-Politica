@@ -4,31 +4,31 @@ on:
   push:
     branches: [main]
     paths:
-      - "src/**"
-      - "public/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "next.config.*"
-      - "tsconfig.json"
-      - "postcss.config.*"
-      - "eslint.config.*"
-      - "prettier.config.*"
-      - "react-doctor.config.json"
-      - ".github/workflows/**"
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'next.config.*'
+      - 'tsconfig.json'
+      - 'postcss.config.*'
+      - 'eslint.config.*'
+      - 'prettier.config.*'
+      - 'react-doctor.config.json'
+      - '.github/workflows/**'
   pull_request:
     branches: [main]
     paths:
-      - "src/**"
-      - "public/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "next.config.*"
-      - "tsconfig.json"
-      - "postcss.config.*"
-      - "eslint.config.*"
-      - "prettier.config.*"
-      - "react-doctor.config.json"
-      - ".github/workflows/**"
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'next.config.*'
+      - 'tsconfig.json'
+      - 'postcss.config.*'
+      - 'eslint.config.*'
+      - 'prettier.config.*'
+      - 'react-doctor.config.json'
+      - '.github/workflows/**'
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -48,8 +48,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "pnpm"
+          node-version: '20'
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
