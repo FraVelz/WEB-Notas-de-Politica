@@ -23,9 +23,10 @@ export function InicioPage() {
           Prosperidad
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Un espacio para explorar prosperidad en sentido amplio: desde la
-          filosofía y el Estado hasta economía, geopolítica, datos y debates
-          actuales. Elige un apartado para entrar.
+          Un espacio para la búsqueda de la prosperidad de una nación,
+          explorada en sentido amplio: desde la filosofía y el Estado hasta
+          economía, geopolítica, datos y debates actuales. Elige un apartado
+          para entrar.
         </p>
         <div className="mt-7 flex flex-wrap gap-3">
           <a

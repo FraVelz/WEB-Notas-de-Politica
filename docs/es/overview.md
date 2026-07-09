@@ -1,5 +1,7 @@
 # Documentación del proyecto
 
+**Web Prosperity** es un espacio para la **búsqueda de la prosperidad de una nación**, explorada en sentido amplio (política, filosofía, economía, geopolítica y datos).
+
 Toda la documentación **técnica y de arquitectura** del repositorio en español vive aquí.  
 El código de la aplicación está en `src/`. Las **notas públicas del sitio** (Markdown que se publican) están en `src/features/*/content/`, no en esta carpeta.
 

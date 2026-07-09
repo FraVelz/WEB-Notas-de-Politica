@@ -42,7 +42,7 @@ export function getTsxPageMeta(
     return {
       title: 'Prosperidad',
       description:
-        'Web Prosperity — política, filosofía e ideas para comprender el mundo',
+        'Web Prosperity — búsqueda de la prosperidad de una nación: política, filosofía e ideas para comprender el mundo',
     };
   }
   return null;

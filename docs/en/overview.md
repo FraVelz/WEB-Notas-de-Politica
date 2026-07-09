@@ -1,5 +1,7 @@
 # Project documentation
 
+**Web Prosperity** is a space for the **pursuit of a nation’s prosperity**, explored in a broad sense (politics, philosophy, economics, geopolitics, and data).
+
 All **technical and architecture** documentation for this repository in English lives here.  
 Application code is in `src/`. **Published site notes** (Markdown visitors see) are in `src/features/*/content/`, not in this folder.
 

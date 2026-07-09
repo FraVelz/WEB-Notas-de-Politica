@@ -57,7 +57,7 @@ const pilares = [
   {
     icon: Target,
     title: 'El objetivo',
-    text: 'Comprender el mundo en el que vivimos y el de los demás, y ordenar esa información de forma útil para quien quiera pensar con claridad.',
+    text: 'Buscar la prosperidad de una nación: comprender el mundo en el que vivimos y el de los demás, y ordenar esa información de forma útil para quien quiera pensar con claridad.',
   },
 ] as const;
 
@@ -87,8 +87,9 @@ export function BienvenidaPage() {
               Prosperidad
             </h1>
             <p className="m-0 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Un archivo en construcción para explorar ideas, contexto y debates
-              que ayuden a entender cómo se organiza el poder y la vida en común.
+              Un archivo en construcción para la búsqueda de la prosperidad de
+              una nación: ideas, contexto y debates que ayuden a entender cómo
+              se organiza el poder y la vida en común.
             </p>
           </div>
         </div>

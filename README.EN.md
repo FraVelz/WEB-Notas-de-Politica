@@ -2,7 +2,7 @@
 
 [Spanish version](./README.md)
 
-**Web Prosperity** explores **prosperity** in a broad sense — **politics, philosophy**, and related topics — built with [Next.js](https://nextjs.org).
+**Web Prosperity** is a space for the **pursuit of a nation’s prosperity**, explored in a broad sense — **politics, philosophy**, and related topics — built with [Next.js](https://nextjs.org).
 
 ![Screenshot](./src/app/opengraph-image.png)
 
@@ -64,7 +64,7 @@ pnpm dev
 
 |             |                                                                       |
 | ----------- | --------------------------------------------------------------------- |
-| **Project** | Personal notes site under active development; content grows per topic |
+| **Project** | Space for the pursuit of a nation’s prosperity; notes under active development, growing per topic |
 | **Author**  | Fravelz                                                               |
 | **License** | [Apache License 2.0](./LICENSE)                                       |
 

@@ -2,7 +2,7 @@
 
 [English Version](./README.EN.md)
 
-Sitio **Web Prosperity** sobre **prosperidad** en sentido amplio: **política, filosofía** y temas afines, construido con [Next.js](https://nextjs.org).
+Sitio **Web Prosperity** para la **búsqueda de la prosperidad de una nación**, explorada en sentido amplio: **política, filosofía** y temas afines, construido con [Next.js](https://nextjs.org).
 
 ![Captura de pantalla](./src/app/opengraph-image.png)
 
@@ -64,7 +64,7 @@ pnpm dev
 
 |              |                                                                             |
 | ------------ | --------------------------------------------------------------------------- |
-| **Proyecto** | Sitio de notas personales en construcción; el contenido crece por apartados |
+| **Proyecto** | Espacio para la búsqueda de la prosperidad de una nación; notas en construcción que crecen por apartados |
 | **Autor**    | Fravelz                                                                     |
 | **Licencia** | [Apache License 2.0](./LICENSE)                                             |
 
