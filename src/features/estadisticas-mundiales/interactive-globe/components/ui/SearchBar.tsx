@@ -67,8 +67,8 @@ export function SearchBar({ countries }: SearchBarProps) {
   }, []);
 
   return (
-    <div className="relative w-full max-w-md">
-      <div className="flex items-center gap-2 rounded-xl border border-border bg-elevated/85 px-4 py-3 shadow-[var(--shadow-theme)] backdrop-blur-md">
+    <div className="relative w-full max-w-md md:max-w-sm lg:max-w-md">
+      <div className="flex min-h-11 items-center gap-2 rounded-xl border border-border bg-elevated/85 px-3 py-2.5 shadow-[var(--shadow-theme)] backdrop-blur-md sm:px-4 sm:py-3">
         <Search
           className="size-4 shrink-0 text-link"
           aria-hidden

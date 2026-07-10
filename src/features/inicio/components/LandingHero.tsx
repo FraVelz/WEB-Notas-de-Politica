@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 export function LandingHero() {
   return (
-    <section className="landing-hero relative isolate min-h-[min(82vh,46rem)] overflow-hidden bg-background">
+    <section className="landing-hero relative isolate min-h-[min(68vh,36rem)] overflow-hidden bg-background sm:min-h-[min(82vh,46rem)]">
       <div
         className="landing-hero-earth absolute inset-0 bg-cover bg-[position:85%_40%] sm:bg-[position:80%_38%] lg:bg-[position:72%_36%]"
         style={{ backgroundImage: "url('/landing/earth-night.webp')" }}
@@ -24,23 +24,23 @@ export function LandingHero() {
       <div className="landing-hero-scrim-x absolute inset-0" aria-hidden />
       <div className="landing-hero-scrim-y absolute inset-0" aria-hidden />
 
-      <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-16 sm:px-6 lg:flex-row lg:items-start lg:justify-between lg:py-24">
+      <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-12 sm:gap-10 sm:px-6 sm:py-16 lg:flex-row lg:items-start lg:justify-between lg:py-24">
         <div className="max-w-xl lg:pt-6">
           <p className="m-0 text-xs font-semibold tracking-[0.28em] text-link uppercase">
             WEB-PROSPERITY
           </p>
-          <h1 className="font-display mt-4 text-4xl leading-[1.08] text-foreground sm:text-5xl lg:text-[3.5rem]">
+          <h1 className="font-display mt-3 text-[2rem] leading-[1.08] text-foreground min-[360px]:text-4xl sm:mt-4 sm:text-5xl lg:text-[3.5rem]">
             Comprender cómo funcionan las sociedades.
           </h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
             Explora ideas, instituciones, datos y escenarios para pensar la
             prosperidad de una nación —sin verdades absolutas.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
             <a
               href="#ejes"
               className={cn(
-                'inline-flex items-center gap-2 rounded-xl bg-link px-5 py-3 text-sm font-semibold text-white no-underline',
+                'inline-flex min-h-11 items-center gap-2 rounded-xl bg-link px-5 py-3 text-sm font-semibold text-white no-underline',
                 'shadow-[0_0_28px_rgb(37_99_235/35%)] transition hover:bg-link-hover',
               )}
             >
@@ -50,7 +50,7 @@ export function LandingHero() {
             <Link
               href="/estadisticas-mundiales/indicadores"
               className={cn(
-                'inline-flex items-center gap-2 rounded-xl border border-border bg-elevated/80 px-5 py-3 text-sm font-medium text-foreground no-underline backdrop-blur-sm',
+                'inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-elevated/80 px-5 py-3 text-sm font-medium text-foreground no-underline backdrop-blur-sm',
                 'hover:border-link hover:bg-link-muted hover:text-link',
               )}
             >

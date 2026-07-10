@@ -195,7 +195,7 @@ export function ComparePanel() {
   }
 
   return (
-    <aside className="pointer-events-auto fixed inset-x-3 bottom-3 z-30 flex max-h-[min(92vh,920px)] w-auto flex-col overflow-y-auto overscroll-contain rounded-2xl border border-border bg-elevated/95 shadow-[var(--shadow-theme)] backdrop-blur-xl lg:inset-x-auto lg:right-4 lg:bottom-4 lg:left-[21rem] lg:max-h-[min(90vh,880px)]">
+    <aside className="pointer-events-auto fixed inset-x-3 bottom-3 z-30 flex max-h-[min(85dvh,920px)] w-auto flex-col overflow-y-auto overscroll-contain rounded-2xl border border-border bg-elevated/95 pb-[env(safe-area-inset-bottom)] shadow-[var(--shadow-theme)] backdrop-blur-xl lg:inset-x-auto lg:right-4 lg:bottom-4 lg:left-[21rem] lg:max-h-[min(90dvh,880px)] lg:pb-0">
       <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border px-4 py-2.5">
         <h2 className="m-0 text-sm font-semibold uppercase tracking-wider text-link">
           Comparación ({compareIso2s.length}/{MAX_COMPARE_COUNTRIES})
@@ -205,7 +205,7 @@ export function ComparePanel() {
             <button
               type="button"
               onClick={clearSelection}
-              className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-link-muted hover:text-foreground"
+              className="inline-flex min-h-11 items-center rounded-lg px-3 py-1 text-xs text-muted-foreground transition-colors hover:bg-link-muted hover:text-foreground sm:min-h-0 sm:px-2"
             >
               Limpiar
             </button>
@@ -213,7 +213,7 @@ export function ComparePanel() {
           <button
             type="button"
             onClick={() => setComparePanelMinimized(true)}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-link hover:bg-link-muted hover:text-link"
+            className="inline-flex min-h-11 items-center gap-1 rounded-lg border border-border px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-link hover:bg-link-muted hover:text-link sm:min-h-0 sm:px-2"
             aria-label="Minimizar panel de comparación"
           >
             <Minimize2 className="size-3.5" aria-hidden />

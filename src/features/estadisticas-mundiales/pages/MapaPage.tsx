@@ -38,7 +38,9 @@ export default function MapaPage() {
   const [countries, setCountries] = useState<CountrySummary[]>([]);
   const setCountryStats = useGlobeStore((s) => s.setCountryStats);
   const compareMode = useGlobeStore((s) => s.compareMode);
+  const selectedIso2 = useGlobeStore((s) => s.selectedIso2);
   const showComparePanel = compareMode;
+  const showMobileCountrySheet = Boolean(selectedIso2) && !showComparePanel;
 
   useEffect(() => {
     fetchAllCountries()
@@ -75,16 +77,16 @@ export default function MapaPage() {
           <GlobeScene />
         </div>
 
-        <div className="pointer-events-none relative z-10 flex h-full flex-col p-4 md:p-6">
-          <header className="pointer-events-auto flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div>
+        <div className="pointer-events-none relative z-10 flex h-full flex-col p-3 sm:p-4 md:p-6">
+          <header className="pointer-events-auto flex flex-col gap-3 md:flex-row md:items-start md:justify-between md:gap-4">
+            <div className="min-w-0">
               <p className="m-0 mb-1 text-xs font-semibold tracking-widest text-link uppercase">
                 Datos
               </p>
-              <h1 className="m-0 text-xl font-bold text-foreground md:text-2xl">
+              <h1 className="m-0 text-lg font-bold text-foreground md:text-2xl">
                 {meta.title}
               </h1>
-              <p className="m-0 mt-1 text-xs text-muted-foreground">
+              <p className="m-0 mt-1 hidden text-xs text-muted-foreground sm:block">
                 {meta.description}
               </p>
             </div>
@@ -95,8 +97,14 @@ export default function MapaPage() {
           <GlobeCompass />
           <LoadingOverlay />
 
-          <div className="pointer-events-none mt-auto flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div className="pointer-events-auto flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:max-w-xl">
+          <div
+            className={
+              showMobileCountrySheet
+                ? 'pointer-events-none mt-auto flex flex-col gap-3 pb-[min(42dvh,21rem)] lg:flex-row lg:items-end lg:justify-between lg:pb-[max(0.25rem,env(safe-area-inset-bottom))]'
+                : 'pointer-events-none mt-auto flex flex-col gap-3 pb-[max(0.25rem,env(safe-area-inset-bottom))] lg:flex-row lg:items-end lg:justify-between'
+            }
+          >
+            <div className="pointer-events-auto flex max-h-[min(32dvh,14rem)] flex-col gap-3 overflow-y-auto overscroll-contain sm:max-h-none sm:flex-row sm:flex-wrap lg:max-w-xl">
               <ViewControls />
               <LayerControls />
             </div>
@@ -108,8 +116,8 @@ export default function MapaPage() {
 
         {showComparePanel ? <ComparePanel /> : null}
 
-        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 p-4 md:hidden">
-          <div className="pointer-events-auto max-h-[45vh] overflow-y-auto overscroll-contain">
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
+          <div className="pointer-events-auto max-h-[min(40dvh,20rem)] overflow-y-auto overscroll-contain">
             {!showComparePanel ? <CountryPanel /> : null}
           </div>
         </div>

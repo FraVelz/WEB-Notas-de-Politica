@@ -81,12 +81,14 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
     @apply m-0 bg-background text-foreground antialiased;
     font-family: var(--font-sans);
     line-height: 1.6;
+    overflow-x: clip;
   }
 
   [data-theme='dark'] body {
@@ -422,7 +424,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 26rem;
+    min-height: 19rem;
     overflow: hidden;
     border-radius: 1rem;
     border: 1px solid var(--border);
@@ -433,6 +435,12 @@
       transform 150ms ease,
       border-color 150ms ease,
       box-shadow 150ms ease;
+  }
+
+  @media (min-width: 640px) {
+    .eje-card {
+      min-height: 26rem;
+    }
   }
 
   .eje-card:hover {
@@ -581,7 +589,14 @@
   :root[data-theme='dark'] .eje-card,
   [data-theme='dark'] .eje-card {
     background: transparent;
-    min-height: 24rem;
+    min-height: 17rem;
+  }
+
+  @media (min-width: 640px) {
+    :root[data-theme='dark'] .eje-card,
+    [data-theme='dark'] .eje-card {
+      min-height: 24rem;
+    }
   }
 
   :root[data-theme='dark'] .eje-card-body,
@@ -738,10 +753,16 @@
 
   .eje-hero-title {
     margin: 0.25rem 0 0;
-    font-size: 1.875rem;
+    font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: -0.025em;
     color: var(--text);
+  }
+
+  @media (min-width: 360px) {
+    .eje-hero-title {
+      font-size: 1.875rem;
+    }
   }
 
   @media (min-width: 640px) {

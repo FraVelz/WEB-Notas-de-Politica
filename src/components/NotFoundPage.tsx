@@ -6,7 +6,7 @@ const activeTemas = getTemasForLanding().filter((t) => t.status === 'active');
 
 export function NotFoundPage() {
   return (
-    <section className="flex min-h-[calc(100vh-3.5rem-4rem)] flex-col justify-center py-12 sm:py-16">
+    <section className="flex min-h-[calc(100dvh-3.5rem-4rem)] flex-col justify-center py-12 sm:py-16">
       <p
         className="m-0 select-none font-semibold tracking-tighter text-muted-foreground/40 tabular-nums"
         aria-hidden

@@ -59,7 +59,7 @@ export function TemaPageHeader({
             <p className="m-0 text-sm font-semibold tracking-widest text-link uppercase">
               {eyebrow}
             </p>
-            <h1 className="m-0 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            <h1 className="m-0 text-[1.75rem] font-semibold tracking-tight text-foreground min-[360px]:text-3xl sm:text-4xl">
               {title}
             </h1>
             {description ? (

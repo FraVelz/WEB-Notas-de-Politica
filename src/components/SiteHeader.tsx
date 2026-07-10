@@ -41,7 +41,7 @@ export function SiteHeader({
         className={cn(
           'mx-auto w-full px-4 sm:px-6',
           variant === 'landing'
-            ? 'relative flex h-14 max-w-7xl items-center gap-3 md:gap-6'
+            ? 'relative flex h-14 max-w-7xl items-center gap-2 sm:gap-3 md:gap-6'
             : 'flex h-14 max-w-none items-center gap-3 sm:gap-6',
         )}
       >
@@ -56,7 +56,7 @@ export function SiteHeader({
           <Link
             href="/"
             title={siteConfig.title}
-            className="site-header-link inline-flex max-w-[13rem] shrink-0 items-center gap-2.5 no-underline sm:max-w-none"
+            className="site-header-link inline-flex max-w-[11rem] shrink-0 items-center gap-2 no-underline min-[380px]:max-w-[13rem] sm:max-w-none sm:gap-2.5"
           >
             <span
               className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-link-muted text-link"
@@ -76,7 +76,7 @@ export function SiteHeader({
         )}
 
         {variant === 'landing' && (
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 md:flex-1">
             <SiteSectionsNav
               mobileOpen={mobileNavOpen}
               onMobileOpenChange={setMobileNavOpen}
@@ -85,15 +85,18 @@ export function SiteHeader({
           </div>
         )}
 
-        <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-2.5">
+        <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2.5">
           {variant === 'landing' ? (
             <>
-              <CommandPaletteHost placeholder="Buscar en Prosperidad..." />
+              <CommandPaletteHost
+                compactTrigger
+                placeholder="Buscar en Prosperidad..."
+              />
               <ThemeToggle />
               <BookmarksMenu className="hidden sm:block" />
               <button
                 type="button"
-                className="inline-flex size-9 items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-foreground md:hidden"
+                className="inline-flex size-11 items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-foreground md:hidden"
                 aria-label="Abrir menú de secciones"
                 aria-expanded={mobileNavOpen}
                 onClick={() => setMobileNavOpen((o) => !o)}

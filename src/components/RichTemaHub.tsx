@@ -114,7 +114,7 @@ export function RichTemaHub({
             ) : null}
             <h1
               className={cn(
-                'font-display m-0 text-3xl tracking-tight sm:text-4xl',
+                'font-display m-0 text-[1.75rem] tracking-tight min-[360px]:text-3xl sm:text-4xl',
                 headerStyle === 'inverted'
                   ? 'text-[var(--accent-on)]'
                   : 'text-foreground',
@@ -250,7 +250,7 @@ export function RichTemaHub({
                 <li
                   key={q}
                   className={cn(
-                    'relative flex min-h-[8.5rem] flex-col gap-3 overflow-hidden rounded-2xl border border-border bg-elevated p-4',
+                    'relative flex min-h-[7.5rem] flex-col gap-3 overflow-hidden rounded-2xl border border-border bg-elevated p-4 sm:min-h-[8.5rem]',
                     'transition-colors duration-150 hover:border-link/40',
                   )}
                 >

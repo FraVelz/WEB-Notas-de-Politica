@@ -68,7 +68,7 @@ export function CommandPaletteTrigger({
         'hover:border-link/40 hover:text-foreground',
         compact
           ? 'w-9 justify-center px-0 sm:w-auto sm:min-w-[14rem] sm:px-3'
-          : 'min-w-[14rem]',
+          : 'w-9 justify-center px-0 sm:min-w-[14rem] sm:justify-start sm:px-3',
         className,
       )}
       aria-label={`${placeholder} (⌘K)`}
@@ -167,7 +167,7 @@ export function CommandPalette({
         className={cn(
           'relative z-10 flex w-full max-w-lg flex-col overflow-hidden rounded-2xl',
           'border border-border bg-elevated shadow-[0_24px_80px_rgb(0_0_0/55%)]',
-          'max-h-[min(32rem,calc(100vh-8rem))]',
+          'max-h-[min(32rem,calc(100dvh-8rem))]',
         )}
       >
         <div className="flex shrink-0 items-center gap-2 border-b border-border px-3">

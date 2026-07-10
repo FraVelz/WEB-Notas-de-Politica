@@ -141,8 +141,9 @@ export function CountryCompare({
     <section className="space-y-5">
       <div
         className={cn(
-          'sticky top-14 z-10 space-y-4 rounded-2xl border border-border',
+          'space-y-4 rounded-2xl border border-border',
           'bg-elevated/95 p-4 shadow-[var(--shadow-theme)] backdrop-blur-md sm:p-5',
+          'md:sticky md:top-14 md:z-10',
         )}
       >
         <header className="space-y-1">

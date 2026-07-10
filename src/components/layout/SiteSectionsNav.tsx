@@ -52,7 +52,11 @@ function NavSectionsList({
           <a
             href={`/temas/${categoryId}#${group.id}`}
             role="menuitem"
-            className="block rounded-sm px-2 py-1 text-sm font-semibold text-foreground no-underline outline-none hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+            className={cn(
+              'block rounded-sm px-2 text-sm font-semibold text-foreground no-underline outline-none hover:text-link',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]',
+              compact ? 'min-h-11 py-2.5' : 'py-1',
+            )}
             onClick={onNavigate}
           >
             {group.label}
@@ -64,7 +68,11 @@ function NavSectionsList({
                   <Link
                     href={`/${tema.id}`}
                     role="menuitem"
-                    className="block rounded-sm px-2 py-1 text-sm leading-snug text-muted-foreground no-underline outline-none hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+                    className={cn(
+                      'block rounded-sm px-2 text-sm leading-snug text-muted-foreground no-underline outline-none hover:text-link',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]',
+                      compact ? 'min-h-11 py-2.5' : 'py-1',
+                    )}
                     onClick={onNavigate}
                   >
                     {tema.title}
@@ -303,8 +311,8 @@ export function SiteSectionsNav({
           hidden={!mobileMenuOpen}
           className={cn(
             hideMobileTrigger
-              ? 'fixed top-14 right-4 left-4 z-40 max-h-[min(70vh,28rem)] overflow-y-auto overscroll-contain'
-              : 'absolute top-[calc(100%+0.375rem)] right-0 left-0 z-40 max-h-[min(70vh,28rem)] overflow-y-auto overscroll-contain',
+              ? 'fixed top-14 right-4 left-4 z-40 max-h-[min(70dvh,28rem)] overflow-y-auto overscroll-contain'
+              : 'absolute top-[calc(100%+0.375rem)] right-0 left-0 z-40 max-h-[min(70dvh,28rem)] overflow-y-auto overscroll-contain',
             'rounded-lg border border-border bg-elevated py-2 shadow-[var(--shadow-theme)]',
           )}
         >

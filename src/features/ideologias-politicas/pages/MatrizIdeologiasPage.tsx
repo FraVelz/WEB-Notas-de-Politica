@@ -101,7 +101,10 @@ export default function MatrizIdeologiasPage() {
         celda en «tradición» y divergir en economía.
       </ScenarioCallout>
 
-      <div className="overflow-x-auto rounded-xl border border-border">
+      <div className="relative overflow-x-auto rounded-xl border border-border">
+        <p className="m-0 border-b border-border bg-muted/40 px-3 py-1.5 text-[0.7rem] text-muted-foreground md:hidden">
+          Desliza horizontalmente para ver todas las columnas
+        </p>
         <table className="w-full min-w-[36rem] border-collapse text-left text-sm">
           <caption className="sr-only">
             Matriz de corrientes ideológicas por ejes de libertad económica,

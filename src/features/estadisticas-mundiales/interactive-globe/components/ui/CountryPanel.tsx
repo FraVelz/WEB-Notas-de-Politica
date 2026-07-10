@@ -31,7 +31,7 @@ export function CountryPanel() {
     : [];
 
   return (
-    <aside className="flex max-h-[min(48vh,440px)] w-full flex-col overflow-hidden rounded-2xl border border-border bg-elevated/90 shadow-[var(--shadow-theme)] backdrop-blur-xl md:w-80">
+    <aside className="flex max-h-[min(40dvh,20rem)] w-full flex-col overflow-hidden rounded-2xl border border-border bg-elevated/90 shadow-[var(--shadow-theme)] backdrop-blur-xl md:max-h-[min(48vh,440px)] md:w-80">
       <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-3">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-link">
           Información
@@ -39,7 +39,7 @@ export function CountryPanel() {
         <button
           type="button"
           onClick={clearSelection}
-          className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-link-muted hover:text-foreground"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-link-muted hover:text-foreground sm:min-h-0 sm:min-w-0"
         >
           Esc
         </button>
