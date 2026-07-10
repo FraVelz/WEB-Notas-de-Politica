@@ -1,6 +1,6 @@
 # Web Prosperity
 
-[Spanish version](./README.md)
+This document is in English. [Versión en español](./README.md)
 
 **Web Prosperity** is a space for the **pursuit of a nation’s prosperity**, explored in a broad sense — **politics, philosophy**, and related topics — built with [Next.js](https://nextjs.org).
 

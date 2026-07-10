@@ -2,6 +2,14 @@
 
 Usar cuando el usuario pida **actualizar un documento**, **revisar un `.md`**, **sincronizar el par en otro idioma** o invoque este comando **con la ruta de un archivo**.
 
+## Modos
+
+- **Por defecto / `@` archivos:** ortografía + sync del par bilingüe (según idioma fuente).
+- **`sync-en` / "sincronizar a inglés":** tomar `README.md` (y docs ES si aplica) como
+  **fuente** y **actualizar o crear** el espejo EN (`README.EN.md` / `README.en.md`). No
+  reescribir el ES salvo typos. En el EN, la cabecera debe incluir:
+  `This document is in English. [Versión en español](./README.md)`.
+
 ## Entrada
 
 - El usuario **debe indicar** el archivo (ruta relativa al repo), por ejemplo:
