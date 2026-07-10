@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
   BarChart3,
@@ -19,6 +19,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { SiteHeader } from '@/components/SiteHeader';
 import type { DocMeta } from '@/lib/content/docs';
 import type { NavItem } from '@/lib/navigation';
+import { getFeatureNavIcons } from '@/lib/temas/navigation';
 import { getTemaById } from '@/lib/temas/registry';
 import { cn } from '@/lib/utils';
 
@@ -31,17 +32,16 @@ export function DocsShell({
   docs,
   navigation,
   temaId,
-  navIcons,
   children,
 }: {
   docs: DocMeta[];
   navigation: NavItem[];
   temaId: string;
-  navIcons?: Record<string, LucideIcon>;
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [icons, setIcons] = useState<Record<string, LucideIcon>>();
   const { open, setOpen } = useCommandPalette();
   const pathname = usePathname();
   const meta = getTemaById(temaId);
@@ -50,7 +50,16 @@ export function DocsShell({
   const immersiveHub =
     meta?.immersiveHub === true &&
     (pathname === `/${temaId}` || pathname === `/${temaId}/`);
-  const icons = navIcons;
+
+  useEffect(() => {
+    let cancelled = false;
+    void getFeatureNavIcons(temaId).then((next) => {
+      if (!cancelled) setIcons(next);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [temaId]);
 
   const extraItems = useMemo(
     () =>

@@ -77,17 +77,10 @@ export default async function TemaDocPage({ params }: PageProps) {
 
   const docs = getAllDocs();
   const navigation = await getFeatureNavigation(tema);
-  const { getFeatureNavIcons } = await import('@/lib/temas/navigation');
-  const navIcons = await getFeatureNavIcons(tema);
 
   if (TsxPage) {
     return (
-      <DocsShell
-        docs={docs}
-        navigation={navigation}
-        temaId={tema}
-        navIcons={navIcons}
-      >
+      <DocsShell docs={docs} navigation={navigation} temaId={tema}>
         <TsxPage />
       </DocsShell>
     );
@@ -99,12 +92,7 @@ export default async function TemaDocPage({ params }: PageProps) {
   const siblings = getDocsByTema(tema).filter((d) => d.slug !== '');
 
   return (
-    <DocsShell
-      docs={docs}
-      navigation={navigation}
-      temaId={tema}
-      navIcons={navIcons}
-    >
+    <DocsShell docs={docs} navigation={navigation} temaId={tema}>
       <DocArticleChrome
         temaId={tema}
         title={doc.title}

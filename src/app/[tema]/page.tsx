@@ -41,16 +41,9 @@ export default async function TemaHubPage({ params }: PageProps) {
   const Hub = await resolveTemaHub(tema);
   const docs = getAllDocs();
   const navigation = await getFeatureNavigation(tema);
-  const { getFeatureNavIcons } = await import('@/lib/temas/navigation');
-  const navIcons = await getFeatureNavIcons(tema);
 
   return (
-    <DocsShell
-      docs={docs}
-      navigation={navigation}
-      temaId={tema}
-      navIcons={navIcons}
-    >
+    <DocsShell docs={docs} navigation={navigation} temaId={tema}>
       <Hub temaId={tema} />
     </DocsShell>
   );
