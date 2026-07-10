@@ -21,6 +21,24 @@ export const nav: NavItem[] = [
         ],
       },
       {
+        label: 'África',
+        items: [
+          {
+            label: 'Nigeria',
+            href: `/${TEMA_ID}/paises/africa/nigeria`,
+          },
+        ],
+      },
+      {
+        label: 'Europa',
+        items: [
+          {
+            label: 'Alemania',
+            href: `/${TEMA_ID}/paises/europa/alemania`,
+          },
+        ],
+      },
+      {
         label: 'Asia',
         items: [
           {
@@ -32,6 +50,15 @@ export const nav: NavItem[] = [
             href: `/${TEMA_ID}/paises/asiaticos/corea-del-sur`,
           },
         ],
+      },
+    ],
+  },
+  {
+    label: 'Interactivo',
+    items: [
+      {
+        label: 'Ficha comparativa',
+        href: `/${TEMA_ID}/ficha-comparativa`,
       },
     ],
   },
