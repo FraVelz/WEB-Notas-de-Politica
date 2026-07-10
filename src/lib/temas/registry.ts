@@ -399,3 +399,11 @@ export function getNavCategoriesGrouped() {
       .filter((entry): entry is NonNullable<typeof entry> => entry != null),
   }));
 }
+
+export function getNavCategoryById(id: string): TemaNavCategory | undefined {
+  return temaNavCategories.find((c) => c.id === id);
+}
+
+export function getNavCategoryGroupedById(id: string) {
+  return getNavCategoriesGrouped().find((entry) => entry.category.id === id);
+}

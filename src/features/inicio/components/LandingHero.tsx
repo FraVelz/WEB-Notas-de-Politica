@@ -4,10 +4,9 @@ import { cn } from '@/lib/utils';
 
 export function LandingHero() {
   return (
-    <section className="relative isolate min-h-[min(82vh,46rem)] overflow-hidden">
-      {/* Earth sits on the right (asymmetric composition) */}
+    <section className="landing-hero relative isolate min-h-[min(82vh,46rem)] overflow-hidden bg-background">
       <div
-        className="absolute inset-y-0 right-0 w-full bg-cover bg-[position:70%_center] lg:w-[62%]"
+        className="landing-hero-earth absolute inset-0 bg-cover bg-[position:85%_40%] sm:bg-[position:80%_38%] lg:bg-[position:72%_36%]"
         style={{ backgroundImage: "url('/landing/earth-night.webp')" }}
         aria-hidden
       />
@@ -15,31 +14,25 @@ export function LandingHero() {
       <img
         src="/landing/orbits.svg"
         alt=""
-        className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[62%] object-cover opacity-70 lg:block"
+        className="landing-hero-orbits pointer-events-none absolute inset-0 hidden h-full w-full object-cover object-[72%_center] lg:block"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute top-8 right-[18%] hidden size-40 rounded-full bg-sky-300/30 blur-3xl lg:block"
+        className="landing-hero-glow pointer-events-none absolute top-10 right-[12%] hidden size-48 rounded-full blur-3xl lg:block"
         aria-hidden
       />
-      <div
-        className="absolute inset-0 bg-gradient-to-r from-[#05070a] via-[#05070a]/92 to-[#05070a]/25"
-        aria-hidden
-      />
-      <div
-        className="absolute inset-0 bg-gradient-to-t from-[#05070a] via-transparent to-[#05070a]/40"
-        aria-hidden
-      />
+      <div className="landing-hero-scrim-x absolute inset-0" aria-hidden />
+      <div className="landing-hero-scrim-y absolute inset-0" aria-hidden />
 
       <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-16 sm:px-6 lg:flex-row lg:items-start lg:justify-between lg:py-24">
         <div className="max-w-xl lg:pt-6">
           <p className="m-0 text-xs font-semibold tracking-[0.28em] text-link uppercase">
             WEB-PROSPERITY
           </p>
-          <h1 className="font-display mt-4 text-4xl leading-[1.08] text-white sm:text-5xl lg:text-[3.5rem]">
+          <h1 className="font-display mt-4 text-4xl leading-[1.08] text-foreground sm:text-5xl lg:text-[3.5rem]">
             Comprender cómo funcionan las sociedades.
           </h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-slate-300 sm:text-lg">
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
             Explora ideas, instituciones, datos y escenarios para pensar la
             prosperidad de una nación —sin verdades absolutas.
           </p>
@@ -48,7 +41,7 @@ export function LandingHero() {
               href="#ejes"
               className={cn(
                 'inline-flex items-center gap-2 rounded-xl bg-link px-5 py-3 text-sm font-semibold text-white no-underline',
-                'shadow-[0_0_28px_rgb(37_99_235/45%)] transition hover:bg-link-hover',
+                'shadow-[0_0_28px_rgb(37_99_235/35%)] transition hover:bg-link-hover',
               )}
             >
               Explorar temas
@@ -57,8 +50,8 @@ export function LandingHero() {
             <Link
               href="/estadisticas-mundiales/indicadores"
               className={cn(
-                'inline-flex items-center gap-2 rounded-xl border border-white/25 bg-black/20 px-5 py-3 text-sm font-medium text-white no-underline backdrop-blur-sm',
-                'hover:border-link hover:bg-link-muted',
+                'inline-flex items-center gap-2 rounded-xl border border-border bg-elevated/80 px-5 py-3 text-sm font-medium text-foreground no-underline backdrop-blur-sm',
+                'hover:border-link hover:bg-link-muted hover:text-link',
               )}
             >
               <BarChart3 className="size-4 text-link" aria-hidden />
@@ -74,8 +67,8 @@ export function LandingHero() {
           <p className="mt-1 m-0 text-xs leading-relaxed text-muted-foreground">
             Ideas, datos y contexto para mejores decisiones.
           </p>
-          <p className="mt-3 m-0 flex items-center gap-2 text-xs font-medium text-emerald-400">
-            <span className="size-2 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+          <p className="landing-hero-status mt-3 m-0 flex items-center gap-2 text-xs font-medium">
+            <span className="size-2 animate-pulse rounded-full bg-emerald-500 shadow-[0_0_8px_#34d399]" />
             Sistema activo
           </p>
         </aside>

@@ -1,3 +1,10 @@
+import type { LucideIcon } from 'lucide-react';
+import {
+  Landmark,
+  Map as MapIcon,
+  Megaphone,
+  Swords,
+} from 'lucide-react';
 import { getAllDocs } from '@/lib/content/docs';
 import {
   getNavCategoriesGrouped,
@@ -39,6 +46,13 @@ export const EJE_VISUAL: Record<
     glow: 'rgb(6 182 212 / 45%)',
     accent: '#06b6d4',
   },
+};
+
+export const EJE_ICONS: Record<TemaNavCategoryId, LucideIcon> = {
+  'marco-teorico': Landmark,
+  'poder-y-accion': Swords,
+  'debate-actual': Megaphone,
+  datos: MapIcon,
 };
 
 /** KPIs de presentación alineados al mockup (marketing layout). */

@@ -25,10 +25,12 @@ function getFocusables(container: HTMLElement | null): HTMLElement[] {
 }
 
 function NavSectionsList({
+  categoryId,
   sections,
   onNavigate,
   compact,
 }: {
+  categoryId: string;
   sections: (typeof navCategories)[number]['sections'];
   onNavigate: () => void;
   compact?: boolean;
@@ -48,7 +50,7 @@ function NavSectionsList({
           className="not-first:mt-2 not-first:border-t not-first:border-border not-first:pt-2"
         >
           <a
-            href={`/temas#${group.id}`}
+            href={`/temas/${categoryId}#${group.id}`}
             role="menuitem"
             className="block rounded-sm px-2 py-1 text-sm font-semibold text-foreground no-underline outline-none hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
             onClick={onNavigate}
@@ -312,7 +314,7 @@ export function SiteSectionsNav({
               className="not-first:mt-2 not-first:border-t not-first:border-border not-first:pt-2"
             >
               <a
-                href={`/temas#${category.id}`}
+                href={`/temas/${category.id}`}
                 role="menuitem"
                 className="mx-2 mb-1 block rounded-sm px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-link no-underline outline-none hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
                 onClick={() => closeMobile()}
@@ -320,6 +322,7 @@ export function SiteSectionsNav({
                 {category.label}
               </a>
               <NavSectionsList
+                categoryId={category.id}
                 sections={sections}
                 onNavigate={() => closeMobile()}
                 compact
@@ -354,7 +357,7 @@ export function SiteSectionsNav({
                 ref={(node) => {
                   triggerRefs.current[category.id] = node;
                 }}
-                href={`/temas#${category.id}`}
+                href={`/temas/${category.id}`}
                 id={triggerId}
                 role="menuitem"
                 aria-haspopup="menu"
@@ -399,7 +402,7 @@ export function SiteSectionsNav({
                 )}
               >
                 <a
-                  href={`/temas#${category.id}`}
+                  href={`/temas/${category.id}`}
                   role="menuitem"
                   className="mx-2 mb-1 block rounded-sm px-2 py-1.5 text-xs font-medium text-link no-underline outline-none hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
                   onClick={() => closeDesktop()}
@@ -408,6 +411,7 @@ export function SiteSectionsNav({
                 </a>
 
                 <NavSectionsList
+                  categoryId={category.id}
                   sections={sections}
                   onNavigate={() => closeDesktop()}
                 />
