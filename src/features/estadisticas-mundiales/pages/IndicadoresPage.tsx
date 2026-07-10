@@ -5,8 +5,6 @@ import { ChevronRight } from 'lucide-react';
 import { CountryCompare } from '@/components/ui/CountryCompare';
 import { ScenarioCallout } from '@/components/ui/ScenarioCallout';
 import { TemaPageHeader } from '@/components/ui/TemaPageHeader';
-import { getTemaIcon } from '@/lib/temas/icons';
-import { getTemaById } from '@/lib/temas/registry';
 import { cn } from '@/lib/utils';
 
 const TEMA_ID = 'estadisticas-mundiales';
@@ -31,35 +29,8 @@ const SIBLINGS = [
 ] as const;
 
 export default function IndicadoresPage() {
-  const meta = getTemaById(TEMA_ID);
-  const Icon = getTemaIcon(TEMA_ID);
-
   return (
     <div className="mx-auto max-w-4xl space-y-8 pb-8">
-      <nav
-        aria-label="Miga de pan"
-        className="flex flex-wrap items-center gap-1.5 text-sm"
-      >
-        <Link
-          href={`/${TEMA_ID}`}
-          className={cn(
-            'inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5',
-            'text-muted-foreground no-underline transition-colors',
-            'hover:bg-link-muted hover:text-link',
-          )}
-        >
-          <Icon className="size-3.5" strokeWidth={1.75} aria-hidden />
-          {meta?.title ?? 'Estadísticas mundiales'}
-        </Link>
-        <ChevronRight
-          className="size-3.5 text-muted-foreground"
-          aria-hidden
-        />
-        <span className="font-medium text-foreground">
-          Comparador de indicadores
-        </span>
-      </nav>
-
       <TemaPageHeader
         temaId={TEMA_ID}
         eyebrow="Datos"

@@ -3,10 +3,15 @@
 import Link from 'next/link';
 import { CountryCompare } from '@/components/ui/CountryCompare';
 import { ScenarioCallout } from '@/components/ui/ScenarioCallout';
+import { TemaBreadcrumb } from '@/components/ui/TemaBreadcrumb';
 
 export default function SenalesDemocraciaPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-8 pb-8">
+      <TemaBreadcrumb
+        temaId="democracia-y-elecciones"
+        currentLabel="Señales de contexto (no un índice de democracia)"
+      />
       <header className="space-y-3">
         <p className="text-sm font-semibold tracking-widest text-link uppercase">
           Democracia y elecciones

@@ -27,8 +27,7 @@ export const nav: NavItem[] = [
   {
     label: 'Navegación',
     items: [
-      { label: 'Inicio', href: '/filosofia' },
-      { label: 'Resumen', href: '/filosofia/introduccion' },
+      { label: 'Resumen', href: '/filosofia' },
     ],
   },
   {

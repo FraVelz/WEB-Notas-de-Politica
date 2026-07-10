@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ScenarioCallout } from '@/components/ui/ScenarioCallout';
+import { TemaBreadcrumb } from '@/components/ui/TemaBreadcrumb';
 
 const corrientes = [
   'Liberalismo económico',
@@ -52,6 +53,10 @@ const matriz: Record<
 export default function MatrizIdeologiasPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-8 pb-8">
+      <TemaBreadcrumb
+        temaId="ideologias-politicas"
+        currentLabel="Matriz orientativa de corrientes"
+      />
       <header className="space-y-3">
         <p className="text-sm font-semibold tracking-widest text-link uppercase">
           Ideologías

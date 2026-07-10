@@ -181,7 +181,7 @@ export function Sidebar({
         <div
           className={cn(
             'flex items-center gap-2 px-1',
-            collapsed && 'flex-col',
+            collapsed && 'flex-col justify-center',
           )}
         >
           {!collapsed ? (
@@ -195,7 +195,7 @@ export function Sidebar({
           <div
             className={cn(
               'flex items-center gap-1',
-              collapsed ? '' : 'ml-auto',
+              collapsed ? 'flex-col' : 'ml-auto',
             )}
           >
             {!collapsed ? <BookmarksMenu /> : null}

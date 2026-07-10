@@ -51,7 +51,10 @@ export function DocsShell({
     meta?.immersiveHub === true &&
     (pathname === immersivePath || pathname === `${immersivePath}/`);
   const showSidebar = meta?.showSidebar === true && !immersiveHub;
-  const backHref = immersiveHub ? `/${temaId}` : '/';
+  const isTemaRoot =
+    pathname === `/${temaId}` || pathname === `/${temaId}/`;
+  /** Nested / immersive → hub; hub → landing */
+  const backHref = isTemaRoot ? '/' : `/${temaId}`;
 
   useEffect(() => {
     let cancelled = false;
@@ -112,8 +115,8 @@ export function DocsShell({
         {showSidebar && (
           <aside
             className={cn(
-              'border-r border-border bg-muted/80 px-3 pt-4 pb-4 md:sticky md:top-0 md:h-screen md:overflow-hidden',
-              'max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-[15] max-md:w-[min(var(--width-sidebar),85vw)]',
+              'border-r border-border bg-muted px-3 pt-4 pb-4 md:sticky md:top-0 md:h-screen md:overflow-hidden',
+              'max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-[15] max-md:w-[min(var(--width-sidebar),85vw)] max-md:bg-background max-md:shadow-xl',
               sidebarOpen ? 'max-md:block' : 'max-md:hidden',
             )}
           >
