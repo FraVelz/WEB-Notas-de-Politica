@@ -7,7 +7,7 @@ import {
   MAX_COMPARE_COUNTRIES,
 } from "@/features/estadisticas-mundiales/interactive-globe/lib/constants";
 import { averageLatitude, averageLongitude } from "@/features/estadisticas-mundiales/interactive-globe/lib/geo/projectToSphere";
-import { estimateGdpPerCapita } from "@/features/estadisticas-mundiales/interactive-globe/lib/api/countries";
+import { iso2ToIso3, loadIndicator } from "@/lib/data/indicators";
 
 export interface CountryStats {
   population: number;
@@ -127,15 +127,29 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
   setCountriesIndex: (index) => set({ countriesIndex: index }),
 
   setCountryStats: (countries) => {
-    const stats = new Map<string, CountryStats>();
+    const provisional = new Map<string, CountryStats>();
     for (const c of countries) {
-      stats.set(c.cca2, {
+      provisional.set(c.cca2, {
         population: c.population,
         area: c.area,
-        gdpPerCapita: estimateGdpPerCapita(c.cca2),
+        gdpPerCapita: 0,
       });
     }
-    set({ countryStats: stats });
+    set({ countryStats: provisional });
+
+    void loadIndicator("gdp-per-capita").then((snap) => {
+      if (!snap) return;
+      const stats = new Map<string, CountryStats>();
+      for (const c of countries) {
+        const iso3 = c.cca3 || iso2ToIso3(c.cca2);
+        stats.set(c.cca2, {
+          population: c.population,
+          area: c.area,
+          gdpPerCapita: iso3 ? (snap.latest[iso3]?.value ?? 0) : 0,
+        });
+      }
+      set({ countryStats: stats });
+    });
   },
 
   selectCountry: (iso2, meta) => {
@@ -254,7 +268,7 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
     stats.set(detail.cca2, {
       population: detail.population,
       area: detail.area,
-      gdpPerCapita: detail.gdpPerCapita ?? estimateGdpPerCapita(detail.cca2),
+      gdpPerCapita: detail.gdpPerCapita ?? 0,
     });
     const nextDetails = new Map(get().compareDetails);
     nextDetails.set(iso2, detail);
@@ -286,7 +300,7 @@ export const useGlobeStore = create<GlobeState>((set, get) => ({
       stats.set(detail.cca2, {
         population: detail.population,
         area: detail.area,
-        gdpPerCapita: detail.gdpPerCapita ?? estimateGdpPerCapita(detail.cca2),
+        gdpPerCapita: detail.gdpPerCapita ?? 0,
       });
       set({ countryDetail: detail, countryStats: stats });
     } else {
