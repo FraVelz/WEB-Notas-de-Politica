@@ -6,6 +6,10 @@ export const nav: NavItem[] = [
   { label: 'Resumen', href: `/${TEMA_ID}` },
   {
     label: 'Datos',
-    items: [{ label: 'Población', href: `/${TEMA_ID}/poblacion` }],
+    items: [
+      { label: 'Comparador de indicadores', href: `/${TEMA_ID}/indicadores` },
+      { label: 'Cómo leer los indicadores', href: `/${TEMA_ID}/como-leer-indicadores` },
+      { label: 'Población', href: `/${TEMA_ID}/poblacion` },
+    ],
   },
 ];

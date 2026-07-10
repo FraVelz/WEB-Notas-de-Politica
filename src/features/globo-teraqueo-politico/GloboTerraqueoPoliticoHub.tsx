@@ -32,7 +32,9 @@ export function GloboTerraqueoPoliticoHub({ temaId: _temaId }: { temaId?: string
           {meta.title}
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Vista pensada para ver mejor las fronteras y los países del mundo.
+          Vista para orientar fronteras y países de cualquier región. Los puntos
+          enlazan a indicadores y notas: úsalos para situar un caso, no como
+          mapa diplomático definitivo.
         </p>
       </section>
 

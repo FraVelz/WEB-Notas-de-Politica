@@ -9,6 +9,10 @@ const customTsxPages: Record<string, Record<string, TsxPageLoader>> = {
         default: m.BienvenidaPage,
       })),
   },
+  'estadisticas-mundiales': {
+    indicadores: () =>
+      import('@/features/estadisticas-mundiales/pages/IndicadoresPage'),
+  },
 };
 
 export function getTsxStaticPaths(): { tema: string; slug: string[] }[] {
@@ -43,6 +47,13 @@ export function getTsxPageMeta(
       title: 'Prosperidad',
       description:
         'Web Prosperity — búsqueda de la prosperidad de una nación: política, filosofía e ideas para comprender el mundo',
+    };
+  }
+  if (temaId === 'estadisticas-mundiales' && slug === 'indicadores') {
+    return {
+      title: 'Comparador de indicadores',
+      description:
+        'Compara PIB, esperanza de vida, Gini y más entre cualquier país — señales para escenarios, no verdades absolutas',
     };
   }
   return null;
