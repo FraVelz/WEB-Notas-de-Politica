@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { createPortal } from 'react-dom';
 import { Search } from 'lucide-react';
 import { getTemasForLanding } from '@/lib/temas/registry';
 import { cn } from '@/lib/utils';
@@ -51,10 +52,12 @@ export function CommandPaletteTrigger({
   onOpen,
   className,
   compact,
+  placeholder = 'Buscar…',
 }: {
   onOpen: () => void;
   className?: string;
   compact?: boolean;
+  placeholder?: string;
 }) {
   return (
     <button
@@ -63,24 +66,20 @@ export function CommandPaletteTrigger({
       className={cn(
         'inline-flex h-9 items-center gap-2 rounded-xl border border-border bg-muted/60 px-3 text-sm text-muted-foreground',
         'hover:border-link/40 hover:text-foreground',
-        compact ? 'w-9 justify-center px-0 sm:w-auto sm:px-3' : 'min-w-[11rem]',
+        compact
+          ? 'w-9 justify-center px-0 sm:w-auto sm:min-w-[14rem] sm:px-3'
+          : 'min-w-[14rem]',
         className,
       )}
-      aria-label="Buscar (⌘K)"
+      aria-label={`${placeholder} (⌘K)`}
     >
       <Search className="size-3.5 shrink-0" strokeWidth={1.75} aria-hidden />
-      {!compact ? (
-        <>
-          <span className="hidden flex-1 text-left sm:inline">Buscar…</span>
-          <kbd className="hidden rounded border border-border bg-elevated px-1.5 py-0.5 font-mono text-[0.65rem] text-muted-foreground sm:inline">
-            ⌘K
-          </kbd>
-        </>
-      ) : (
-        <kbd className="hidden rounded border border-border bg-elevated px-1.5 py-0.5 font-mono text-[0.65rem] text-muted-foreground sm:inline">
-          ⌘K
-        </kbd>
-      )}
+      <span className="hidden flex-1 truncate text-left sm:inline">
+        {placeholder}
+      </span>
+      <kbd className="hidden rounded border border-border bg-elevated px-1.5 py-0.5 font-mono text-[0.65rem] text-muted-foreground sm:inline">
+        ⌘K
+      </kbd>
     </button>
   );
 }
@@ -99,6 +98,7 @@ export function CommandPalette({
   const listId = useId();
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   const items = useMemo(() => {
     const all = [...extraItems, ...temaItems];
@@ -121,9 +121,22 @@ export function CommandPalette({
   }, [extraItems, query]);
 
   useEffect(() => {
-    if (!open) return;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) {
+      setQuery('');
+      setActive(0);
+      return;
+    }
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     const t = window.setTimeout(() => inputRef.current?.focus(), 20);
-    return () => window.clearTimeout(t);
+    return () => {
+      document.body.style.overflow = prev;
+      window.clearTimeout(t);
+    };
   }, [open]);
 
   const go = useCallback(
@@ -134,23 +147,31 @@ export function CommandPalette({
     [onOpenChange, router],
   );
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-[12vh]">
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center px-4 pt-[min(12vh,6rem)] pb-8"
+      role="presentation"
+    >
       <button
         type="button"
-        className="absolute inset-0 cursor-default bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 cursor-default bg-[#05070a]/75 backdrop-blur-md"
         aria-label="Cerrar búsqueda"
         onClick={() => onOpenChange(false)}
       />
-      <dialog
-        open
+      <div
+        role="dialog"
+        aria-modal="true"
         aria-label="Buscar en Prosperidad"
-        className="surface-glass relative z-10 w-full max-w-lg overflow-hidden rounded-2xl shadow-[var(--shadow-theme)]"
+        className={cn(
+          'relative z-10 flex w-full max-w-lg flex-col overflow-hidden rounded-2xl',
+          'border border-border bg-elevated shadow-[0_24px_80px_rgb(0_0_0/55%)]',
+          'max-h-[min(32rem,calc(100vh-8rem))]',
+        )}
       >
-        <div className="flex items-center gap-2 border-b border-border px-3">
-          <Search className="size-4 text-muted-foreground" aria-hidden />
+        <div className="flex shrink-0 items-center gap-2 border-b border-border px-3">
+          <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
           <input
             ref={inputRef}
             value={query}
@@ -161,7 +182,9 @@ export function CommandPalette({
             onKeyDown={(e) => {
               if (e.key === 'ArrowDown') {
                 e.preventDefault();
-                setActive((i) => Math.min(i + 1, Math.max(items.length - 1, 0)));
+                setActive((i) =>
+                  Math.min(i + 1, Math.max(items.length - 1, 0)),
+                );
               } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
                 setActive((i) => Math.max(i - 1, 0));
@@ -171,23 +194,27 @@ export function CommandPalette({
               }
             }}
             placeholder="Buscar temas, notas…"
-            className="h-12 w-full border-0 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+            className="h-12 w-full min-w-0 border-0 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
             aria-label="Buscar temas y notas"
             aria-controls={listId}
             aria-autocomplete="list"
           />
-          <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-[0.65rem] text-muted-foreground">
+          <kbd className="shrink-0 rounded border border-border px-1.5 py-0.5 font-mono text-[0.65rem] text-muted-foreground">
             esc
           </kbd>
         </div>
-        <ul id={listId} className="m-0 max-h-80 list-none overflow-y-auto p-2">
+        <ul
+          id={listId}
+          className="m-0 min-h-0 flex-1 list-none overflow-y-auto overscroll-contain p-2"
+          role="listbox"
+        >
           {items.length === 0 ? (
             <li className="px-3 py-6 text-center text-sm text-muted-foreground">
               Sin resultados
             </li>
           ) : (
             items.map((item, i) => (
-              <li key={item.href}>
+              <li key={item.href} role="option" aria-selected={i === active}>
                 <Link
                   href={item.href}
                   onClick={() => onOpenChange(false)}
@@ -210,8 +237,9 @@ export function CommandPalette({
             ))
           )}
         </ul>
-      </dialog>
-    </div>
+      </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -219,10 +247,12 @@ export function CommandPaletteHost({
   extraItems,
   triggerClassName,
   compactTrigger,
+  placeholder = 'Buscar en Prosperidad...',
 }: {
   extraItems?: CommandItem[];
   triggerClassName?: string;
   compactTrigger?: boolean;
+  placeholder?: string;
 }) {
   const { open, setOpen } = useCommandPalette();
   return (
@@ -231,9 +261,9 @@ export function CommandPaletteHost({
         onOpen={() => setOpen(true)}
         className={triggerClassName}
         compact={compactTrigger}
+        placeholder={placeholder}
       />
       <CommandPalette
-        key={open ? 'open' : 'closed'}
         open={open}
         onOpenChange={setOpen}
         extraItems={extraItems}

@@ -31,26 +31,24 @@ export function LandingStats() {
           return (
             <li
               key={kpi.label}
-              className="surface-glass rounded-2xl px-4 py-4 shadow-[var(--shadow-theme)]"
+              className="surface-glass rounded-2xl px-4 py-5 shadow-[var(--shadow-theme)]"
             >
               <div
-                className="glow-icon mb-3 inline-flex size-9 items-center justify-center rounded-lg border border-border"
-                style={{ ['--glow-color' as string]: kpi.color }}
+                className="mb-4 inline-flex size-10 items-center justify-center rounded-xl text-white shadow-[0_0_20px_var(--glow)]"
+                style={{
+                  backgroundColor: kpi.color,
+                  ['--glow' as string]: `${kpi.color}66`,
+                }}
               >
-                <Icon
-                  className="size-4"
-                  style={{ color: kpi.color }}
-                  strokeWidth={1.75}
-                  aria-hidden
-                />
+                <Icon className="size-5" strokeWidth={1.75} aria-hidden />
               </div>
-              <p className="m-0 text-2xl font-semibold tabular-nums text-foreground">
+              <p className="m-0 text-3xl font-semibold tracking-tight tabular-nums text-foreground">
                 {kpi.value}
               </p>
-              <p className="mt-1 m-0 text-xs font-medium text-foreground">
+              <p className="mt-1.5 m-0 text-sm font-semibold text-foreground">
                 {kpi.label}
               </p>
-              <p className="mt-0.5 m-0 text-[0.7rem] text-muted-foreground">
+              <p className="mt-0.5 m-0 text-xs leading-snug text-muted-foreground">
                 {kpi.hint}
               </p>
             </li>

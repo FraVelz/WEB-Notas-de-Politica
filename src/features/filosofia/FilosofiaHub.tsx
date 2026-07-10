@@ -7,7 +7,7 @@ export function FilosofiaHub({ temaId = 'filosofia' }: { temaId?: string }) {
       temaId={temaId}
       groupLabel="Fundamentos"
       tags={[...HUB_TAGS]}
-      illustrationSrc="/temas/filosofia-temple.svg"
+      illustrationSrc="/temas/filosofia-temple.webp"
       guidingQuestions={[
         '¿Qué ideas de «buena vida» o justicia suelen justificar el poder en distintas tradiciones?',
         'Si dos sociedades priorizan libertad e igualdad de forma distinta, ¿qué escenarios de prosperidad se abren o se cierran?',

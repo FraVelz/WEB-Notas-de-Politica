@@ -25,10 +25,7 @@ export function InicioPage() {
                 {siteConfig.description}
               </p>
             </div>
-            <nav
-              className="shrink-0"
-              aria-label="Enlaces del sitio"
-            >
+            <nav className="shrink-0" aria-label="Enlaces del sitio">
               <p className="m-0 text-sm font-semibold text-foreground">Enlaces</p>
               <ul className="mt-3 flex flex-col gap-2.5 p-0 text-sm">
                 <li className="list-none">
@@ -40,12 +37,12 @@ export function InicioPage() {
                   </Link>
                 </li>
                 <li className="list-none">
-                  <a
-                    href="#ejes"
+                  <Link
+                    href="/temas"
                     className="font-medium text-link no-underline hover:text-link-hover"
                   >
-                    Volver a los ejes
-                  </a>
+                    Todos los temas
+                  </Link>
                 </li>
               </ul>
             </nav>

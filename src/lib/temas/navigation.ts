@@ -1,3 +1,4 @@
+import type { LucideIcon } from 'lucide-react';
 import type { NavItem } from '@/lib/navigation';
 import { featureConfigLoaders } from './feature-config-loaders';
 import { getTemaById, temas } from './registry';
@@ -21,6 +22,19 @@ export async function getFeatureNavigation(
     return mod.nav ?? defaultFeatureNav(temaId);
   } catch {
     return defaultFeatureNav(temaId);
+  }
+}
+
+export async function getFeatureNavIcons(
+  temaId: string,
+): Promise<Record<string, LucideIcon> | undefined> {
+  const load = featureConfigLoaders[temaId];
+  if (!load) return undefined;
+  try {
+    const mod = await load();
+    return mod.navIcons;
+  } catch {
+    return undefined;
   }
 }
 

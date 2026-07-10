@@ -1,6 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
+import { Moon, Sun } from 'lucide-react';
 import { useSyncExternalStore } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -48,25 +49,27 @@ export function ThemeToggle({ onDarkBar = false }: { onDarkBar?: boolean }) {
     else setTheme('light');
   };
 
-  const label =
-    (theme === 'system' ? resolvedTheme : theme) === 'dark'
-      ? 'Modo claro'
-      : 'Modo oscuro';
+  const isDark = (theme === 'system' ? resolvedTheme : theme) === 'dark';
+  const label = isDark ? 'Modo claro' : 'Modo oscuro';
 
   return (
     <button
       type="button"
       className={cn(
-        'inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md border text-base leading-none',
+        'inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-xl border',
         onDarkBar
           ? 'border-background/35 bg-background/15 text-background hover:bg-background/25'
-          : 'border-border bg-muted text-foreground',
+          : 'border-border bg-muted text-foreground hover:text-link',
       )}
       onClick={cycle}
       aria-label={label}
       title={label}
     >
-      {(theme === 'system' ? resolvedTheme : theme) === 'dark' ? '☀' : '☾'}
+      {isDark ? (
+        <Sun className="size-4" strokeWidth={1.75} aria-hidden />
+      ) : (
+        <Moon className="size-4" strokeWidth={1.75} aria-hidden />
+      )}
     </button>
   );
 }

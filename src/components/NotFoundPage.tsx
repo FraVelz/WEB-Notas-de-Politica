@@ -37,7 +37,7 @@ export function NotFoundPage() {
           Volver al inicio
         </Link>
         <Link
-          href="/#apartados"
+          href="/temas"
           className={cn(
             'inline-flex items-center rounded-lg border border-border bg-elevated px-4 py-2.5 text-sm font-medium text-foreground no-underline',
             'transition-colors duration-150',

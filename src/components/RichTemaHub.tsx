@@ -149,14 +149,18 @@ export function RichTemaHub({
             ) : null}
           </div>
           {illustrationSrc ? (
-            <div className="pointer-events-none hidden w-44 shrink-0 sm:block lg:w-56">
+            <div className="pointer-events-none relative hidden w-52 shrink-0 sm:block lg:w-72">
+              <div
+                className="absolute inset-0 rounded-full bg-link/20 blur-3xl"
+                aria-hidden
+              />
               <Image
                 src={illustrationSrc}
                 alt=""
-                width={224}
-                height={168}
+                width={288}
+                height={192}
                 unoptimized
-                className="h-auto w-full drop-shadow-[0_0_24px_rgb(59_130_246/45%)]"
+                className="relative h-auto w-full object-contain drop-shadow-[0_0_32px_rgb(59_130_246/55%)]"
               />
             </div>
           ) : null}
@@ -196,20 +200,21 @@ export function RichTemaHub({
         ].map((stat) => (
           <div
             key={stat.label}
-            className="surface-glass rounded-2xl px-4 py-3.5 shadow-[var(--shadow-theme)]"
+            className="surface-glass rounded-2xl px-4 py-4 shadow-[var(--shadow-theme)]"
           >
-            <div className="mb-2 flex items-center gap-2">
-              <stat.icon
-                className="size-4"
-                style={{ color: stat.color }}
-                strokeWidth={1.75}
-                aria-hidden
-              />
-              <dt className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                {stat.label}
-              </dt>
+            <div
+              className="mb-3 inline-flex size-9 items-center justify-center rounded-xl text-white shadow-[0_0_16px_var(--glow)]"
+              style={{
+                backgroundColor: stat.color,
+                ['--glow' as string]: `${stat.color}55`,
+              }}
+            >
+              <stat.icon className="size-4" strokeWidth={1.75} aria-hidden />
             </div>
-            <dd className="m-0 text-lg font-semibold text-foreground">
+            <dt className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+              {stat.label}
+            </dt>
+            <dd className="mt-1 m-0 text-xl font-semibold text-foreground">
               {stat.value}
             </dd>
             <p className="mt-1 text-xs text-muted-foreground">{stat.hint}</p>
@@ -228,32 +233,52 @@ export function RichTemaHub({
         <section className="space-y-4" aria-labelledby="preguntas-guia">
           <h2
             id="preguntas-guia"
-            className="font-display text-2xl font-normal text-foreground"
+            className="flex items-center gap-3 text-xl font-semibold tracking-tight text-foreground"
           >
+            <span className="h-0.5 w-5 rounded-full bg-link" aria-hidden />
             Preguntas guía
           </h2>
           <ol className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
-            {guidingQuestions.map((q, i) => (
-              <li
-                key={q}
-                className={cn(
-                  'relative flex gap-3 overflow-hidden rounded-2xl border border-border bg-elevated p-4',
-                  'transition-colors duration-150 hover:border-link/40',
-                )}
-              >
-                <span
+            {guidingQuestions.map((q, i) => {
+              const watermark =
+                i === 0
+                  ? '/landing/watermarks/scales.svg'
+                  : i === 1
+                    ? '/landing/watermarks/globe.svg'
+                    : '/landing/watermarks/book.svg';
+              return (
+                <li
+                  key={q}
                   className={cn(
-                    'flex size-7 shrink-0 items-center justify-center rounded-full',
-                    'bg-link text-xs font-semibold text-white',
+                    'relative flex min-h-[8.5rem] flex-col gap-3 overflow-hidden rounded-2xl border border-border bg-elevated p-4',
+                    'transition-colors duration-150 hover:border-link/40',
                   )}
                 >
-                  {i + 1}
-                </span>
-                <p className="m-0 text-sm leading-relaxed text-foreground/90">
-                  {q}
-                </p>
-              </li>
-            ))}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={watermark}
+                    alt=""
+                    className="pointer-events-none absolute right-2 bottom-1 size-24 text-link opacity-[0.08]"
+                    aria-hidden
+                  />
+                  <span
+                    className={cn(
+                      'relative z-[1] flex size-7 shrink-0 items-center justify-center rounded-full',
+                      'bg-link text-xs font-semibold text-white',
+                    )}
+                  >
+                    {i + 1}
+                  </span>
+                  <p className="relative z-[1] m-0 flex-1 text-sm leading-relaxed font-medium text-foreground/90">
+                    {q}
+                  </p>
+                  <ExternalLink
+                    className="relative z-[1] mt-auto size-3.5 self-end text-muted-foreground"
+                    aria-hidden
+                  />
+                </li>
+              );
+            })}
           </ol>
         </section>
       ) : null}
@@ -266,7 +291,7 @@ export function RichTemaHub({
             <Zap className="size-4 text-link" strokeWidth={1.75} aria-hidden />
             <h2
               id="herramientas-heading"
-              className="font-display m-0 text-2xl font-normal"
+              className="m-0 text-xl font-semibold tracking-tight"
             >
               Herramientas
             </h2>
@@ -321,7 +346,7 @@ export function RichTemaHub({
           />
           <h2
             id="notas-heading"
-            className="font-display m-0 text-2xl font-normal"
+            className="m-0 text-xl font-semibold tracking-tight"
           >
             Notas publicadas
           </h2>

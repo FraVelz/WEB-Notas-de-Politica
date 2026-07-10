@@ -224,7 +224,7 @@ export function BienvenidaPage() {
 
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8">
         <Link
-          href="/"
+          href="/temas"
           className={cn(
             'inline-flex items-center gap-2 rounded-lg border border-border bg-elevated px-4 py-2.5',
             'text-sm font-medium text-foreground no-underline',

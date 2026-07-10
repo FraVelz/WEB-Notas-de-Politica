@@ -48,7 +48,7 @@ function NavSectionsList({
           className="not-first:mt-2 not-first:border-t not-first:border-border not-first:pt-2"
         >
           <a
-            href={`/#${group.id}`}
+            href={`/temas#${group.id}`}
             role="menuitem"
             className="block rounded-sm px-2 py-1 text-sm font-semibold text-foreground no-underline outline-none hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
             onClick={onNavigate}
@@ -77,9 +77,19 @@ function NavSectionsList({
   );
 }
 
-export function SiteSectionsNav() {
+export function SiteSectionsNav({
+  mobileOpen,
+  onMobileOpenChange,
+  hideMobileTrigger = false,
+}: {
+  mobileOpen?: boolean;
+  onMobileOpenChange?: (open: boolean) => void;
+  hideMobileTrigger?: boolean;
+} = {}) {
   const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [internalMobileOpen, setInternalMobileOpen] = useState(false);
+  const mobileMenuOpen = mobileOpen ?? internalMobileOpen;
+  const setMobileMenuOpen = onMobileOpenChange ?? setInternalMobileOpen;
   const navRef = useRef<HTMLElement>(null);
   const mobileTriggerRef = useRef<HTMLButtonElement>(null);
   const triggerRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
@@ -249,6 +259,7 @@ export function SiteSectionsNav() {
       aria-label="Apartados del sitio"
     >
       <div className="md:hidden">
+        {!hideMobileTrigger ? (
         <button
           ref={mobileTriggerRef}
           type="button"
@@ -263,7 +274,7 @@ export function SiteSectionsNav() {
             mobileMenuOpen && 'border-link bg-link-muted/40',
           )}
           onClick={() => {
-            setMobileMenuOpen((open) => !open);
+            setMobileMenuOpen(!mobileMenuOpen);
             setOpenCategoryId(null);
           }}
         >
@@ -279,14 +290,19 @@ export function SiteSectionsNav() {
             aria-hidden
           />
         </button>
+        ) : null}
 
         <div
           id={mobilePanelId}
           role="menu"
-          aria-labelledby={`${listId}-mobile-trigger`}
+          aria-labelledby={
+            hideMobileTrigger ? undefined : `${listId}-mobile-trigger`
+          }
           hidden={!mobileMenuOpen}
           className={cn(
-            'absolute top-[calc(100%+0.375rem)] right-0 left-0 z-40 max-h-[min(70vh,28rem)] overflow-y-auto overscroll-contain',
+            hideMobileTrigger
+              ? 'fixed top-14 right-4 left-4 z-40 max-h-[min(70vh,28rem)] overflow-y-auto overscroll-contain'
+              : 'absolute top-[calc(100%+0.375rem)] right-0 left-0 z-40 max-h-[min(70vh,28rem)] overflow-y-auto overscroll-contain',
             'rounded-lg border border-border bg-elevated py-2 shadow-[var(--shadow-theme)]',
           )}
         >
@@ -296,7 +312,7 @@ export function SiteSectionsNav() {
               className="not-first:mt-2 not-first:border-t not-first:border-border not-first:pt-2"
             >
               <a
-                href={`/#${category.id}`}
+                href={`/temas#${category.id}`}
                 role="menuitem"
                 className="mx-2 mb-1 block rounded-sm px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-link no-underline outline-none hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
                 onClick={() => closeMobile()}
@@ -338,7 +354,7 @@ export function SiteSectionsNav() {
                 ref={(node) => {
                   triggerRefs.current[category.id] = node;
                 }}
-                href={`/#${category.id}`}
+                href={`/temas#${category.id}`}
                 id={triggerId}
                 role="menuitem"
                 aria-haspopup="menu"
@@ -383,7 +399,7 @@ export function SiteSectionsNav() {
                 )}
               >
                 <a
-                  href={`/#${category.id}`}
+                  href={`/temas#${category.id}`}
                   role="menuitem"
                   className="mx-2 mb-1 block rounded-sm px-2 py-1.5 text-xs font-medium text-link no-underline outline-none hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
                   onClick={() => closeDesktop()}

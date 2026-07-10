@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { Bookmark, Compass } from 'lucide-react';
+import { Bookmark, Compass, Menu } from 'lucide-react';
 import { CommandPaletteHost } from '@/components/ui/CommandPalette';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SiteSectionsNav } from '@/components/layout/SiteSectionsNav';
@@ -11,26 +12,33 @@ import { cn } from '@/lib/utils';
 export function SiteHeader({
   trailing,
   variant = 'landing',
+  hideBrandLink = false,
 }: {
   trailing?: React.ReactNode;
   /** `landing` = marca + nav; `tema` = enlace a inicio + nav */
   variant?: 'landing' | 'tema';
+  /** Oculta “← Inicio” cuando el shell ya tiene top bar propia */
+  hideBrandLink?: boolean;
 }) {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  if (variant === 'tema' && hideBrandLink) {
+    return null;
+  }
+
   return (
     <header
       className={cn(
         'site-header sticky top-0 z-20 border-b border-border',
-        variant === 'landing'
-          ? 'surface-glass bg-elevated/70'
-          : 'bg-elevated',
+        variant === 'landing' ? 'surface-glass bg-elevated/70' : 'bg-elevated',
       )}
     >
       <div
         className={cn(
           'mx-auto w-full px-4 sm:px-6',
           variant === 'landing'
-            ? 'max-w-7xl grid grid-cols-[minmax(0,1fr)_auto] grid-rows-[auto_auto] items-center gap-x-3 gap-y-2 py-2 md:grid-cols-[auto_minmax(0,1fr)_auto] md:grid-rows-1 md:gap-x-6 md:py-0 md:h-14'
-            : 'max-w-none flex h-14 items-center gap-3 sm:gap-6',
+            ? 'relative flex h-14 max-w-7xl items-center gap-3 md:gap-6'
+            : 'flex h-14 max-w-none items-center gap-3 sm:gap-6',
         )}
       >
         {variant === 'tema' ? (
@@ -44,7 +52,7 @@ export function SiteHeader({
           <Link
             href="/"
             title={siteConfig.title}
-            className="site-header-link col-start-1 row-start-1 inline-flex max-w-[12rem] shrink-0 items-center gap-2.5 no-underline sm:max-w-none"
+            className="site-header-link inline-flex max-w-[13rem] shrink-0 items-center gap-2.5 no-underline sm:max-w-none"
           >
             <span
               className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-link-muted text-link"
@@ -53,7 +61,7 @@ export function SiteHeader({
               <Compass className="size-4" strokeWidth={1.75} />
             </span>
             <span className="min-w-0 leading-tight">
-              <span className="block truncate text-sm font-semibold tracking-[0.12em] text-foreground uppercase">
+              <span className="block truncate text-sm font-semibold tracking-[0.14em] text-foreground uppercase">
                 Prosperidad
               </span>
               <span className="hidden truncate text-[0.65rem] text-muted-foreground sm:block">
@@ -64,22 +72,19 @@ export function SiteHeader({
         )}
 
         {variant === 'landing' && (
-          <div className="col-span-2 row-start-2 min-w-0 md:col-span-1 md:col-start-2 md:row-start-1">
-            <SiteSectionsNav />
+          <div className="min-w-0 flex-1">
+            <SiteSectionsNav
+              mobileOpen={mobileNavOpen}
+              onMobileOpenChange={setMobileNavOpen}
+              hideMobileTrigger
+            />
           </div>
         )}
 
-        <div
-          className={cn(
-            'flex shrink-0 items-center gap-2 sm:gap-3',
-            variant === 'landing'
-              ? 'col-start-2 row-start-1 justify-self-end md:col-start-3'
-              : 'ml-auto',
-          )}
-        >
+        <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-2.5">
           {variant === 'landing' ? (
             <>
-              <CommandPaletteHost />
+              <CommandPaletteHost placeholder="Buscar en Prosperidad..." />
               <ThemeToggle />
               <button
                 type="button"
@@ -88,6 +93,15 @@ export function SiteHeader({
                 title="Marcadores (próximamente)"
               >
                 <Bookmark className="size-4" strokeWidth={1.75} />
+              </button>
+              <button
+                type="button"
+                className="inline-flex size-9 items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-foreground md:hidden"
+                aria-label="Abrir menú de secciones"
+                aria-expanded={mobileNavOpen}
+                onClick={() => setMobileNavOpen((o) => !o)}
+              >
+                <Menu className="size-4" strokeWidth={1.75} />
               </button>
             </>
           ) : (

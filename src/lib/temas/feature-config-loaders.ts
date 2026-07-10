@@ -1,6 +1,10 @@
+import type { LucideIcon } from 'lucide-react';
 import type { NavItem } from '@/lib/navigation';
 
-type FeatureConfigModule = { nav?: NavItem[] };
+type FeatureConfigModule = {
+  nav?: NavItem[];
+  navIcons?: Record<string, LucideIcon>;
+};
 
 /** Imports estáticos para que el bundler pueda hacer code-splitting por feature. */
 export const featureConfigLoaders: Record<

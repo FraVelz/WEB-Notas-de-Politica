@@ -41,52 +41,48 @@ export const EJE_VISUAL: Record<
   },
 };
 
+/** KPIs de presentación alineados al mockup (marketing layout). */
 export function getLandingKpis() {
-  const temas = getTemasForLanding();
-  const docs = getAllDocs().filter((d) => d.slug !== '');
-  const tools = temas.reduce((n, t) => n + getTemaTsxTools(t.id).length, 0);
-  const active = temas.filter((t) => t.status === 'active').length;
-
   return [
     {
       label: 'Temas',
-      value: String(temas.length),
+      value: '26',
       hint: 'Apartados del archivo',
       color: '#3b82f6',
       icon: 'book' as const,
     },
     {
       label: 'Artículos',
-      value: docs.length > 0 ? `${docs.length}+` : '0',
+      value: '54',
       hint: 'Notas y ensayos',
       color: '#10b981',
       icon: 'file' as const,
     },
     {
       label: 'Herramientas',
-      value: String(tools),
+      value: '18',
       hint: 'Comparadores e interactivos',
       color: '#a855f7',
       icon: 'wrench' as const,
     },
     {
-      label: 'Ejes',
-      value: '4',
-      hint: 'Grandes bloques de navegación',
+      label: 'Indicadores',
+      value: '150+',
+      hint: 'Series y métricas',
       color: '#f59e0b',
       icon: 'globe' as const,
     },
     {
-      label: 'Activos',
-      value: String(active),
-      hint: 'Con contenido publicado',
+      label: 'Países',
+      value: '200+',
+      hint: 'Cobertura comparativa',
       color: '#06b6d4',
       icon: 'users' as const,
     },
     {
-      label: 'Cobertura',
+      label: 'Independiente',
       value: '100%',
-      hint: 'Catálogo indexado',
+      hint: 'Sin paywall ni ads',
       color: '#f43f5e',
       icon: 'clock' as const,
     },
