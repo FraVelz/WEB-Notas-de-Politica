@@ -73,7 +73,7 @@ export const temaNavCategories: TemaNavCategory[] = [
   },
   {
     id: 'datos',
-    label: 'Datos',
+    label: 'Datos y mundo',
     description: 'Estadísticas y contexto cuantitativo para entender el mundo.',
     groups: ['datos'],
   },
