@@ -39,11 +39,10 @@ export function DocsSearch({ docs }: { docs: DocMeta[] }) {
       />
       {open && query && results.length > 0 && (
         <ul
-          role="listbox"
           className="absolute top-[calc(100%+0.25rem)] right-0 z-30 m-0 min-w-64 max-w-[22rem] list-none rounded-md border border-border bg-elevated p-1 shadow-[var(--shadow-theme)]"
         >
           {results.map((doc) => (
-            <li key={doc.href} role="option" aria-selected={false}>
+            <li key={doc.href}>
               <Link
                 href={doc.href}
                 onClick={() => setQuery('')}

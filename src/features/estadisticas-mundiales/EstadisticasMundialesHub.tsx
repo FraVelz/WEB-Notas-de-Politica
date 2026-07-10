@@ -32,6 +32,7 @@ const GlobeScene = dynamic(
 );
 
 const meta = getTemaById('estadisticas-mundiales')!;
+const GLOBE_HISTORY_STORAGE_KEY = 'globe-history:v1';
 
 export function EstadisticasMundialesHub({ temaId: _temaId }: { temaId?: string }) {
   const [countries, setCountries] = useState<CountrySummary[]>([]);
@@ -47,7 +48,7 @@ export function EstadisticasMundialesHub({ temaId: _temaId }: { temaId?: string 
       })
       .catch(console.error);
 
-    const saved = localStorage.getItem('globe-history');
+    const saved = localStorage.getItem(GLOBE_HISTORY_STORAGE_KEY);
     if (saved) {
       try {
         const history = JSON.parse(saved) as string[];
@@ -60,7 +61,10 @@ export function EstadisticasMundialesHub({ temaId: _temaId }: { temaId?: string 
 
   useEffect(() => {
     return useGlobeStore.subscribe((state) => {
-      localStorage.setItem('globe-history', JSON.stringify(state.history));
+      localStorage.setItem(
+        GLOBE_HISTORY_STORAGE_KEY,
+        JSON.stringify(state.history),
+      );
     });
   }, []);
 

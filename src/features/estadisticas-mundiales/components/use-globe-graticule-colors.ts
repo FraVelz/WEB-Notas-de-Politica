@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 /** MapLibre solo acepta colores literales, no var(--…). */
 const PALETTE = {
@@ -14,19 +14,19 @@ function readPalette() {
   return theme === 'dark' ? PALETTE.dark : PALETTE.light;
 }
 
+function subscribeThemeChanges(onStoreChange: () => void) {
+  const observer = new MutationObserver(onStoreChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme', 'class'],
+  });
+  return () => observer.disconnect();
+}
+
 export function useGlobeGraticuleColors() {
-  const [colors, setColors] = useState(readPalette);
-
-  useEffect(() => {
-    const sync = () => setColors(readPalette());
-    sync();
-    const observer = new MutationObserver(sync);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme', 'class'],
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  return colors;
+  return useSyncExternalStore(
+    subscribeThemeChanges,
+    readPalette,
+    () => PALETTE.light,
+  );
 }

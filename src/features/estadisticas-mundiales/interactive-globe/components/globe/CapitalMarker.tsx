@@ -23,7 +23,7 @@ export function CapitalMarker({ lat, lng, label }: CapitalMarkerProps) {
         distanceFactor={6}
         style={{
           color: "#fbbf24",
-          fontSize: "11px",
+          fontSize: "12px",
           fontWeight: 600,
           whiteSpace: "nowrap",
           pointerEvents: "none",

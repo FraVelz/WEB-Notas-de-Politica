@@ -20,10 +20,9 @@ export function WorldConnectionsMap() {
   const mapFocusRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div
+    <section
       ref={mapFocusRef}
       tabIndex={0}
-      role="application"
       aria-label="Mapa mundial interactivo. WASD mueve el mapa; Ctrl y rueda desplaza solo en longitud (horizontal)."
       className={cn(
         'relative h-[min(70vh,520px)] w-full overflow-hidden rounded-lg border border-border bg-background',
@@ -80,6 +79,6 @@ export function WorldConnectionsMap() {
           </MapMarker>
         ))}
       </Map>
-    </div>
+    </section>
   );
 }

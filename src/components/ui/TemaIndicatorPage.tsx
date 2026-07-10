@@ -1,11 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { CountryCompare } from '@/components/ui/CountryCompare';
 import { ScenarioCallout } from '@/components/ui/ScenarioCallout';
+import { TemaPageHeader } from '@/components/ui/TemaPageHeader';
 
 /** Página reutilizable: un indicador + marco epistémico del tema. */
 export function TemaIndicatorPage({
+  temaId,
   eyebrow,
   title,
   intro,
@@ -15,6 +16,7 @@ export function TemaIndicatorPage({
   relatedHref,
   relatedLabel,
 }: {
+  temaId?: string;
   eyebrow: string;
   title: string;
   intro: string;
@@ -26,24 +28,14 @@ export function TemaIndicatorPage({
 }) {
   return (
     <div className="mx-auto max-w-4xl space-y-8 pb-8">
-      <header className="space-y-3">
-        <p className="text-sm font-semibold tracking-widest text-link uppercase">
-          {eyebrow}
-        </p>
-        <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
-        <p className="text-lg text-muted-foreground">{intro}</p>
-        {relatedHref && relatedLabel ? (
-          <p className="text-sm text-muted-foreground">
-            Relacionado:{' '}
-            <Link
-              href={relatedHref}
-              className="text-link underline-offset-2 hover:underline"
-            >
-              {relatedLabel}
-            </Link>
-          </p>
-        ) : null}
-      </header>
+      <TemaPageHeader
+        temaId={temaId}
+        eyebrow={eyebrow}
+        title={title}
+        description={intro}
+        relatedHref={relatedHref ?? '/estadisticas-mundiales/como-leer-indicadores'}
+        relatedLabel={relatedLabel ?? 'Cómo leer los indicadores'}
+      />
 
       <ScenarioCallout variant="scenario">
         Elige el país que te interese como ancla. Los contrastes sugieren

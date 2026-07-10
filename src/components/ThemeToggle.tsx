@@ -1,15 +1,29 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { cn } from '@/lib/utils';
+
+function subscribeMounted() {
+  return () => {};
+}
+
+function getClientMountedSnapshot() {
+  return true;
+}
+
+function getServerMountedSnapshot() {
+  return false;
+}
 
 /** Botones legibles sobre la barra del header (`onDarkBar` = barra oscura en tema claro). */
 export function ThemeToggle({ onDarkBar = false }: { onDarkBar?: boolean }) {
   const { theme, setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  const mounted = useSyncExternalStore(
+    subscribeMounted,
+    getClientMountedSnapshot,
+    getServerMountedSnapshot,
+  );
 
   if (!mounted) {
     return (

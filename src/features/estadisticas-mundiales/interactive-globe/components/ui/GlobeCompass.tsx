@@ -16,14 +16,13 @@ export function GlobeCompass() {
   return (
     <div
       className="pointer-events-none absolute right-4 top-[5.5rem] z-10 md:right-6 md:top-24"
-      aria-label="Brújula de orientación"
-      role="img"
     >
       <div className="rounded-full border border-border bg-elevated/90 p-1.5 shadow-[var(--shadow-theme)] backdrop-blur-md">
         <svg
           viewBox="0 0 80 80"
           className="size-[4.25rem] md:size-[4.75rem]"
-          aria-hidden
+          role="img"
+          aria-label="Brújula de orientación"
         >
           <circle
             cx={CX}

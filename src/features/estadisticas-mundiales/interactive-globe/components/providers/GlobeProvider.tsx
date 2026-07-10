@@ -60,8 +60,10 @@ export function GlobeProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
+    const compareIso2Set = new Set(compareIso2s);
+
     for (const iso of useGlobeStore.getState().compareDetails.keys()) {
-      if (!compareIso2s.includes(iso)) removeCompareDetail(iso);
+      if (!compareIso2Set.has(iso)) removeCompareDetail(iso);
     }
 
     const pending = compareIso2s.filter(
@@ -80,7 +82,7 @@ export function GlobeProvider({ children }: { children: React.ReactNode }) {
       fetchCountryByCode(iso)
         .then((data) => {
           if (generation !== fetchGenerationRef.current || !data) return;
-          if (!useGlobeStore.getState().compareIso2s.includes(iso)) return;
+          if (!new Set(useGlobeStore.getState().compareIso2s).has(iso)) return;
           setCompareDetail(iso, data);
         })
         .catch(() => {

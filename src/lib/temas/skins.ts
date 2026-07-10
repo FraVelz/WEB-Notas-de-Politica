@@ -49,22 +49,22 @@ const monoLight: SkinTokens = {
   headerStyle: 'default',
 };
 
-/** Oscuro alineado con nextjs.org (negro #000, blanco #fff, muted #888). */
+/** Oscuro Academic Noir (navy/charcoal + azul eléctrico). */
 const monoDark: SkinTokens = {
-  bg: '#000000',
-  bgMuted: '#0a0a0a',
-  bgElevated: '#0a0a0a',
+  bg: '#05070a',
+  bgMuted: '#0a0f1e',
+  bgElevated: '#0d1324',
   text: '#ffffff',
-  textMuted: '#888888',
-  border: '#333333',
-  accentLow: '#1a1a1a',
+  textMuted: '#94a3b8',
+  border: 'rgb(255 255 255 / 10%)',
+  accentLow: '#141b2d',
   accent: '#ffffff',
   accentHigh: '#ffffff',
-  accentOn: '#000000',
+  accentOn: '#05070a',
   selectionBg: '#ffffff',
   selectionText: '#000000',
-  focusRing: '#0070f3',
-  shadow: '0 0 0 1px rgb(255 255 255 / 12%)',
+  focusRing: '#3b82f6',
+  shadow: '0 12px 40px rgb(0 0 0 / 45%)',
   headerStyle: 'default',
 };
 
@@ -101,9 +101,7 @@ const presets: Record<TemaSkinId, SkinPreset> = {
         '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif',
     },
     {
-      headerStyle: 'accent-band',
-      fontFamily:
-        '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif',
+      headerStyle: 'default',
     },
   ),
   institution: preset(

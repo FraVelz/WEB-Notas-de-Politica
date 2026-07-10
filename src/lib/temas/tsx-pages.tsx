@@ -317,3 +317,20 @@ export function getTsxPageMeta(
 ): { title: string; description?: string } | null {
   return pageMeta[temaId]?.[slug] ?? null;
 }
+
+/** Herramientas TSX registradas para un tema (hubs / “Explorar”). */
+export function getTemaTsxTools(
+  temaId: string,
+): Array<{ slug: string; href: string; title: string; description?: string }> {
+  const pages = customTsxPages[temaId];
+  if (!pages) return [];
+  return Object.keys(pages).map((slug) => {
+    const meta = pageMeta[temaId]?.[slug];
+    return {
+      slug,
+      href: `/${temaId}/${slug}`,
+      title: meta?.title ?? slug,
+      description: meta?.description,
+    };
+  });
+}

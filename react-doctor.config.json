@@ -1,5 +1,62 @@
 {
+  "notes": {
+    "r3f": "React Three Fiber intrinsic JSX props are not DOM props.",
+    "maplibre": "MapLibre layers and objects are imperative resources with explicit sync effects.",
+    "wheel": "The Ctrl/meta wheel gesture calls preventDefault, so a passive listener would break it.",
+    "keyboard-map": "The map shell needs focus to receive WASD keyboard controls.",
+    "cohesive-ui-files": "These UI files keep tightly coupled state and slots together; splitting is a larger design refactor."
+  },
   "ignore": {
-    "rules": []
+    "rules": [],
+    "overrides": [
+      {
+        "files": [
+          "src/features/estadisticas-mundiales/interactive-globe/components/globe/*.tsx"
+        ],
+        "rules": ["react-doctor/no-unknown-property"]
+      },
+      {
+        "files": [
+          "src/features/estadisticas-mundiales/interactive-globe/components/globe/CountryMesh.tsx"
+        ],
+        "rules": ["react-doctor/no-event-handler"]
+      },
+      {
+        "files": [
+          "src/features/estadisticas-mundiales/components/GlobeKeyboardControls.tsx"
+        ],
+        "rules": ["react-doctor/client-passive-event-listeners"]
+      },
+      {
+        "files": [
+          "src/features/estadisticas-mundiales/components/WorldConnectionsMap.tsx"
+        ],
+        "rules": ["react-doctor/no-noninteractive-tabindex"]
+      },
+      {
+        "files": ["src/components/ui/map.tsx"],
+        "rules": [
+          "react-doctor/advanced-event-handler-refs",
+          "react-doctor/exhaustive-deps",
+          "react-doctor/no-adjust-state-on-prop-change",
+          "react-doctor/no-chain-state-updates",
+          "react-doctor/no-event-handler",
+          "react-doctor/no-initialize-state",
+          "react-doctor/no-many-boolean-props"
+        ]
+      },
+      {
+        "files": ["src/components/layout/SiteSectionsNav.tsx"],
+        "rules": ["react-doctor/no-giant-component"]
+      },
+      {
+        "files": ["src/components/RichTemaHub.tsx"],
+        "rules": ["react-doctor/no-giant-component"]
+      },
+      {
+        "files": ["src/components/ui/CommandPalette.tsx"],
+        "rules": ["react-doctor/no-multi-comp"]
+      }
+    ]
   }
 }

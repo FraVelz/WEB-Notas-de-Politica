@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef, useEffect, useState, type ComponentRef } from "react";
+import { Suspense, use, useRef, useEffect, type ComponentRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import type { Group } from "three";
@@ -19,6 +19,10 @@ import { getCountryCentroid, getFeatureIso2 } from "@/features/estadisticas-mund
 import { useGlobeStore } from "@/features/estadisticas-mundiales/interactive-globe/store/globeStore";
 
 type OrbitControlsImpl = ComponentRef<typeof OrbitControls>;
+
+const countriesDataPromise = fetch("/data/countries-110m.json").then(
+  (response) => response.json() as Promise<CountriesCollection>,
+);
 
 function GlobeContent({
   geoData,
@@ -87,18 +91,28 @@ function SceneLoader() {
   );
 }
 
+function GlobeSceneContent({
+  globeRef,
+  controlsRef,
+}: {
+  globeRef: React.RefObject<Group | null>;
+  controlsRef: React.RefObject<OrbitControlsImpl | null>;
+}) {
+  const geoData = use(countriesDataPromise);
+
+  return (
+    <GlobeContent
+      geoData={geoData}
+      globeRef={globeRef}
+      controlsRef={controlsRef}
+    />
+  );
+}
+
 export function GlobeScene() {
   const globeRef = useRef<Group>(null);
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const isRotating = useGlobeStore((s) => s.isRotating);
-  const [geoData, setGeoData] = useState<CountriesCollection | null>(null);
-
-  useEffect(() => {
-    fetch("/data/countries-110m.json")
-      .then((r) => r.json())
-      .then(setGeoData)
-      .catch(console.error);
-  }, []);
 
   return (
     <Canvas
@@ -118,15 +132,7 @@ export function GlobeScene() {
         zoomSpeed={0.6}
       />
       <Suspense fallback={<SceneLoader />}>
-        {geoData ? (
-          <GlobeContent
-            geoData={geoData}
-            globeRef={globeRef}
-            controlsRef={controlsRef}
-          />
-        ) : (
-          <SceneLoader />
-        )}
+        <GlobeSceneContent globeRef={globeRef} controlsRef={controlsRef} />
       </Suspense>
     </Canvas>
   );

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { DocArticleChrome } from '@/components/DocArticleChrome';
 import { DocsShell } from '@/components/DocsShell';
 import { Markdown } from '@/components/Markdown';
-import { getAllDocs, getDocByTemaSlug } from '@/lib/content/docs';
+import { getAllDocs, getDocByTemaSlug, getDocsByTema } from '@/lib/content/docs';
 import { getFeatureNavigation } from '@/lib/temas/navigation';
 import { getTemaById } from '@/lib/temas/registry';
 import {
@@ -88,16 +89,18 @@ export default async function TemaDocPage({ params }: PageProps) {
   const doc = getDocByTemaSlug(tema, slug);
   if (!doc) notFound();
 
+  const siblings = getDocsByTema(tema).filter((d) => d.slug !== '');
+
   return (
     <DocsShell docs={docs} navigation={navigation} temaId={tema}>
-      <article className="article">
-        {doc.description && (
-          <p className="-mt-2 mb-6 text-lg text-muted-foreground">
-            {doc.description}
-          </p>
-        )}
+      <DocArticleChrome
+        temaId={tema}
+        title={doc.title}
+        description={doc.description}
+        siblings={siblings}
+      >
         <Markdown content={doc.content} />
-      </article>
+      </DocArticleChrome>
     </DocsShell>
   );
 }

@@ -106,6 +106,7 @@ export const temas: TemaDefinition[] = [
     status: 'active',
     hub: 'tsx',
     skin: 'parchment',
+    showSidebar: true,
   },
   {
     id: 'teoria-del-estado',
@@ -115,6 +116,7 @@ export const temas: TemaDefinition[] = [
     order: 2,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'gobierno-y-estructura-politica',
@@ -125,6 +127,7 @@ export const temas: TemaDefinition[] = [
     status: 'active',
     hub: 'tsx',
     skin: 'institution',
+    showSidebar: true,
   },
 
   // —— Sistemas e ideas ——
@@ -137,6 +140,7 @@ export const temas: TemaDefinition[] = [
     order: 1,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'democracia-y-elecciones',
@@ -146,6 +150,7 @@ export const temas: TemaDefinition[] = [
     order: 2,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'relaciones-internacionales-y-geopolitica',
@@ -156,6 +161,7 @@ export const temas: TemaDefinition[] = [
     status: 'active',
     hub: 'tsx',
     skin: 'atlas',
+    showSidebar: true,
   },
 
   // —— Instituciones ——
@@ -167,6 +173,7 @@ export const temas: TemaDefinition[] = [
     order: 1,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'derecho-y-constitucion',
@@ -176,6 +183,7 @@ export const temas: TemaDefinition[] = [
     order: 2,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'sociologia-politica',
@@ -185,6 +193,7 @@ export const temas: TemaDefinition[] = [
     order: 3,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
 
   // —— Estado en acción ——
@@ -196,6 +205,7 @@ export const temas: TemaDefinition[] = [
     order: 1,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'seguridad-y-defensa',
@@ -205,6 +215,7 @@ export const temas: TemaDefinition[] = [
     order: 2,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'politicas-publicas',
@@ -214,6 +225,7 @@ export const temas: TemaDefinition[] = [
     order: 3,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
 
   // —— Debate contemporáneo ——
@@ -226,6 +238,7 @@ export const temas: TemaDefinition[] = [
     order: 1,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'etica-politica',
@@ -235,6 +248,7 @@ export const temas: TemaDefinition[] = [
     order: 2,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'tecnologia-y-politica',
@@ -244,6 +258,7 @@ export const temas: TemaDefinition[] = [
     order: 3,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
 
   // —— Sociedad y poder ——
@@ -255,6 +270,7 @@ export const temas: TemaDefinition[] = [
     order: 1,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'psicologia-politica',
@@ -264,6 +280,7 @@ export const temas: TemaDefinition[] = [
     order: 2,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'corrientes-y-modelos-modernos',
@@ -273,6 +290,7 @@ export const temas: TemaDefinition[] = [
     order: 3,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'religion-y-politica',
@@ -282,6 +300,7 @@ export const temas: TemaDefinition[] = [
     order: 4,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'cultura-politica',
@@ -291,6 +310,7 @@ export const temas: TemaDefinition[] = [
     order: 5,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'politica-y-ciencia',
@@ -300,6 +320,7 @@ export const temas: TemaDefinition[] = [
     order: 6,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'politica-urbana',
@@ -309,6 +330,7 @@ export const temas: TemaDefinition[] = [
     order: 7,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
   {
     id: 'poder-y-control-social',
@@ -318,6 +340,7 @@ export const temas: TemaDefinition[] = [
     order: 8,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
 
   // —— Datos ——
@@ -339,6 +362,7 @@ export const temas: TemaDefinition[] = [
     order: 2,
     status: 'active',
     hub: 'tsx',
+    showSidebar: true,
   },
 ];
 

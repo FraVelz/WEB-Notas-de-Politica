@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 export type GlobeSceneTheme = {
   ambient: number;
@@ -72,19 +72,19 @@ function readTheme(): GlobeSceneTheme {
   return mode === 'dark' ? PALETTES.dark : PALETTES.light;
 }
 
+function subscribeThemeChanges(onStoreChange: () => void) {
+  const observer = new MutationObserver(onStoreChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme', 'class'],
+  });
+  return () => observer.disconnect();
+}
+
 export function useGlobeSceneTheme() {
-  const [theme, setTheme] = useState(readTheme);
-
-  useEffect(() => {
-    const sync = () => setTheme(readTheme());
-    sync();
-    const observer = new MutationObserver(sync);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme', 'class'],
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  return theme;
+  return useSyncExternalStore(
+    subscribeThemeChanges,
+    readTheme,
+    () => PALETTES.light,
+  );
 }

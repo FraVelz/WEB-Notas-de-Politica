@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ScenarioCallout } from '@/components/ui/ScenarioCallout';
+import { TemaPageHeader } from '@/components/ui/TemaPageHeader';
 
 const milestones = [
   {
@@ -65,72 +66,61 @@ const milestones = [
 export default function TimelinePage() {
   return (
     <div className="mx-auto max-w-3xl space-y-8 pb-8">
-      <header className="space-y-3">
-        <p className="text-sm font-semibold tracking-widest text-link uppercase">
-          Historia
-        </p>
-        <h1 className="text-3xl font-semibold tracking-tight">
-          Línea de tiempo institucional
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          Marcadores multi-región para formular hipótesis sobre capacidad,
-          contención y legitimidad. No son hitos de un destino único.
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Contexto escrito:{' '}
-          <Link
-            href="/historia/lineas-de-tiempo-comparadas"
-            className="text-link underline-offset-2 hover:underline"
-          >
-            líneas de tiempo comparadas
-          </Link>{' '}
-          ·{' '}
-          <Link
-            href="/historia/patrones-institucionales"
-            className="text-link underline-offset-2 hover:underline"
-          >
-            patrones institucionales
-          </Link>
-          .
-        </p>
-      </header>
+      <TemaPageHeader
+        temaId="historia"
+        eyebrow="Historia"
+        title="Línea de tiempo institucional"
+        description="Marcadores multi-región para formular hipótesis sobre capacidad, contención y legitimidad. No son hitos de un destino único."
+        relatedHref="/historia/lineas-de-tiempo-comparadas"
+        relatedLabel="Líneas de tiempo comparadas"
+      />
 
       <ScenarioCallout variant="scenario">
-        Cada fecha altera <em>probabilidades</em> (reforma, reversión, estancamiento).
-        Dos países pueden compartir el año y divergir en resultado: anota
-        coaliciones, recursos y shocks externos antes de inferir causalidad.
+        Cada fecha altera <em>probabilidades</em> (reforma, reversión,
+        estancamiento). Dos países pueden compartir el año y divergir en
+        resultado: anota coaliciones, recursos y shocks externos antes de
+        inferir causalidad.
       </ScenarioCallout>
 
-      <ol className="relative m-0 list-none space-y-0 border-l border-border pl-0">
+      <ol className="relative m-0 list-none space-y-0 border-l-2 border-link/30 pl-0">
         {milestones.map((m) => (
           <li key={m.year + m.title} className="relative pb-10 pl-8 last:pb-0">
             <span
-              className="absolute top-1.5 -left-[5px] size-2.5 rounded-full border-2 border-link bg-background"
+              className="absolute top-1.5 -left-[7px] size-3 rounded-full border-2 border-link bg-elevated shadow-[var(--shadow-theme)]"
               aria-hidden
             />
-            <p className="m-0 text-xs font-semibold tracking-wide text-link uppercase">
-              {m.year} · {m.region}
-            </p>
-            <h2 className="mt-1 text-lg font-semibold tracking-tight">
-              {m.title}
-            </h2>
-            <ScenarioCallout variant="uncertainty" className="mt-3">
-              {m.hypothesis}
-            </ScenarioCallout>
+            <div className="rounded-xl border border-border bg-elevated p-4 shadow-[var(--shadow-theme)] transition-colors hover:border-link/40">
+              <p className="m-0 text-xs font-semibold tracking-wide text-link uppercase">
+                {m.year} · {m.region}
+              </p>
+              <h2 className="mt-1 text-lg font-semibold tracking-tight">
+                {m.title}
+              </h2>
+              <ScenarioCallout variant="uncertainty" className="mt-3">
+                {m.hypothesis}
+              </ScenarioCallout>
+            </div>
           </li>
         ))}
       </ol>
 
       <ScenarioCallout variant="trend">
-        Para contrastar resultados contemporáneos (ingreso, impuestos, seguridad),
-        usa el{' '}
+        Para contrastar resultados contemporáneos (ingreso, impuestos,
+        seguridad), usa el{' '}
         <Link
           href="/estadisticas-mundiales/indicadores"
           className="text-link underline-offset-2 hover:underline"
         >
           comparador de indicadores
         </Link>
-        : son snapshots, no veredictos históricos.
+        : son snapshots, no veredictos históricos. También:{' '}
+        <Link
+          href="/historia/patrones-institucionales"
+          className="text-link underline-offset-2 hover:underline"
+        >
+          patrones institucionales
+        </Link>
+        .
       </ScenarioCallout>
     </div>
   );

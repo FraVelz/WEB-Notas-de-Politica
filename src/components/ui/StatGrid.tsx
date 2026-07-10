@@ -24,7 +24,11 @@ export function StatGrid({
       {items.map((item) => (
         <div
           key={item.label}
-          className="rounded-xl border border-border bg-elevated px-4 py-3"
+          className={cn(
+            'rounded-xl border border-border bg-elevated px-4 py-3',
+            'shadow-[var(--shadow-theme)] transition-colors duration-150',
+            'hover:border-link/40',
+          )}
         >
           <dt className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
             {item.label}

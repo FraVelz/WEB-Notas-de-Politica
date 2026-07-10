@@ -2,8 +2,8 @@
 @import 'maplibre-gl/dist/maplibre-gl.css';
 
 /*
- * Paleta global blanco y negro (claro/oscuro vía data-theme en <html>).
- * Oscuro tipo nextjs.org (#000 / #fff / #888). Azul #0070f3 solo en enlaces y foco de teclado.
+ * Paleta global (claro/oscuro vía data-theme en <html>).
+ * Oscuro: Modern Academic Noir (navy/charcoal + azul eléctrico).
  * Los apartados /[tema] refinan tipografía en lib/temas/skins.ts.
  */
 
@@ -19,34 +19,44 @@
   --accent: #171717;
   --accent-high: #000000;
   --accent-on: #ffffff;
-  --link: #0070f3;
-  --link-hover: #0059c9;
-  --link-muted: rgb(0 112 243 / 12%);
+  --link: #1d4ed8;
+  --link-hover: #1e40af;
+  --link-muted: rgb(29 78 216 / 12%);
   --selection-bg: #171717;
   --selection-text: #ffffff;
-  --focus-ring: #0070f3;
+  --focus-ring: #1d4ed8;
   --shadow: 0 8px 24px rgb(0 0 0 / 8%);
+  --glass: rgb(255 255 255 / 72%);
+  --glass-border: rgb(0 0 0 / 8%);
+  --radius-card: 14px;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-display: var(--font-instrument), Georgia, 'Times New Roman', serif;
 }
 
-/* Oscuro tipo nextjs.org: negro puro, texto blanco, bordes sutiles */
+/* Oscuro Academic Noir */
 [data-theme='dark'] {
-  --bg: #000000;
-  --bg-muted: #0a0a0a;
-  --bg-elevated: #0a0a0a;
+  --bg: #05070a;
+  --bg-muted: #0a0f1e;
+  --bg-elevated: #0d1324;
   --text: #ffffff;
-  --text-muted: #888888;
-  --border: #333333;
-  --accent-low: #1a1a1a;
+  --text-muted: #94a3b8;
+  --border: rgb(255 255 255 / 10%);
+  --accent-low: #141b2d;
   --accent: #ffffff;
   --accent-high: #ffffff;
-  --accent-on: #000000;
-  --link: #0070f3;
-  --link-hover: #3291ff;
-  --link-muted: rgb(0 112 243 / 16%);
+  --accent-on: #05070a;
+  --link: #3b82f6;
+  --link-hover: #60a5fa;
+  --link-muted: rgb(59 130 246 / 16%);
   --selection-bg: #ffffff;
   --selection-text: #000000;
-  --focus-ring: #0070f3;
-  --shadow: 0 0 0 1px rgb(255 255 255 / 12%);
+  --focus-ring: #3b82f6;
+  --shadow: 0 12px 40px rgb(0 0 0 / 45%);
+  --glass: rgb(255 255 255 / 5%);
+  --glass-border: rgb(255 255 255 / 10%);
+  --radius-card: 14px;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-display: var(--font-instrument), Georgia, 'Times New Roman', serif;
 }
 
 @theme inline {
@@ -65,7 +75,7 @@
   --color-link-muted: var(--link-muted);
   --color-ring: var(--focus-ring);
   --shadow-theme: var(--shadow);
-  --width-sidebar: 16rem;
+  --width-sidebar: 17rem;
 }
 
 @layer base {
@@ -75,15 +85,13 @@
 
   body {
     @apply m-0 bg-background text-foreground antialiased;
-    font-family:
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      Roboto,
-      'Helvetica Neue',
-      Arial,
-      sans-serif;
+    font-family: var(--font-sans);
     line-height: 1.6;
+  }
+
+  [data-theme='dark'] body {
+    background-image: linear-gradient(180deg, #05070a 0%, #0a0f1e 48%, #05070a 100%);
+    background-attachment: fixed;
   }
 
   ::selection {
@@ -137,50 +145,82 @@
 /* Prosa de artículos Markdown (react-markdown) */
 @layer components {
   .article {
-    @apply max-w-3xl;
+    @apply max-w-none;
+  }
+
+  .article-lead {
+    @apply text-lg leading-relaxed text-muted-foreground;
   }
 
   .article h1 {
-    @apply mt-0 text-3xl font-semibold leading-tight text-foreground;
+    @apply mt-0 text-3xl font-semibold leading-tight tracking-tight text-foreground;
   }
 
   .article h2 {
-    @apply mt-8 border-b border-border pb-1.5 text-foreground;
+    @apply mt-10 mb-3 border-b border-border pb-2 text-xl font-semibold tracking-tight text-foreground;
   }
 
   .article h3 {
-    @apply mt-6 text-foreground;
+    @apply mt-8 mb-2 text-lg font-semibold text-foreground;
   }
 
   .article p,
   .article ul,
   .article ol {
-    @apply my-4;
+    @apply my-4 leading-relaxed text-foreground/90;
+  }
+
+  .article ul {
+    @apply list-disc space-y-1.5 pl-5;
+  }
+
+  .article ol {
+    @apply list-decimal space-y-1.5 pl-5;
   }
 
   .article li {
-    @apply my-1.5;
+    @apply my-1.5 pl-0.5;
+  }
+
+  .article a {
+    @apply text-link underline-offset-2 hover:underline;
+  }
+
+  .article blockquote {
+    @apply my-6 border-l-4 border-link/50 bg-link-muted/30 py-2 pl-4 pr-3 text-muted-foreground italic;
+  }
+
+  .article hr {
+    @apply my-10 border-0 border-t border-border;
   }
 
   .article code {
-    @apply rounded border border-border bg-muted px-1 py-0.5 text-[0.9em] text-foreground;
+    @apply rounded border border-border bg-muted px-1 py-0.5 text-[0.9em] text-foreground not-italic;
   }
 
   .article pre {
-    @apply overflow-x-auto rounded-lg border border-border bg-muted p-4;
+    @apply overflow-x-auto rounded-xl border border-border bg-muted p-4 shadow-[var(--shadow-theme)];
+  }
+
+  .article pre code {
+    @apply border-0 bg-transparent p-0;
   }
 
   .article table {
-    @apply w-full border-collapse text-sm;
+    @apply my-6 w-full border-collapse overflow-hidden rounded-xl text-sm shadow-[var(--shadow-theme)];
   }
 
   .article th,
   .article td {
-    @apply border border-border px-3 py-2 text-left;
+    @apply border border-border px-3 py-2.5 text-left;
   }
 
   .article th {
-    @apply bg-muted;
+    @apply bg-muted font-semibold;
+  }
+
+  .article tr:nth-child(even) td {
+    @apply bg-elevated/50;
   }
 }
 
@@ -207,29 +247,22 @@
 }
 
 [data-theme='dark'] .site-header {
-  --bg: #000000;
-  --bg-muted: #0a0a0a;
-  --bg-elevated: #0a0a0a;
+  --bg: #05070a;
+  --bg-muted: #0a0f1e;
+  --bg-elevated: rgb(8 12 22 / 78%);
   --text: #ffffff;
-  --text-muted: #888888;
-  --border: #333333;
-  --accent-low: #1a1a1a;
+  --text-muted: #94a3b8;
+  --border: rgb(255 255 255 / 10%);
+  --accent-low: #141b2d;
   --accent: #ffffff;
   --accent-high: #ffffff;
-  --accent-on: #000000;
+  --accent-on: #05070a;
 }
 
 @layer components {
   /* Fuera del skin del apartado: tipografía y tokens fijos en .site-header */
   .tema-scope .site-header {
-    font-family:
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      Roboto,
-      'Helvetica Neue',
-      Arial,
-      sans-serif;
+    font-family: var(--font-sans);
     line-height: 1.25;
   }
 
@@ -239,6 +272,38 @@
 
   .site-header a.site-header-link {
     @apply text-muted-foreground no-underline hover:text-link;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .surface-glass {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glow-icon {
+    position: relative;
+  }
+
+  .glow-icon::before {
+    content: '';
+    position: absolute;
+    inset: -30%;
+    border-radius: 9999px;
+    background: var(--glow-color, rgb(59 130 246 / 35%));
+    filter: blur(14px);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow-icon > * {
+    position: relative;
+    z-index: 1;
   }
 }
 

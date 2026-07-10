@@ -20,15 +20,6 @@ import { X, Minus, Plus, Locate, Maximize, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-/** Polyfill: `useEffectEvent` no está exportado en todas las builds de React 19. */
-function useEffectEvent<Args extends unknown[], Return>(
-  fn: (...args: Args) => Return,
-): (...args: Args) => Return {
-  const fnRef = useRef(fn);
-  fnRef.current = fn;
-  return useCallback((...args: Args) => fnRef.current(...args), []);
-}
-
 const defaultStyles = {
   dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
   light: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
@@ -516,8 +507,10 @@ function MapMarker({
     marker.setPitchAlignment(markerOptions.pitchAlignment ?? "auto");
   }
 
+  const contextValue = useMemo(() => ({ marker, map }), [marker, map]);
+
   return (
-    <MarkerContext.Provider value={{ marker, map }}>
+    <MarkerContext.Provider value={contextValue}>
       {children}
     </MarkerContext.Provider>
   );
@@ -719,22 +712,22 @@ type MarkerLabelProps = {
   position?: "top" | "bottom";
 };
 
+const markerLabelPositionClasses = {
+  top: "bottom-full mb-1",
+  bottom: "top-full mt-1",
+};
+
 function MarkerLabel({
   children,
   className,
   position = "top",
 }: MarkerLabelProps) {
-  const positionClasses = {
-    top: "bottom-full mb-1",
-    bottom: "top-full mt-1",
-  };
-
   return (
     <div
       className={cn(
         "absolute left-1/2 -translate-x-1/2 whitespace-nowrap",
         "text-foreground text-[10px] font-medium",
-        positionClasses[position],
+        markerLabelPositionClasses[position],
         className,
       )}
     >
@@ -1095,6 +1088,8 @@ function MapRoute({
   const id = propId ?? autoId;
   const sourceId = `route-source-${id}`;
   const layerId = `route-layer-${id}`;
+  const callbacksRef = useRef({ onClick, onMouseEnter, onMouseLeave });
+  callbacksRef.current = { onClick, onMouseEnter, onMouseLeave };
 
   // Add source and layer on mount
   useEffect(() => {
@@ -1158,24 +1153,14 @@ function MapRoute({
     }
   }, [isLoaded, map, layerId, color, width, opacity, dashArray]);
 
-  const handleRouteClick = useEffectEvent(() => {
-    onClick?.();
-  });
-  const handleRouteMouseEnter = useEffectEvent(() => {
-    onMouseEnter?.();
-  });
-  const handleRouteMouseLeave = useEffectEvent(() => {
-    onMouseLeave?.();
-  });
-
-  const onRouteClick = useStableMapListener(() => handleRouteClick());
+  const onRouteClick = useStableMapListener(() => callbacksRef.current.onClick?.());
   const onRouteMouseEnter = useStableMapListener(() => {
     map?.getCanvas().style.setProperty("cursor", "pointer");
-    handleRouteMouseEnter();
+    callbacksRef.current.onMouseEnter?.();
   });
   const onRouteMouseLeave = useStableMapListener(() => {
     map?.getCanvas().style.removeProperty("cursor");
-    handleRouteMouseLeave();
+    callbacksRef.current.onMouseLeave?.();
   });
 
   // Handle click and hover events
@@ -1395,28 +1380,33 @@ function MapArc<T extends MapArcDatum = MapArcDatum>({
   latestRef.current = { data, onClick, onHover };
   const arcHoverIdRef = useRef<string | number | null>(null);
 
-  const setArcHover = useEffectEvent((next: string | number | null) => {
-    if (!map) return;
-    if (next === arcHoverIdRef.current) return;
-    const sourceExists = !!map.getSource(sourceId);
-    if (arcHoverIdRef.current != null && sourceExists) {
-      map.setFeatureState(
-        { source: sourceId, id: arcHoverIdRef.current },
-        { hover: false },
-      );
-    }
-    arcHoverIdRef.current = next;
-    if (next != null && sourceExists) {
-      map.setFeatureState({ source: sourceId, id: next }, { hover: true });
-    }
-  });
+  const setArcHover = useCallback(
+    (next: string | number | null) => {
+      if (!map) return;
+      if (next === arcHoverIdRef.current) return;
+      const sourceExists = !!map.getSource(sourceId);
+      if (arcHoverIdRef.current != null && sourceExists) {
+        map.setFeatureState(
+          { source: sourceId, id: arcHoverIdRef.current },
+          { hover: false },
+        );
+      }
+      arcHoverIdRef.current = next;
+      if (next != null && sourceExists) {
+        map.setFeatureState({ source: sourceId, id: next }, { hover: true });
+      }
+    },
+    [map, sourceId],
+  );
 
-  const findArc = useEffectEvent((featureId: string | number | undefined) =>
-    featureId == null
-      ? undefined
-      : latestRef.current.data.find(
-          (arc) => String(arc.id) === String(featureId),
-        ),
+  const findArc = useCallback(
+    (featureId: string | number | undefined) =>
+      featureId == null
+        ? undefined
+        : latestRef.current.data.find(
+            (arc) => String(arc.id) === String(featureId),
+          ),
+    [],
   );
 
   const onArcMouseMove = useStableMapLayerHandler(
@@ -1763,21 +1753,6 @@ function MapClusterLayer<
     pointColor,
   ]);
 
-  const handleClusterClickEvent = useEffectEvent(
-    (
-      clusterId: number,
-      coordinates: [number, number],
-      pointCount: number,
-    ) => {
-      onClusterClick?.(clusterId, coordinates, pointCount);
-    },
-  );
-  const handlePointClickEvent = useEffectEvent(
-    (feature: GeoJSON.Feature<GeoJSON.Point, P>, coordinates: [number, number]) => {
-      onPointClick?.(feature, coordinates);
-    },
-  );
-
   const onClusterLayerClick = useStableMapLayerHandler(
     async (
       e: MapLibreGL.MapMouseEvent & {
@@ -1799,7 +1774,7 @@ function MapClusterLayer<
       ];
 
       if (onClusterClickRef.current) {
-        handleClusterClickEvent(clusterId, coordinates, pointCount);
+        onClusterClickRef.current(clusterId, coordinates, pointCount);
       } else {
         const source = map.getSource(sourceId) as MapLibreGL.GeoJSONSource;
         const zoom = await source.getClusterExpansionZoom(clusterId);
@@ -1825,7 +1800,7 @@ function MapClusterLayer<
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
 
-      handlePointClickEvent(
+      onPointClickRef.current(
         feature as unknown as GeoJSON.Feature<GeoJSON.Point, P>,
         coordinates,
       );

@@ -49,7 +49,7 @@ export function Countries({ data }: CountriesProps) {
 
   return (
     <group>
-      {data.features.map((feature, i) => {
+      {data.features.map((feature) => {
         const iso2 = feature.properties.ISO_A2;
         const value = layerValues.get(iso2) ?? 0;
         const color =
@@ -64,7 +64,7 @@ export function Countries({ data }: CountriesProps) {
 
         return (
           <CountryMesh
-            key={`${iso2}-${i}`}
+            key={feature.properties.ISO_A3 ?? feature.properties.ADM0_A3 ?? iso2}
             feature={feature}
             choroplethColor={color}
           />

@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { CompareBarChart } from "@/components/ui/CompareBarChart";
 import {
   CountryDetailFields,
   CountryDetailSkeleton,
@@ -65,27 +58,7 @@ export function CountryPanel() {
               <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Indicadores
               </p>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} layout="vertical">
-                  <XAxis type="number" hide />
-                  <YAxis
-                    type="category"
-                    dataKey="name"
-                    width={88}
-                    tick={{ fill: "var(--text-muted)", fontSize: 10 }}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      background: "var(--bg-elevated)",
-                      border: "1px solid var(--border)",
-                      borderRadius: 8,
-                      fontSize: 12,
-                      color: "var(--text)",
-                    }}
-                  />
-                  <Bar dataKey="value" fill="var(--link)" radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+              <CompareBarChart data={chartData} height={112} />
             </div>
           </div>
         )}

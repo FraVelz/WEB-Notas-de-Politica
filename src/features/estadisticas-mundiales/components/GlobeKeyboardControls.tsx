@@ -70,7 +70,10 @@ export function GlobeKeyboardControls({
   focusTargetRef,
 }: GlobeKeyboardControlsProps) {
   const { map, isLoaded } = useMap();
-  const activeKeysRef = useRef(new Set<string>());
+  const activeKeysRef = useRef<Set<string> | null>(null);
+  if (activeKeysRef.current === null) {
+    activeKeysRef.current = new Set<string>();
+  }
   const frameRef = useRef<number | null>(null);
 
   const wheelLockRef = useRef<LockedGlobeView | null>(null);
@@ -188,6 +191,7 @@ export function GlobeKeyboardControls({
 
     const applyPan = () => {
       const keys = activeKeysRef.current;
+      if (!keys) return;
       if (keys.size === 0) return;
 
       let deltaLng = 0;
@@ -244,8 +248,10 @@ export function GlobeKeyboardControls({
       if (!['w', 'a', 's', 'd'].includes(key)) return;
 
       e.preventDefault();
-      if (!activeKeysRef.current.has(key)) {
-        activeKeysRef.current.add(key);
+      const activeKeys = activeKeysRef.current;
+      if (!activeKeys) return;
+      if (!activeKeys.has(key)) {
+        activeKeys.add(key);
         applyPan();
         startLoop();
       }
@@ -253,9 +259,10 @@ export function GlobeKeyboardControls({
 
     const onKeyUp = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
-      if (['w', 'a', 's', 'd'].includes(key)) {
-        activeKeysRef.current.delete(key);
-        if (activeKeysRef.current.size === 0) stopLoop();
+      const activeKeys = activeKeysRef.current;
+      if (activeKeys && ['w', 'a', 's', 'd'].includes(key)) {
+        activeKeys.delete(key);
+        if (activeKeys.size === 0) stopLoop();
       }
       if (e.key === 'Control' || e.key === 'Meta') {
         endWheelGesture();
@@ -263,7 +270,7 @@ export function GlobeKeyboardControls({
     };
 
     const onBlur = () => {
-      activeKeysRef.current.clear();
+      activeKeysRef.current?.clear();
       stopLoop();
       endWheelGesture();
     };

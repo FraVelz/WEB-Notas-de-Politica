@@ -86,6 +86,8 @@ export function SiteSectionsNav() {
   const panelRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const listId = useId();
   const mobilePanelId = `${listId}-mobile-panel`;
+  const latestStateRef = useRef({ openCategoryId, mobileMenuOpen });
+  latestStateRef.current = { openCategoryId, mobileMenuOpen };
 
   const closeDesktop = useCallback((returnFocusTo?: string) => {
     setOpenCategoryId(null);
@@ -109,6 +111,8 @@ export function SiteSectionsNav() {
     closeDesktop();
     closeMobile();
   }, [closeDesktop, closeMobile]);
+  const closeHandlersRef = useRef({ closeAll, closeDesktop, closeMobile });
+  closeHandlersRef.current = { closeAll, closeDesktop, closeMobile };
 
   const open = useCallback((categoryId: string, focusFirst = false) => {
     setOpenCategoryId(categoryId);
@@ -206,13 +210,18 @@ export function SiteSectionsNav() {
     if (!openCategoryId && !mobileMenuOpen) return;
 
     const onPointerDown = (event: MouseEvent) => {
-      if (!navRef.current?.contains(event.target as Node)) closeAll();
+      if (!navRef.current?.contains(event.target as Node)) {
+        closeHandlersRef.current.closeAll();
+      }
     };
 
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === 'Escape') {
-        if (mobileMenuOpen) closeMobile(true);
-        else if (openCategoryId) closeDesktop(openCategoryId);
+        const { mobileMenuOpen, openCategoryId } = latestStateRef.current;
+        if (mobileMenuOpen) closeHandlersRef.current.closeMobile(true);
+        else if (openCategoryId) {
+          closeHandlersRef.current.closeDesktop(openCategoryId);
+        }
       }
     };
 
@@ -222,7 +231,7 @@ export function SiteSectionsNav() {
       document.removeEventListener('mousedown', onPointerDown);
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [openCategoryId, mobileMenuOpen, closeAll, closeDesktop, closeMobile]);
+  }, [openCategoryId, mobileMenuOpen]);
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 768px)');
@@ -362,6 +371,7 @@ export function SiteSectionsNav() {
                 }}
                 id={panelId}
                 role="menu"
+                tabIndex={-1}
                 aria-labelledby={triggerId}
                 hidden={!isOpen}
                 onKeyDown={(event) =>

@@ -58,6 +58,7 @@ export function CountryDetailFields({
             src={detail.flagSvg}
             alt={`Bandera de ${detail.nameEs}`}
             fill
+            sizes={compact ? '3.5rem' : '6rem'}
             className="object-cover"
             unoptimized
           />
@@ -136,12 +137,14 @@ export function CountryDetailFields({
 }
 
 export function CountryDetailSkeleton({ rows = 6 }: { rows?: number }) {
+  const rowKeys = Array.from({ length: rows }, (_, index) => `row-${index}`);
+
   return (
     <div className="animate-pulse space-y-3">
       <div className="h-10 w-14 rounded-md bg-muted" />
       <div className="h-5 w-3/4 rounded bg-muted" />
-      {[...Array(rows)].map((_, i) => (
-        <div key={i} className="h-3 rounded bg-muted" />
+      {rowKeys.map((key) => (
+        <div key={key} className="h-3 rounded bg-muted" />
       ))}
     </div>
   );

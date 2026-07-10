@@ -97,6 +97,7 @@ export function SearchBar({ countries }: SearchBarProps) {
             }
           }}
           placeholder="Buscar país... (ej. Japón)"
+          aria-label="Buscar país"
           className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
         />
         <kbd className="hidden rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground sm:inline">

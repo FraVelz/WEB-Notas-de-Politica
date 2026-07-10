@@ -1,8 +1,22 @@
 import type { Metadata } from 'next';
+import { Instrument_Serif, Geist } from 'next/font/google';
 import { Providers } from '@/components/Providers';
 import { siteConfig } from '@/lib/navigation';
 import { getSiteUrl } from '@/lib/site-url';
 import './globals.css';
+
+const geistSans = Geist({
+  subsets: ['latin'],
+  variable: '--font-geist-sans',
+  display: 'swap',
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-instrument',
+  display: 'swap',
+});
 
 const siteUrl = getSiteUrl();
 
@@ -37,7 +51,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html
+      lang="es"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${instrumentSerif.variable}`}
+    >
       <body>
         <Providers>{children}</Providers>
       </body>

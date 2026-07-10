@@ -84,7 +84,7 @@ export function percentileRank(
   allValues: number[],
 ): number | null {
   if (allValues.length === 0) return null;
-  const sorted = [...allValues].sort((a, b) => a - b);
+  const sorted = allValues.toSorted((a, b) => a - b);
   const below = sorted.filter((v) => v < value).length;
   return Math.round((below / sorted.length) * 100);
 }

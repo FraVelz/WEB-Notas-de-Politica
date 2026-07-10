@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { CompareBarChart } from "@/components/ui/CompareBarChart";
 import { Maximize2, Minimize2 } from "lucide-react";
 import {
   COMPARE_SLOT_COLORS,
@@ -106,34 +99,14 @@ function CompareCountryChart({
   color: string;
 }) {
   const chartData = [
-    { name: "Pobl. (M)", value: detail.population / 1_000_000 },
-    { name: "PIB (k$)", value: (detail.gdpPerCapita ?? 0) / 1000 },
-    { name: "Área (k)", value: detail.area / 1000 },
+    { name: "Pobl. (M)", value: detail.population / 1_000_000, fill: color },
+    { name: "PIB (k$)", value: (detail.gdpPerCapita ?? 0) / 1000, fill: color },
+    { name: "Área (k)", value: detail.area / 1000, fill: color },
   ];
 
   return (
     <div className="h-28">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 4 }}>
-          <XAxis type="number" hide />
-          <YAxis
-            type="category"
-            dataKey="name"
-            width={48}
-            tick={{ fill: "var(--text-muted)", fontSize: 9 }}
-          />
-          <Tooltip
-            contentStyle={{
-              background: "var(--bg-elevated)",
-              border: "1px solid var(--border)",
-              borderRadius: 8,
-              fontSize: 11,
-              color: "var(--text)",
-            }}
-          />
-          <Bar dataKey="value" fill={color} radius={[0, 3, 3, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
+      <CompareBarChart data={chartData} height={112} />
     </div>
   );
 }
