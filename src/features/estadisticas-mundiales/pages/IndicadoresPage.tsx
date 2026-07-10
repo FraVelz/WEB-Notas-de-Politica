@@ -1,39 +1,73 @@
 'use client';
 
 import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
 import { CountryCompare } from '@/components/ui/CountryCompare';
 import { ScenarioCallout } from '@/components/ui/ScenarioCallout';
+import { TemaPageHeader } from '@/components/ui/TemaPageHeader';
+import { getTemaIcon } from '@/lib/temas/icons';
+import { getTemaById } from '@/lib/temas/registry';
+import { cn } from '@/lib/utils';
+
+const TEMA_ID = 'estadisticas-mundiales';
+
+const SIBLINGS = [
+  {
+    href: `/${TEMA_ID}/como-leer-indicadores`,
+    title: 'Cómo leer los indicadores',
+    description:
+      'Límites, cobertura y lectura epistémica de las series del Banco Mundial.',
+  },
+  {
+    href: `/${TEMA_ID}/poblacion`,
+    title: 'Población',
+    description: 'Notas y contexto demográfico dentro del mismo apartado.',
+  },
+  {
+    href: `/${TEMA_ID}/mapa`,
+    title: 'Mapa mundial',
+    description: 'Vista inmersiva para situar países y capas de datos.',
+  },
+] as const;
 
 export default function IndicadoresPage() {
+  const meta = getTemaById(TEMA_ID);
+  const Icon = getTemaIcon(TEMA_ID);
+
   return (
-    <div className="mx-auto max-w-4xl space-y-10 pb-8">
-      <header className="space-y-3">
-        <p className="text-sm font-semibold tracking-widest text-link uppercase">
-          Datos
-        </p>
-        <h1 className="text-3xl font-semibold tracking-tight">
+    <div className="mx-auto max-w-4xl space-y-8 pb-8">
+      <nav
+        aria-label="Miga de pan"
+        className="flex flex-wrap items-center gap-1.5 text-sm"
+      >
+        <Link
+          href={`/${TEMA_ID}`}
+          className={cn(
+            'inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5',
+            'text-muted-foreground no-underline transition-colors',
+            'hover:bg-link-muted hover:text-link',
+          )}
+        >
+          <Icon className="size-3.5" strokeWidth={1.75} aria-hidden />
+          {meta?.title ?? 'Estadísticas mundiales'}
+        </Link>
+        <ChevronRight
+          className="size-3.5 text-muted-foreground"
+          aria-hidden
+        />
+        <span className="font-medium text-foreground">
           Comparador de indicadores
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          Sitúa cualquier país frente a peers y al mundo. Los valores son
-          snapshots del Banco Mundial: útiles para escenarios, no como veredicto
-          único sobre prosperidad.
-        </p>
-        <p className="text-sm text-muted-foreground">
-          También puedes explorar el{' '}
-          <Link href="/estadisticas-mundiales" className="text-link underline-offset-2 hover:underline">
-            globo 3D
-          </Link>{' '}
-          o leer{' '}
-          <Link
-            href="/estadisticas-mundiales/como-leer-indicadores"
-            className="text-link underline-offset-2 hover:underline"
-          >
-            cómo leer estos indicadores
-          </Link>
-          .
-        </p>
-      </header>
+        </span>
+      </nav>
+
+      <TemaPageHeader
+        temaId={TEMA_ID}
+        eyebrow="Datos"
+        title="Comparador de indicadores"
+        description="Sitúa cualquier país frente a peers y al mundo. Los valores son snapshots del Banco Mundial: útiles para escenarios, no como veredicto único sobre prosperidad."
+        relatedHref={`/${TEMA_ID}/como-leer-indicadores`}
+        relatedLabel="Cómo leer estos indicadores"
+      />
 
       <ScenarioCallout variant="trend">
         Cambia el país ancla: el percentil se recalcula respecto a todos los
@@ -65,6 +99,39 @@ export default function IndicadoresPage() {
         title="Homicidios (por 100.000)"
         defaultCountries={['COL', 'MEX', 'USA', 'JPN', 'ZAF', 'DEU']}
       />
+
+      <footer className="space-y-3 border-t border-border pt-6">
+        <h2 className="m-0 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+          Más en este tema
+        </h2>
+        <ul className="m-0 grid list-none gap-2 p-0 sm:grid-cols-2">
+          {SIBLINGS.map((item) => (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className={cn(
+                  'group flex items-start gap-2 rounded-xl border border-border bg-elevated px-3 py-3',
+                  'no-underline transition-all duration-150',
+                  'hover:-translate-y-0.5 hover:border-link hover:bg-link-muted',
+                )}
+              >
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-medium text-foreground group-hover:text-link">
+                    {item.title}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground line-clamp-2">
+                    {item.description}
+                  </span>
+                </span>
+                <ChevronRight
+                  className="mt-0.5 size-4 shrink-0 text-muted-foreground group-hover:text-link"
+                  aria-hidden
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </footer>
     </div>
   );
 }

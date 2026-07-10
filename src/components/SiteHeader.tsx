@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Bookmark, Compass, Menu } from 'lucide-react';
+import { Compass, Menu } from 'lucide-react';
 import { CommandPaletteHost } from '@/components/ui/CommandPalette';
+import { BookmarksMenu } from '@/components/ui/BookmarksMenu';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SiteSectionsNav } from '@/components/layout/SiteSectionsNav';
 import { siteConfig } from '@/lib/navigation';
@@ -13,12 +14,15 @@ export function SiteHeader({
   trailing,
   variant = 'landing',
   hideBrandLink = false,
+  backHref = '/',
 }: {
   trailing?: React.ReactNode;
-  /** `landing` = marca + nav; `tema` = enlace a inicio + nav */
+  /** `landing` = marca + nav; `tema` = enlace atrás + nav */
   variant?: 'landing' | 'tema';
-  /** Oculta “← Inicio” cuando el shell ya tiene top bar propia */
+  /** Oculta “← Atrás” cuando el shell ya tiene top bar propia */
   hideBrandLink?: boolean;
+  /** Destino del enlace “← Atrás” en variante tema */
+  backHref?: string;
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -43,10 +47,10 @@ export function SiteHeader({
       >
         {variant === 'tema' ? (
           <Link
-            href="/"
+            href={backHref}
             className="site-header-link inline-flex shrink-0 items-center text-sm font-medium text-foreground no-underline sm:text-base"
           >
-            ← Inicio
+            ← Atrás
           </Link>
         ) : (
           <Link
@@ -86,14 +90,7 @@ export function SiteHeader({
             <>
               <CommandPaletteHost placeholder="Buscar en Prosperidad..." />
               <ThemeToggle />
-              <button
-                type="button"
-                className="hidden size-9 items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-foreground sm:inline-flex"
-                aria-label="Marcadores (próximamente)"
-                title="Marcadores (próximamente)"
-              >
-                <Bookmark className="size-4" strokeWidth={1.75} />
-              </button>
+              <BookmarksMenu className="hidden sm:block" />
               <button
                 type="button"
                 className="inline-flex size-9 items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-foreground md:hidden"

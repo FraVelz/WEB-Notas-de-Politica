@@ -10,6 +10,8 @@ const customTsxPages: Record<string, Record<string, TsxPageLoader>> = {
       })),
   },
   'estadisticas-mundiales': {
+    mapa: () =>
+      import('@/features/estadisticas-mundiales/pages/MapaPage'),
     indicadores: () =>
       import('@/features/estadisticas-mundiales/pages/IndicadoresPage'),
   },
@@ -119,6 +121,11 @@ const pageMeta: Record<string, Record<string, { title: string; description?: str
       },
     },
     'estadisticas-mundiales': {
+      mapa: {
+        title: 'Mapa mundial',
+        description:
+          'Globo 3D interactivo con capas de población, PIB y más para situar países en contexto',
+      },
       indicadores: {
         title: 'Comparador de indicadores',
         description:

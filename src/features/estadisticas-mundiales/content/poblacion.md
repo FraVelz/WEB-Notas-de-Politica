@@ -7,7 +7,7 @@ La población condiciona mercados, fiscalidad, urbanización y presión sobre re
 
 ## Cómo usarla en este archivo
 
-1. Compara **niveles** (habitantes) y **dinámicas** (crecimiento, envejecimiento) en el [comparador](/estadisticas-mundiales/indicadores) y el [globo 3D](/estadisticas-mundiales).
+1. Compara **niveles** (habitantes) y **dinámicas** (crecimiento, envejecimiento) en el [comparador](/estadisticas-mundiales/indicadores) y el [globo 3D](/estadisticas-mundiales/mapa).
 2. Cruza con urbanización (`urban-population` en los snapshots) y con notas de [política urbana](/politica-urbana) o [economía](/economia).
 3. Pregunta: si la población en edad de trabajar crece más rápido que el empleo formal, ¿qué escenarios de política pública se abren?
 

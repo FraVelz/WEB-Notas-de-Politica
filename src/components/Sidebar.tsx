@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { BookmarksMenu } from '@/components/ui/BookmarksMenu';
 import type { NavItem } from '@/lib/navigation';
 import { getTemaIcon } from '@/lib/temas/icons';
 import { cn } from '@/lib/utils';
@@ -197,6 +198,7 @@ export function Sidebar({
               collapsed ? '' : 'ml-auto',
             )}
           >
+            {!collapsed ? <BookmarksMenu /> : null}
             <ThemeToggle />
             {onCollapseToggle ? (
               <button

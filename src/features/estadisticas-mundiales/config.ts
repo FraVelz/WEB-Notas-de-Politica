@@ -4,6 +4,7 @@ export const TEMA_ID = 'estadisticas-mundiales';
 
 export const nav: NavItem[] = [
   { label: 'Resumen', href: `/${TEMA_ID}` },
+  { label: 'Mapa', href: `/${TEMA_ID}/mapa` },
   {
     label: 'Datos',
     items: [

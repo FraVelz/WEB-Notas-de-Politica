@@ -45,6 +45,10 @@ export type TemaDefinition = {
   showSidebar?: boolean;
   /** Hub a pantalla completa bajo el header, sin padding del shell */
   immersiveHub?: boolean;
+  /**
+   * Subruta inmersiva (p. ej. `mapa`). Si falta, el hub raíz (`/{tema}`) es inmersivo.
+   */
+  immersivePath?: string;
 };
 
 export type TemaGroup = {

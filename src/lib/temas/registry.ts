@@ -353,6 +353,8 @@ export const temas: TemaDefinition[] = [
     status: 'active',
     hub: 'tsx',
     immersiveHub: true,
+    immersivePath: 'mapa',
+    showSidebar: true,
   },
   {
     id: 'globo-teraqueo-politico',

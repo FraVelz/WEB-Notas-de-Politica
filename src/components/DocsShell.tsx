@@ -4,17 +4,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import {
-  BarChart3,
-  Home,
-  LayoutGrid,
-  Library,
-} from 'lucide-react';
+import { BarChart3, Home, Library } from 'lucide-react';
 import {
   CommandPalette,
   CommandPaletteTrigger,
   useCommandPalette,
 } from '@/components/ui/CommandPalette';
+import {
+  BookmarkToggle,
+  BookmarksMenu,
+} from '@/components/ui/BookmarksMenu';
 import { Sidebar } from '@/components/Sidebar';
 import { SiteHeader } from '@/components/SiteHeader';
 import type { DocMeta } from '@/lib/content/docs';
@@ -45,11 +44,14 @@ export function DocsShell({
   const { open, setOpen } = useCommandPalette();
   const pathname = usePathname();
   const meta = getTemaById(temaId);
-  const showSidebar = meta?.showSidebar === true;
-  // Solo el hub raíz (/tema) es inmersivo; subpáginas como /indicadores deben hacer scroll.
+  const immersivePath = meta?.immersivePath
+    ? `/${temaId}/${meta.immersivePath}`
+    : `/${temaId}`;
   const immersiveHub =
     meta?.immersiveHub === true &&
-    (pathname === `/${temaId}` || pathname === `/${temaId}/`);
+    (pathname === immersivePath || pathname === `${immersivePath}/`);
+  const showSidebar = meta?.showSidebar === true && !immersiveHub;
+  const backHref = immersiveHub ? `/${temaId}` : '/';
 
   useEffect(() => {
     let cancelled = false;
@@ -78,7 +80,8 @@ export function DocsShell({
     <>
       <SiteHeader
         variant="tema"
-        hideBrandLink={showSidebar && !immersiveHub}
+        hideBrandLink={showSidebar}
+        backHref={backHref}
       />
       <CommandPalette
         open={open}
@@ -134,10 +137,13 @@ export function DocsShell({
         >
           {showSidebar && !immersiveHub ? (
             <div className="sticky top-0 z-10 flex h-14 items-center gap-3 border-b border-border bg-background/80 px-5 backdrop-blur-md md:px-8">
-              <p className="m-0 flex items-center gap-2 text-sm text-muted-foreground">
+              <Link
+                href={`/${temaId}`}
+                className="m-0 inline-flex items-center gap-2 text-sm text-muted-foreground no-underline hover:text-link"
+              >
                 <Home className="size-3.5" strokeWidth={1.75} aria-hidden />
-                Inicio
-              </p>
+                {shortTitle}
+              </Link>
               <div className="mx-auto hidden max-w-md flex-1 justify-center sm:flex">
                 <CommandPaletteTrigger
                   onOpen={() => setOpen(true)}
@@ -154,30 +160,28 @@ export function DocsShell({
                 >
                   ☰
                 </button>
+                <BookmarkToggle
+                  href={pathname}
+                  temaId={temaId}
+                  className="hidden sm:inline-flex"
+                />
+                <BookmarksMenu className="hidden sm:block" />
                 <Link
                   href={`/${temaId}`}
                   className="hidden size-9 items-center justify-center rounded-xl border border-border text-muted-foreground no-underline hover:text-link sm:inline-flex"
-                  aria-label="Biblioteca del tema"
-                  title="Biblioteca"
+                  aria-label="Hub del tema"
+                  title="Hub del tema"
                 >
                   <Library className="size-4" strokeWidth={1.75} />
                 </Link>
                 <Link
                   href="/estadisticas-mundiales/indicadores"
                   className="hidden size-9 items-center justify-center rounded-xl border border-border text-muted-foreground no-underline hover:text-link sm:inline-flex"
-                  aria-label="Comparador"
-                  title="Comparador"
+                  aria-label="Comparador de indicadores"
+                  title="Comparador de indicadores"
                 >
                   <BarChart3 className="size-4" strokeWidth={1.75} />
                 </Link>
-                <button
-                  type="button"
-                  className="hidden size-9 items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-link sm:inline-flex"
-                  aria-label="Vista de layout"
-                  title="Layout"
-                >
-                  <LayoutGrid className="size-4" strokeWidth={1.75} />
-                </button>
               </div>
             </div>
           ) : null}

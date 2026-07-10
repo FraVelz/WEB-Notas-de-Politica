@@ -3,7 +3,7 @@ title: Cómo leer los indicadores
 description: Qué miden (y qué no) PIB, Gini, esperanza de vida y otras señales usadas en este archivo
 ---
 
-Los números del [comparador](/estadisticas-mundiales/indicadores) y del [globo](/estadisticas-mundiales) son **señales**, no veredictos. Sirven para situar un país —el tuyo u otro— y plantear escenarios.
+Los números del [comparador](/estadisticas-mundiales/indicadores) y del [globo](/estadisticas-mundiales/mapa) son **señales**, no veredictos. Sirven para situar un país —el tuyo u otro— y plantear escenarios.
 
 ## Qué suele medir cada familia
 
