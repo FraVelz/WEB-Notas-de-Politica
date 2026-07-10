@@ -10,7 +10,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "react:doctor": "react-doctor . --verbose"
+    "react:doctor": "react-doctor . --verbose",
+    "data:fetch": "node scripts/fetch-datasets.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

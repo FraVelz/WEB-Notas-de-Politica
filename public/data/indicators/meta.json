@@ -1,0 +1,117 @@
+{
+  "fetchedAt": "2026-07-10T12:20:58.899Z",
+  "source": "World Bank Open Data API",
+  "epistemicNote": "Los indicadores son señales imperfectas. Correlación no implica causalidad. Úsalos para escenarios y comparaciones, no como verdades absolutas.",
+  "indicators": [
+    {
+      "id": "gdp-per-capita",
+      "code": "NY.GDP.PCAP.CD",
+      "label": "PIB per cápita (US$ corrientes)",
+      "unit": "USD",
+      "countryCount": 257,
+      "file": "indicators/gdp-per-capita.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/NY.GDP.PCAP.CD",
+      "fetchedAt": "2026-07-10T12:20:23.667Z"
+    },
+    {
+      "id": "life-expectancy",
+      "code": "SP.DYN.LE00.IN",
+      "label": "Esperanza de vida al nacer",
+      "unit": "años",
+      "countryCount": 260,
+      "file": "indicators/life-expectancy.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/SP.DYN.LE00.IN",
+      "fetchedAt": "2026-07-10T12:20:24.183Z"
+    },
+    {
+      "id": "population",
+      "code": "SP.POP.TOTL",
+      "label": "Población total",
+      "unit": "personas",
+      "countryCount": 260,
+      "file": "indicators/population.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/SP.POP.TOTL",
+      "fetchedAt": "2026-07-10T12:20:24.856Z"
+    },
+    {
+      "id": "gini",
+      "code": "SI.POV.GINI",
+      "label": "Índice de Gini",
+      "unit": "0-100",
+      "countryCount": 168,
+      "file": "indicators/gini.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/SI.POV.GINI",
+      "fetchedAt": "2026-07-10T12:20:25.385Z"
+    },
+    {
+      "id": "poverty-319",
+      "code": "SI.POV.DDAY",
+      "label": "Pobreza extrema (% < $3.00/día 2021 PPP)",
+      "unit": "%",
+      "countryCount": 178,
+      "file": "indicators/poverty-319.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/SI.POV.DDAY",
+      "fetchedAt": "2026-07-10T12:20:26.196Z"
+    },
+    {
+      "id": "co2-per-capita",
+      "code": "EN.GHG.CO2.PC.CE.AR5",
+      "label": "Emisiones de CO₂ per cápita (GEI)",
+      "unit": "t CO₂e",
+      "countryCount": 246,
+      "file": "indicators/co2-per-capita.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/EN.GHG.CO2.PC.CE.AR5",
+      "fetchedAt": "2026-07-10T12:20:38.464Z"
+    },
+    {
+      "id": "urban-population",
+      "code": "SP.URB.TOTL.IN.ZS",
+      "label": "Población urbana",
+      "unit": "%",
+      "countryCount": 260,
+      "file": "indicators/urban-population.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/SP.URB.TOTL.IN.ZS",
+      "fetchedAt": "2026-07-10T12:20:38.976Z"
+    },
+    {
+      "id": "rd-gdp",
+      "code": "GB.XPD.RSDV.GD.ZS",
+      "label": "Gasto en I+D (% del PIB)",
+      "unit": "% PIB",
+      "countryCount": 191,
+      "file": "indicators/rd-gdp.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/GB.XPD.RSDV.GD.ZS",
+      "fetchedAt": "2026-07-10T12:20:39.596Z"
+    },
+    {
+      "id": "tax-revenue",
+      "code": "GC.TAX.TOTL.GD.ZS",
+      "label": "Ingresos tributarios (% del PIB)",
+      "unit": "% PIB",
+      "countryCount": 188,
+      "file": "indicators/tax-revenue.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/GC.TAX.TOTL.GD.ZS",
+      "fetchedAt": "2026-07-10T12:20:49.371Z"
+    },
+    {
+      "id": "fdi-gdp",
+      "code": "BX.KLT.DINV.WD.GD.ZS",
+      "label": "IED neta (% del PIB)",
+      "unit": "% PIB",
+      "countryCount": 245,
+      "file": "indicators/fdi-gdp.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/BX.KLT.DINV.WD.GD.ZS",
+      "fetchedAt": "2026-07-10T12:20:57.799Z"
+    },
+    {
+      "id": "homicide",
+      "code": "VC.IHR.PSRC.P5",
+      "label": "Homicidios intencionales (por 100.000)",
+      "unit": "por 100k",
+      "countryCount": 238,
+      "file": "indicators/homicide.json",
+      "sourceUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+      "fetchedAt": "2026-07-10T12:20:58.497Z"
+    }
+  ]
+}

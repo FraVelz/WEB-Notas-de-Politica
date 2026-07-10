@@ -50,38 +50,47 @@ export function getAllDocs(): DocMeta[] {
   const docs: DocMeta[] = [];
 
   for (const tema of temas) {
-    const contentDir = getFeatureContentDir(tema.id);
-    if (!fs.existsSync(contentDir)) continue;
-
-    function walk(dir: string, prefix = '') {
-      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-        const relative = prefix ? `${prefix}/${entry.name}` : entry.name;
-        if (entry.isDirectory()) {
-          walk(path.join(dir, entry.name), relative);
-        } else if (entry.name.endsWith('.md')) {
-          const base = relative.replace(/\.md$/, '');
-          const slug = normalizeRelativeSlug(base);
-          const filePath = filePathFromTemaSlug(tema.id, slug);
-          if (!fs.existsSync(filePath)) continue;
-          const raw = fs.readFileSync(filePath, 'utf8');
-          const { data } = matter(raw);
-          docs.push({
-            tema: tema.id,
-            slug,
-            title:
-              (data.title as string) ??
-              (slug || getTemaById(tema.id)?.title || tema.id),
-            description: data.description as string | undefined,
-            href: hrefFor(tema.id, slug),
-          });
-        }
-      }
-    }
-
-    walk(contentDir);
+    docs.push(...getDocsByTema(tema.id));
   }
 
   return docs;
+}
+
+export function getDocsByTema(temaId: string): DocMeta[] {
+  if (!isRegisteredTema(temaId)) return [];
+
+  const contentDir = getFeatureContentDir(temaId);
+  if (!fs.existsSync(contentDir)) return [];
+
+  const docs: DocMeta[] = [];
+
+  function walk(dir: string, prefix = '') {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const relative = prefix ? `${prefix}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) {
+        walk(path.join(dir, entry.name), relative);
+      } else if (entry.name.endsWith('.md')) {
+        const base = relative.replace(/\.md$/, '');
+        const slug = normalizeRelativeSlug(base);
+        const filePath = filePathFromTemaSlug(temaId, slug);
+        if (!fs.existsSync(filePath)) continue;
+        const raw = fs.readFileSync(filePath, 'utf8');
+        const { data } = matter(raw);
+        docs.push({
+          tema: temaId,
+          slug,
+          title:
+            (data.title as string) ??
+            (slug || getTemaById(temaId)?.title || temaId),
+          description: data.description as string | undefined,
+          href: hrefFor(temaId, slug),
+        });
+      }
+    }
+  }
+
+  walk(contentDir);
+  return docs.sort((a, b) => a.href.localeCompare(b.href));
 }
 
 export function getDocByTemaSlug(tema: string, slug: string): Doc | null {

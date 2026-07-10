@@ -17,6 +17,19 @@ description: Resumen para SEO y búsqueda
 ---
 ```
 
+## Ensayo (Markdown) vs interactivo (TSX)
+
+- **Markdown** (`content/*.md`): marco conceptual, ejemplos multi-región, sección «qué no sabemos / límites», fuentes.
+- **TSX** (`pages/` + registro en `src/lib/temas/tsx-pages.tsx`): comparadores de países, gráficos, timelines.
+- Datos mundiales: `public/data/indicators/` (generar con `pnpm data:fetch`).
+
+## Voz epistémica
+
+- Hablar de **tendencias**, **probabilidades** y **escenarios**, no de verdades absolutas.
+- Correlación ≠ causalidad. Toda cifra con **fuente + año**.
+- Un lector de cualquier país debe poder situar el suyo; no asumir un único «nosotros».
+- Usar `ScenarioCallout` / `SourceFooter` en páginas con datos.
+
 ## Enlaces internos
 
 Usar siempre el prefijo del tema:
