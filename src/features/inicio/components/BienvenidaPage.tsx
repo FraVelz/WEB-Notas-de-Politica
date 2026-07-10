@@ -47,17 +47,17 @@ const pilares = [
   {
     icon: Compass,
     title: 'Qué es este sitio',
-    text: 'Notas personales sobre política y todo lo que orbita a su alrededor: filosofía, historia, economía, sociedad y cultura.',
+    text: 'Notas y datos sobre política y lo que orbita a su alrededor: filosofía, historia, economía, sociedad y cultura — útiles si analizas Colombia o cualquier otro país.',
   },
   {
     icon: Scale,
     title: 'Más allá del dato',
-    text: 'No solo quién gobierna qué país, sino por qué se piensa así, qué ideas sostienen las decisiones y qué debates merecen calma.',
+    text: 'Los indicadores son señales imperfectas. Correlación no implica causalidad: sirven para plantear escenarios, no para cerrar el debate.',
   },
   {
     icon: Target,
     title: 'El objetivo',
-    text: 'Buscar la prosperidad de una nación: comprender el mundo en el que vivimos y el de los demás, y ordenar esa información de forma útil para quien quiera pensar con claridad.',
+    text: 'Comprender cómo se organiza el poder y la vida en común, con probabilidad e incertidumbre a la vista, para pensar con más claridad.',
   },
 ] as const;
 
@@ -87,9 +87,10 @@ export function BienvenidaPage() {
               Prosperidad
             </h1>
             <p className="m-0 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Un archivo en construcción para la búsqueda de la prosperidad de
-              una nación: ideas, contexto y debates que ayuden a entender cómo
-              se organiza el poder y la vida en común.
+              Un archivo para buscar la prosperidad de una nación —desde
+              cualquier país— con ideas, contexto cuantitativo y debates. Habla
+              de tendencias, escenarios posibles e incertidumbre, no de verdades
+              absolutas.
             </p>
           </div>
         </div>
@@ -142,10 +143,10 @@ export function BienvenidaPage() {
           aria-hidden
         />
         <p className="m-0">
-          <strong className="font-semibold text-foreground">Nota:</strong> los
-          textos actuales no deben sacarse de contexto. El contenido irá
-          organizándose poco a poco para que las ideas sean más claras y
-          racionales.
+          <strong className="font-semibold text-foreground">Cómo leer:</strong>{' '}
+          los textos y gráficos no deben sacarse de contexto. Donde hay cifras,
+          verás fuente, año y límites. Si falta un país en un indicador, es «sin
+          dato» — no inventamos valores.
         </p>
       </div>
 
@@ -171,10 +172,9 @@ export function BienvenidaPage() {
             Una mirada crítica
           </h2>
           <p className="mt-3 mb-0 text-sm leading-relaxed text-muted-foreground">
-            En Latinoamérica, demasiado a menudo el poder se desvía: corrupción,
-            pactos con grupos criminales y países sumidos en caos e
-            inseguridad. Este sitio busca mantener una visión neutral y útil, no
-            un panfleto.
+            En muchas regiones el poder se desvía: corrupción, violencia o
+            captura del Estado. Este sitio busca una visión útil y comparable
+            entre países, sin panfleto ni verdades absolutas.
           </p>
         </div>
       </section>

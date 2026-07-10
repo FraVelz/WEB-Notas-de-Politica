@@ -103,7 +103,7 @@ export const temas: TemaDefinition[] = [
       'Base teórica de cómo debería funcionar una sociedad.',
     group: 'fundamentos',
     order: 1,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
     skin: 'parchment',
   },
@@ -113,7 +113,7 @@ export const temas: TemaDefinition[] = [
     description: 'Cómo nace, funciona y se legitima el Estado.',
     group: 'fundamentos',
     order: 2,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -122,7 +122,7 @@ export const temas: TemaDefinition[] = [
     description: 'Cómo se organiza el poder.',
     group: 'fundamentos',
     order: 3,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
     skin: 'institution',
   },
@@ -135,7 +135,7 @@ export const temas: TemaDefinition[] = [
       'Sistemas de ideas sobre cómo debe organizarse la sociedad.',
     group: 'sistemas-e-ideas',
     order: 1,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -144,7 +144,7 @@ export const temas: TemaDefinition[] = [
     description: 'Cómo participa la población.',
     group: 'sistemas-e-ideas',
     order: 2,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -153,7 +153,7 @@ export const temas: TemaDefinition[] = [
     description: 'Relaciones de poder entre países.',
     group: 'sistemas-e-ideas',
     order: 3,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
     skin: 'atlas',
   },
@@ -165,7 +165,7 @@ export const temas: TemaDefinition[] = [
     description: 'Relación entre economía y poder.',
     group: 'instituciones',
     order: 1,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -174,7 +174,7 @@ export const temas: TemaDefinition[] = [
     description: 'Normas que organizan el poder.',
     group: 'instituciones',
     order: 2,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -183,7 +183,7 @@ export const temas: TemaDefinition[] = [
     description: 'Cómo interactúan sociedad y poder.',
     group: 'instituciones',
     order: 3,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
 
@@ -194,7 +194,7 @@ export const temas: TemaDefinition[] = [
     description: 'Evolución histórica del poder.',
     group: 'estado-en-accion',
     order: 1,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -203,7 +203,7 @@ export const temas: TemaDefinition[] = [
     description: 'Uso de fuerza y control interno.',
     group: 'estado-en-accion',
     order: 2,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -212,7 +212,7 @@ export const temas: TemaDefinition[] = [
     description: 'Cómo se diseñan soluciones estatales.',
     group: 'estado-en-accion',
     order: 3,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
 
@@ -224,7 +224,7 @@ export const temas: TemaDefinition[] = [
       'Cómo se transmite y manipula la información política.',
     group: 'debate-contemporaneo',
     order: 1,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -233,7 +233,7 @@ export const temas: TemaDefinition[] = [
     description: 'Problemas morales del poder.',
     group: 'debate-contemporaneo',
     order: 2,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -242,7 +242,7 @@ export const temas: TemaDefinition[] = [
     description: 'Digitalización, datos y poder.',
     group: 'debate-contemporaneo',
     order: 3,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
 
@@ -253,7 +253,7 @@ export const temas: TemaDefinition[] = [
     description: 'Política ecológica y energética.',
     group: 'sociedad-y-poder',
     order: 1,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -262,7 +262,7 @@ export const temas: TemaDefinition[] = [
     description: 'Cómo piensa y actúa la gente políticamente.',
     group: 'sociedad-y-poder',
     order: 2,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -271,7 +271,7 @@ export const temas: TemaDefinition[] = [
     description: 'Temas contemporáneos.',
     group: 'sociedad-y-poder',
     order: 3,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -280,7 +280,7 @@ export const temas: TemaDefinition[] = [
     description: 'Fe, instituciones y poder público.',
     group: 'sociedad-y-poder',
     order: 4,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -289,7 +289,7 @@ export const temas: TemaDefinition[] = [
     description: 'Símbolos, identidad y hábitos políticos.',
     group: 'sociedad-y-poder',
     order: 5,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -298,7 +298,7 @@ export const temas: TemaDefinition[] = [
     description: 'Evidencia, investigación y decisiones públicas.',
     group: 'sociedad-y-poder',
     order: 6,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -307,7 +307,7 @@ export const temas: TemaDefinition[] = [
     description: 'Ciudad, territorio y gobernanza local.',
     group: 'sociedad-y-poder',
     order: 7,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
   {
@@ -316,7 +316,7 @@ export const temas: TemaDefinition[] = [
     description: 'Mecanismos de dominación y resistencia.',
     group: 'sociedad-y-poder',
     order: 8,
-    status: 'planned',
+    status: 'active',
     hub: 'tsx',
   },
 
