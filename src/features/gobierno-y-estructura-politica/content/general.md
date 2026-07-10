@@ -1,108 +1,90 @@
 ---
-title: Estudio Comparativo de Países
-description: Comparaciones entre Colombia y los países tops en ciertas áreas
+title: Estudio comparativo de gobiernos y estructuras
+description: Lectura multi-país de gobernanza, economía, bienestar y capacidad — escenarios, no podios morales
 ---
 
-# Carpeta de Política (Estudio Comparativo de Países)
+# Gobierno y estructura política (comparativo)
 
-Comparaciones entre Colombia y los países tops en ciertas áreas.
+Esta nota sitúa **patrones** que reaparecen al comparar países. No corona «mejores países» ni asume que Colombia —u otro ancla— deba copiar un modelo. Usa la tabla mental: *señal → escenario plausible → qué faltaría saber*.
 
-## Temario
+## Marco
 
-- [1. Gobernanza y Estado](#1-gobernanza-y-estado)
-- [2. Economía](#2-economía)
-- [3. Educación y Ciencia](#3-educación-y-ciencia)
-- [4. Salud y Bienestar](#4-salud-y-bienestar)
-- [5. Seguridad y Justicia](#5-seguridad-y-justicia)
-- [6. Infraestructura y Tecnología](#6-infraestructura-y-tecnología)
-- [7. Medio Ambiente y Sostenibilidad](#7-medio-ambiente-y-sostenibilidad)
-- [8. Innovación y Futuro](#8-innovación-y-futuro)
+Comparar gobiernos exige separar:
 
-[Regresar al inicio](/)
+1. **Diseño** (presidencial/parlamentario, federal/unitario).
+2. **Capacidad** (fiscal, administrativa, coercitiva).
+3. **Resultados** (ingreso, salud, seguridad, desigualdad).
+4. **Legitimidad y conflicto** (elecciones, protesta, violencia).
+
+La correlación entre diseño y resultados es débil; la historia, la geografía y la economía política median casi todo.
 
 ## 1. Gobernanza y Estado
 
-- **Mejores ejemplos:**
-  - **Suiza** → Democracia directa, participación ciudadana.
-  - **Noruega** → Transparencia y baja corrupción.
+### Ejemplos multi-región
 
-- **Colombia:**
-  - Fortalezas: instituciones democráticas estables.
-  - Debilidades: corrupción, burocracia pesada.
+- **Democracia directa e institucionalidad densa (CHE):** alta participación en referendos; contexto de cantones y riqueza — difícil de aislar como «receta».
+- **Alta transparencia percibida (NOR, NZL en varios índices):** útil como contraste; los índices de corrupción son percepciones de expertos, no mediciones perfectas.
+- **Presidencialismos latinoamericanos (COL, BRA, MEX, CHL):** estabilidad formal variable; agendas de paz, seguridad y fiscalidad cruzan ramas del poder.
+- **Federalismos grandes (IND, NGA, USA, DEU):** calidad de gobierno **intra**-país a menudo importa más que el promedio nacional.
+- **Estados de partido dominante o híbridos (ej. SGP, RWA en lecturas distintas):** capacidad alta en algunas dimensiones con pluralismo político limitado — trade-off empírico, no veredicto ético aquí.
 
-## 2. Economía
+### Escenarios
 
-- **Mejores ejemplos:**
-  - **EE. UU.** → Innovación y mercado financiero.
-  - **China** → Crecimiento industrial y exportador.
-  - **Alemania** → Industria avanzada y exportaciones.
+- Instituciones formales estables + baja confianza ciudadana.
+- Reformas constitucionales frecuentes sin mejora de capacidad.
+- Descentralización que acerca servicios o que fragmenta rentas.
 
-- **Colombia:**
-  - Fortalezas: recursos naturales, economía diversificada.
-  - Debilidades: dependencia de materias primas, baja innovación.
+## 2. Economía y estructura productiva
 
-## 3. Educación y Ciencia
+- **Economías diversificadas de ingreso alto (DEU, KOR):** industria + servicios; shock de China y demografía como riesgos.
+- **Exportadores de commodities (AUS, CHL, NGA, COL):** ciclos de precios; escenario de enfermedad holandesa vs. fondos soberanos.
+- **Gigantes en convergencia (IND, IDN, VNM):** crecimiento rápido con heterogeneidad regional.
+- **África austral (ZAF):** ingreso relativo alto y desigualdad extrema — dualismo.
 
-- **Mejores ejemplos:**
-  - **Finlandia** → Sistema educativo equitativo.
-  - **Corea del Sur** → Alta disciplina y resultados académicos.
-  - **Estados Unidos** → Universidades de élite, investigación.
+Colombia ilustra un caso de ingreso medio con mix agro-minero-servicios; peers útiles incluyen CHL, PER, MEX, ZAF, THA según la pregunta.
 
-- **Colombia:**
-  - Fortalezas: acceso a educación básica en aumento.
-  - Debilidades: baja inversión en investigación, calidad desigual.
+## 3. Educación, ciencia e innovación
 
-## 4. Salud y Bienestar
+- **Alto desempeño PISA / I+D (KOR, FIN, DEU, SGP):** trayectorias distintas (presión competitiva vs. equidad).
+- **Sistemas masivos en expansión (BRA, IND, COL):** cobertura ≠ calidad homogénea.
+- **I+D / PIB** (indicador en el comparador global) es proxy de esfuerzo, no de «genio nacional».
 
-- **Mejores ejemplos:**
-  - **Japón** → Longevidad, prevención en salud.
-  - **Suecia** → Sistema universal eficiente.
+## 4. Salud y bienestar
 
-- **Colombia:**
-  - Fortalezas: cobertura amplia en salud.
-  - Debilidades: problemas en atención y desigualdad regional.
+- **Longevidad alta (JPN, ESP, KOR, CHE):** mezcla de dieta, sistema de salud, desigualdad y suerte epidemiológica.
+- **Cobertura amplia con cuellos de botella (varios LatAm):** seguro formal vs. lista de espera y geografía.
+- Esperanza de vida **no** mide felicidad ni justicia sanitaria.
 
-## 5. Seguridad y Justicia
+## 5. Seguridad y justicia
 
-- **Mejores ejemplos:**
-  - **Singapur** → Bajísima criminalidad.
-  - **Noruega** → Justicia restaurativa y bajos niveles de reincidencia.
+- **Homicidios bajos (JPN, muchos UE):** no implica ausencia de otros delitos o de violencia doméstica subregistrada.
+- **Homicidios altos (varios LatAm, partes de África y Caribe):** causas multicausales (armas, mercados ilegales, capacidad policial, desigualdad).
+- Comparabilidad internacional limitada por registro y tipologías.
 
-- **Colombia:**
-  - Fortalezas: fuerzas armadas profesionales.
-  - Debilidades: narcotráfico, violencia urbana y rural.
+## 6. Infraestructura, territorio y ambiente
 
-## 6. Infraestructura y Tecnología
+- **Megainfraestructura (CHN):** velocidad y escala con costos ambientales y de deuda local.
+- **Biodiversidad y presión extractiva (COL, BRA, IDN, COD):** tensión desarrollo–conservación.
+- CO₂ per cápita mide emisiones territoriales; el consumo importado puede contar otra historia.
 
-- **Mejores ejemplos:**
-  - **China** → Megaproyectos de infraestructura.
-  - **EE. UU.** → Silicon Valley e innovación tecnológica.
-  - **Corea del Sur** → Internet ultrarrápido.
+## 7. Escenarios transversales
 
-- **Colombia:**
-  - Fortalezas: proyectos viales en expansión.
-  - Debilidades: brecha digital, transporte público deficiente.
+1. **Convergencia incompleta:** sube el PIB per cápita, persisten brechas regionales.
+2. **Capacidad fiscal sin cohesión:** más impuestos, misma polarización.
+3. **Paz parcial:** cae la violencia organizada en un teatro y se desplaza a otro.
+4. **Éxito en un indicador, rezago en otro:** patrón global normal; evita rankings unidimensionales.
 
-## 7. Medio Ambiente y Sostenibilidad
+## Límites / qué no sabemos
 
-- **Mejores ejemplos:**
-  - **Costa Rica** → Energía 100% renovable gran parte del año.
-  - **Suecia** → Políticas ambientales estrictas.
+- Los «mejores ejemplos» de listas antiguas suelen mezclar mito y dato.
+- Copiar instituciones sin coaliciones sociales equivalentes suele fallar (literatura de *isomorphic mimicry*).
+- Datos faltantes ≠ ausencia del fenómeno.
+- Esta nota no sustituye fichas por país ni índices especializados de democracia.
 
-- **Colombia:**
-  - Fortalezas: biodiversidad de las más altas del mundo.
-  - Debilidades: deforestación, minería ilegal.
+## Fuentes / relacionados
 
-## 8. Innovación y Futuro
-
-- **Mejores ejemplos:**
-  - **Israel** → Startups y tecnología militar.
-  - **Alemania** → Industria 4.0.
-
-- **Colombia:**
-  - Fortalezas: ecosistema emprendedor emergente.
-  - Debilidades: poca inversión en ciencia y tecnología.
-
-[Regresar al inicio](/)
-
-> **Autor:** Fravelz
+- [Sistemas de gobierno](/gobierno-y-estructura-politica/sistemas-de-gobierno).
+- [Comparador de gobierno](/gobierno-y-estructura-politica/comparador).
+- [Diseño de poderes](/derecho-y-constitucion/diseno-de-poderes).
+- [Indicadores mundiales](/estadisticas-mundiales/indicadores).
+- Banco Mundial; OCDE; PNUD; V-Dem / Freedom House para dimensión democrática (con matices).

@@ -8,6 +8,14 @@ export const nav: NavItem[] = [
     label: 'Notas',
     items: [
       { label: 'Introducción', href: '/filosofia/introduccion' },
+      {
+        label: 'Prosperidad como pregunta',
+        href: '/filosofia/prosperidad-como-pregunta',
+      },
     ],
+  },
+  {
+    label: 'Interactivo',
+    items: [{ label: 'Tensiones', href: '/filosofia/tensiones' }],
   },
 ];
