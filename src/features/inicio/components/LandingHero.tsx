@@ -30,11 +30,11 @@ export function LandingHero() {
             WEB-PROSPERITY
           </p>
           <h1 className="font-display mt-3 text-[2rem] leading-[1.08] text-foreground min-[360px]:text-4xl sm:mt-4 sm:text-5xl lg:text-[3.5rem]">
-            Comprender cómo funcionan las sociedades.
+            Temas, mapas y datos para pensar una nación.
           </h1>
           <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
-            Explora ideas, instituciones, datos y escenarios para pensar la
-            prosperidad de una nación —sin verdades absolutas.
+            Archivo editorial con apartados de política, economía, geopolítica y
+            un comparador de países — sin paywall.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
             <a
@@ -59,19 +59,6 @@ export function LandingHero() {
             </Link>
           </div>
         </div>
-
-        <aside className="surface-glass w-full max-w-xs rounded-2xl p-4 shadow-[var(--shadow-theme)] lg:mt-4 lg:ml-auto">
-          <p className="m-0 text-sm font-semibold text-foreground">
-            Conocimiento conectado
-          </p>
-          <p className="mt-1 m-0 text-xs leading-relaxed text-muted-foreground">
-            Ideas, datos y contexto para mejores decisiones.
-          </p>
-          <p className="landing-hero-status mt-3 m-0 flex items-center gap-2 text-xs font-medium">
-            <span className="size-2 animate-pulse rounded-full bg-emerald-500 shadow-[0_0_8px_#34d399]" />
-            Sistema activo
-          </p>
-        </aside>
       </div>
     </section>
   );
