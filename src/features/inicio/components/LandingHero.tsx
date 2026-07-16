@@ -1,8 +1,11 @@
 import Link from 'next/link';
 import { ArrowRight, BarChart3 } from 'lucide-react';
+import { getArchiveProgress } from '@/lib/content/progress';
 import { cn } from '@/lib/utils';
 
 export function LandingHero() {
+  const progress = getArchiveProgress();
+
   return (
     <section className="landing-hero relative isolate min-h-[min(68vh,36rem)] overflow-hidden bg-background sm:min-h-[min(82vh,46rem)]">
       <div
@@ -27,24 +30,29 @@ export function LandingHero() {
       <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-12 sm:gap-10 sm:px-6 sm:py-16 lg:flex-row lg:items-start lg:justify-between lg:py-24">
         <div className="max-w-xl lg:pt-6">
           <p className="m-0 text-xs font-semibold tracking-[0.28em] text-link uppercase">
-            WEB-PROSPERITY
+            WEB-PROSPERITY · DEMO / LAB
           </p>
           <h1 className="font-display mt-3 text-[2rem] leading-[1.08] text-foreground min-[360px]:text-4xl sm:mt-4 sm:text-5xl lg:text-[3.5rem]">
-            Temas, mapas y datos para pensar una nación.
+            Archivo editorial en construcción.
           </h1>
           <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
-            Archivo editorial con apartados de política, economía, geopolítica y
-            un comparador de países — sin paywall.
+            Notas de política, economía y geopolítica con foco en un bloque
+            denso (Fundamentos). Hoy:{' '}
+            <strong className="font-semibold text-foreground">
+              {progress.notesPublished}/{progress.notesTotal} notas publicadas
+            </strong>{' '}
+            ({progress.pct}%) bajo criterio ≥800 palabras + fuentes citadas —
+            no un think-tank terminado.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
             <a
-              href="#ejes"
+              href="#progreso-heading"
               className={cn(
                 'inline-flex min-h-11 items-center gap-2 rounded-xl bg-link px-5 py-3 text-sm font-semibold text-white no-underline',
                 'shadow-[0_0_28px_rgb(37_99_235/35%)] transition hover:bg-link-hover',
               )}
             >
-              Explorar temas
+              Ver progreso real
               <ArrowRight className="size-4" aria-hidden />
             </a>
             <Link

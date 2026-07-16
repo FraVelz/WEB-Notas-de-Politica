@@ -2,9 +2,16 @@
 
 [English Version](./README.EN.md)
 
-Sitio **Web Prosperity** para la **búsqueda de la prosperidad de una nación**, explorada en sentido amplio: **política, filosofía** y temas afines, construido con [Next.js](https://nextjs.org).
+**Demo / Lab editorial** — archivo en construcción para explorar la prosperidad de una nación (política, filosofía y temas afines) con [Next.js](https://nextjs.org). **No es un producto mid** ni un think-tank publicado completo.
 
 ![Captura de pantalla](./src/app/opengraph-image.png)
+
+## Honestidad (L7)
+
+- **Bloque foco:** Fundamentos ([docs/es/block-fundamentos.md](./docs/es/block-fundamentos.md)).
+- **Publicado** = nota ≥800 palabras + ≥2 URLs en Fuentes; el % real se muestra en la landing.
+- **Three.js retirado** del build ([ADR 0001](./docs/adr/0001-drop-threejs.md)); mapas con MapLibre.
+- La mayoría de apartados están *En preparación*; no vendas «25 temas maduros».
 
 ## Documentación del proyecto
 
@@ -12,17 +19,14 @@ Toda la documentación técnica está en **[docs/es/overview.md](./docs/es/overv
 
 ## Características
 
-- **25 apartados temáticos** agrupados en 7 bloques (filosofía, geopolítica, economía, datos, etc.) con estados *Con contenido*, *En preparación* y *Próximamente*
-- **Landing** en `/` con hero, navegación por anclas y tarjetas por tema
-- **Arquitectura por features** — un folder por tema (`src/features/{tema}/`) con hub TSX, sidebar propio y notas en Markdown
-- **Rutas dinámicas** `/{tema}` y `/{tema}/...` con resolución automática entre páginas TSX y notas `.md`
-- **Tema claro/oscuro** persistente (`next-themes`) con selector en la cabecera
-- **Estilo por apartado** — paletas en escala de grises según el grupo del tema
-- **Búsqueda** en la documentación de cada tema (título, descripción, URL y apartado)
-- **Markdown enriquecido** con tablas, listas y GFM (`react-markdown`, `remark-gfm`)
-- **Mapa interactivo** en Estadísticas mundiales (MapLibre GL / [mapcn](https://mapcn.vercel.app/docs))
-- **Export estático** (`output: 'export'` → carpeta `out/`) listo para Vercel o GitHub Pages
-- **Documentación técnica bilingüe** en `docs/es/` y `docs/en/`
+- Catálogo temático en 7 bloques con badges honestos (*Con contenido* / *En preparación* / *Próximamente*)
+- **Landing** con progreso editorial real (fracción y %)
+- Arquitectura por features (`src/features/{tema}/`) con hubs TSX y notas Markdown
+- Rutas dinámicas `/{tema}` y `/{tema}/...`
+- Tema claro/oscuro (`next-themes`)
+- Mapa MapLibre (orientación) + comparador de indicadores (Recharts)
+- Export estático (`output: 'export'` → `out/`)
+- Docs técnicas bilingües; skip-to-content en shells
 
 ## Tecnologías
 
@@ -33,7 +37,7 @@ Toda la documentación técnica está en **[docs/es/overview.md](./docs/es/overv
 | Estilos   | [Tailwind CSS 4](https://tailwindcss.com) · tokens CSS por tema               |
 | Contenido | `gray-matter` · `react-markdown` · `remark-gfm`                               |
 | UI        | `next-themes` · [Lucide](https://lucide.dev) · `clsx` / `tailwind-merge`      |
-| Mapas     | [MapLibre GL](https://maplibre.org)                                           |
+| Mapas     | [MapLibre GL](https://maplibre.org) (sin Three.js)                            |
 | Calidad   | ESLint · Prettier · `react-doctor`                                            |
 | Paquetes  | [pnpm](https://pnpm.io)                                                       |
 
@@ -51,7 +55,7 @@ pnpm dev
 ```text
 /
 ├── docs/es/overview.md   # documentación técnica (ES)
-├── docs/en/overview.md   # documentación técnica (EN)
+├── docs/adr/             # decisiones (p. ej. drop Three.js)
 ├── src/
 │   ├── app/              # rutas App Router (/, /[tema], /[tema]/...)
 │   ├── features/         # un folder por tema + content/ con notas .md
@@ -64,7 +68,7 @@ pnpm dev
 
 |              |                                                                             |
 | ------------ | --------------------------------------------------------------------------- |
-| **Proyecto** | Espacio para la búsqueda de la prosperidad de una nación; notas en construcción que crecen por apartados |
+| **Proyecto** | Demo editorial / Lab — notas en construcción; foco en profundidad de un bloque |
 | **Autor**    | Fravelz                                                                     |
 | **Licencia** | [Apache License 2.0](./LICENSE)                                             |
 

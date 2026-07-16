@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/BookmarksMenu';
 import { Sidebar } from '@/components/Sidebar';
 import { SiteHeader } from '@/components/SiteHeader';
+import { SkipToContent } from '@/components/SkipToContent';
 import type { DocMeta } from '@/lib/content/docs';
 import type { NavItem } from '@/lib/navigation';
 import { getFeatureNavIcons } from '@/lib/temas/navigation';
@@ -85,6 +86,7 @@ export function DocsShell({
 
   return (
     <>
+      <SkipToContent />
       <SiteHeader
         variant="tema"
         hideBrandLink={showSidebar}
@@ -194,6 +196,8 @@ export function DocsShell({
             </div>
           ) : null}
           <main
+            id="main-content"
+            tabIndex={-1}
             className={cn(
               immersiveHub
                 ? 'min-h-0 flex-1 overflow-hidden p-0'

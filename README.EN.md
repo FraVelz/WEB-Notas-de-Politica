@@ -2,9 +2,16 @@
 
 This document is in English. [Versión en español](./README.md)
 
-**Web Prosperity** is a space for the **pursuit of a nation’s prosperity**, explored in a broad sense — **politics, philosophy**, and related topics — built with [Next.js](https://nextjs.org).
+**Demo / Lab editorial** — a work-in-progress archive exploring a nation’s prosperity (politics, philosophy, and related topics) with [Next.js](https://nextjs.org). **Not a mid-level product** and not a finished think-tank.
 
 ![Screenshot](./src/app/opengraph-image.png)
+
+## Honesty (L7)
+
+- **Focus block:** Fundamentos / Foundations ([docs/es/block-fundamentos.md](./docs/es/block-fundamentos.md)).
+- **Published** = note ≥800 words + ≥2 source URLs in Fuentes; real % on the landing.
+- **Three.js removed** from the build ([ADR 0001](./docs/adr/0001-drop-threejs.md)); maps use MapLibre.
+- Most sections are *In progress* — do not pitch “25 mature topics”.
 
 ## Project documentation
 
@@ -12,17 +19,14 @@ All technical docs live in **[docs/en/overview.md](./docs/en/overview.md)** ([Sp
 
 ## Features
 
-- **25 topic sections** in 7 groups (philosophy, geopolitics, economics, data, etc.) with *With content*, *In progress*, and *Coming soon* states
-- **Landing** at `/` with hero, anchor navigation, and topic cards
-- **Feature-based architecture** — one folder per topic (`src/features/{topic}/`) with TSX hub, own sidebar, and Markdown notes
-- **Dynamic routes** `/{topic}` and `/{topic}/...` resolving TSX pages or `.md` notes automatically
-- **Light/dark theme** persisted via `next-themes`, toggle in the header
-- **Per-topic styling** — grayscale palettes by topic group
-- **Search** within each topic’s docs (title, description, URL, and section)
-- **Rich Markdown** with tables, lists, and GFM (`react-markdown`, `remark-gfm`)
-- **Interactive map** on World statistics (MapLibre GL / [mapcn](https://mapcn.vercel.app/docs))
-- **Static export** (`output: 'export'` → `out/`) for Vercel or GitHub Pages
-- **Bilingual technical docs** in `docs/es/` and `docs/en/`
+- Topic catalog in 7 groups with honest badges (*With content* / *In progress* / *Coming soon*)
+- **Landing** shows real editorial progress (fraction and %)
+- Feature-based architecture (`src/features/{topic}/`) with TSX hubs and Markdown notes
+- Dynamic routes `/{topic}` and `/{topic}/...`
+- Light/dark theme (`next-themes`)
+- MapLibre map (orientation) + indicator comparator (Recharts)
+- Static export (`output: 'export'` → `out/`)
+- Bilingual docs; skip-to-content on shells
 
 ## Technologies
 
@@ -33,7 +37,7 @@ All technical docs live in **[docs/en/overview.md](./docs/en/overview.md)** ([Sp
 | Styling   | [Tailwind CSS 4](https://tailwindcss.com) · per-topic CSS tokens              |
 | Content   | `gray-matter` · `react-markdown` · `remark-gfm`                               |
 | UI        | `next-themes` · [Lucide](https://lucide.dev) · `clsx` / `tailwind-merge`      |
-| Maps      | [MapLibre GL](https://maplibre.org)                                           |
+| Maps      | [MapLibre GL](https://maplibre.org) (no Three.js)                             |
 | Quality   | ESLint · Prettier · `react-doctor`                                            |
 | Packages  | [pnpm](https://pnpm.io)                                                       |
 
@@ -51,7 +55,7 @@ pnpm dev
 ```text
 /
 ├── docs/es/overview.md   # technical docs (Spanish)
-├── docs/en/overview.md   # technical docs (English)
+├── docs/adr/             # decisions (e.g. drop Three.js)
 ├── src/
 │   ├── app/              # App Router routes (/, /[topic], /[topic]/...)
 │   ├── features/         # one folder per topic + content/ for .md notes
@@ -64,7 +68,7 @@ pnpm dev
 
 |             |                                                                       |
 | ----------- | --------------------------------------------------------------------- |
-| **Project** | Space for the pursuit of a nation’s prosperity; notes under active development, growing per topic |
+| **Project** | Editorial Demo / Lab — notes under construction; depth over coverage  |
 | **Author**  | Fravelz                                                               |
 | **License** | [Apache License 2.0](./LICENSE)                                       |
 

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { LandingDestacados } from '@/features/inicio/components/LandingDestacados';
 import { LandingEjes } from '@/features/inicio/components/LandingEjes';
 import { LandingHero } from '@/features/inicio/components/LandingHero';
+import { LandingProgress } from '@/features/inicio/components/LandingProgress';
 import { siteConfig } from '@/lib/navigation';
 
 export function InicioPage() {
@@ -10,6 +11,7 @@ export function InicioPage() {
       <LandingHero />
 
       <div className="flex flex-col gap-16 py-12 pb-20">
+        <LandingProgress />
         <LandingEjes />
         <LandingDestacados />
 
@@ -49,7 +51,7 @@ export function InicioPage() {
             <p className="m-0">
               <span className="text-foreground">{siteConfig.author}</span>
               {' · '}
-              notas personales en construcción
+              demo editorial / Lab — no producto mid
             </p>
             <p className="m-0">{siteConfig.license}</p>
           </div>

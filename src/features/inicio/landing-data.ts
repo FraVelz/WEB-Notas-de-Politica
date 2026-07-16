@@ -6,6 +6,7 @@ import {
   Swords,
 } from 'lucide-react';
 import { getAllDocs } from '@/lib/content/docs';
+import { getArchiveProgress } from '@/lib/content/progress';
 import {
   getNavCategoriesGrouped,
   getTemasForLanding,
@@ -55,50 +56,30 @@ export const EJE_ICONS: Record<TemaNavCategoryId, LucideIcon> = {
   datos: MapIcon,
 };
 
-/** KPIs de presentación alineados al mockup (marketing layout). */
+/** KPIs reales derivados del progreso editorial (no marketing mock). */
 export function getLandingKpis() {
+  const p = getArchiveProgress();
   return [
     {
-      label: 'Temas',
-      value: '26',
-      hint: 'Apartados del archivo',
+      label: 'Temas activos',
+      value: String(p.temasActive),
+      hint: `de ${p.temasLanding} en catálogo`,
       color: '#3b82f6',
       icon: 'book' as const,
     },
     {
-      label: 'Artículos',
-      value: '54',
-      hint: 'Notas y ensayos',
+      label: 'Notas publicadas',
+      value: `${p.notesPublished}/${p.notesTotal}`,
+      hint: `${p.pct}% criterio denso`,
       color: '#10b981',
       icon: 'file' as const,
     },
     {
-      label: 'Herramientas',
-      value: '18',
-      hint: 'Comparadores e interactivos',
-      color: '#a855f7',
-      icon: 'wrench' as const,
-    },
-    {
-      label: 'Indicadores',
-      value: '150+',
-      hint: 'Series y métricas',
-      color: '#f59e0b',
-      icon: 'globe' as const,
-    },
-    {
-      label: 'Países',
-      value: '200+',
-      hint: 'Cobertura comparativa',
+      label: 'Bloque foco',
+      value: `${p.focusPublished}/${p.focusTotal}`,
+      hint: p.focusGroupLabel,
       color: '#06b6d4',
-      icon: 'users' as const,
-    },
-    {
-      label: 'Independiente',
-      value: '100%',
-      hint: 'Sin paywall ni ads',
-      color: '#f43f5e',
-      icon: 'clock' as const,
+      icon: 'globe' as const,
     },
   ];
 }
