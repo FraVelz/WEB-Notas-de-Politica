@@ -90,7 +90,7 @@ export const temas: TemaDefinition[] = [
     description: 'Página principal y archivo de bienvenida.',
     group: 'fundamentos',
     order: 0,
-    status: 'stub',
+    status: 'active',
     hub: 'tsx',
     hiddenOnLanding: true,
     skin: 'default',
