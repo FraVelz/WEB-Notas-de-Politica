@@ -1,6 +1,5 @@
 {
   "notes": {
-    "r3f": "React Three Fiber intrinsic JSX props are not DOM props.",
     "maplibre": "MapLibre layers and objects are imperative resources with explicit sync effects.",
     "wheel": "The Ctrl/meta wheel gesture calls preventDefault, so a passive listener would break it.",
     "keyboard-map": "The map shell needs focus to receive WASD keyboard controls.",
@@ -9,18 +8,6 @@
   "ignore": {
     "rules": [],
     "overrides": [
-      {
-        "files": [
-          "src/features/estadisticas-mundiales/interactive-globe/components/globe/*.tsx"
-        ],
-        "rules": ["react-doctor/no-unknown-property"]
-      },
-      {
-        "files": [
-          "src/features/estadisticas-mundiales/interactive-globe/components/globe/CountryMesh.tsx"
-        ],
-        "rules": ["react-doctor/no-event-handler"]
-      },
       {
         "files": [
           "src/features/estadisticas-mundiales/components/GlobeKeyboardControls.tsx"

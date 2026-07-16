@@ -124,7 +124,7 @@ const pageMeta: Record<string, Record<string, { title: string; description?: str
       mapa: {
         title: 'Mapa mundial',
         description:
-          'Globo 3D interactivo con capas de población, PIB y más para situar países en contexto',
+          'Mapa MapLibre para situar países y fronteras; el comparador de indicadores lleva las series con fuentes',
       },
       indicadores: {
         title: 'Comparador de indicadores',
