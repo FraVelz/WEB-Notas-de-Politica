@@ -33,8 +33,7 @@ export function SiteHeader({
   return (
     <header
       className={cn(
-        'site-header sticky top-0 z-20 border-b border-border',
-        variant === 'landing' ? 'surface-glass bg-elevated/70' : 'bg-elevated',
+        'site-header sticky top-0 z-20 border-b border-border bg-elevated',
       )}
     >
       <div
