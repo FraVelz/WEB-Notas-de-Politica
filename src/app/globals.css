@@ -251,7 +251,7 @@
 [data-theme='dark'] .site-header {
   --bg: #05070a;
   --bg-muted: #0a0f1e;
-  --bg-elevated: rgb(8 12 22 / 78%);
+  --bg-elevated: #080c16;
   --text: #ffffff;
   --text-muted: #94a3b8;
   --border: rgb(255 255 255 / 10%);
