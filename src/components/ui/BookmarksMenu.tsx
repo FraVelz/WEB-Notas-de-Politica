@@ -6,14 +6,16 @@ import { Bookmark, BookmarkCheck, Clock3, Trash2, X } from 'lucide-react';
 import { useBookmarks } from '@/hooks/useBookmarks';
 import { cn } from '@/lib/utils';
 
+const dateTimeFormatter = new Intl.DateTimeFormat('es', {
+  day: 'numeric',
+  month: 'short',
+  hour: '2-digit',
+  minute: '2-digit',
+});
+
 function formatWhen(ts: number) {
   try {
-    return new Intl.DateTimeFormat('es', {
-      day: 'numeric',
-      month: 'short',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(new Date(ts));
+    return dateTimeFormatter.format(new Date(ts));
   } catch {
     return '';
   }

@@ -74,19 +74,17 @@ export function LandingProgress() {
             ))}
           </dl>
         </div>
-        <div
-          className="mt-4 h-2 overflow-hidden rounded-full bg-muted"
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={p.pct}
+        <progress
+          className={cn(
+            'mt-4 block h-2 w-full overflow-hidden rounded-full bg-muted',
+            '[&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-muted',
+            '[&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:bg-link [&::-webkit-progress-value]:transition-[width]',
+            '[&::-moz-progress-bar]:rounded-full [&::-moz-progress-bar]:bg-link',
+          )}
+          value={p.pct}
+          max={100}
           aria-label={`Archivo ${p.pct} por ciento publicado`}
-        >
-          <div
-            className={cn('h-full rounded-full bg-link transition-[width]')}
-            style={{ width: `${p.pct}%` }}
-          />
-        </div>
+        />
         <p className="mt-3 m-0 text-xs text-muted-foreground">
           Detalle del bloque foco:{' '}
           <Link

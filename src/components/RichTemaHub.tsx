@@ -254,10 +254,11 @@ export function RichTemaHub({
                     'transition-colors duration-150 hover:border-link/40',
                   )}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={watermark}
                     alt=""
+                    width={96}
+                    height={96}
                     className="pointer-events-none absolute right-2 bottom-1 size-24 text-link opacity-[0.08]"
                     aria-hidden
                   />

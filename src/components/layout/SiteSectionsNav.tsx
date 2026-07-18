@@ -125,7 +125,7 @@ export function SiteSectionsNav({
         mobileTriggerRef.current?.focus();
       });
     }
-  }, []);
+  }, [setMobileMenuOpen]);
 
   const closeAll = useCallback(() => {
     closeDesktop();

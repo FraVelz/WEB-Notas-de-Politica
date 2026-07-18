@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { BarChart3, Home, Library } from 'lucide-react';
 import {
@@ -44,6 +44,11 @@ export function DocsShell({
   const [icons, setIcons] = useState<Record<string, LucideIcon>>();
   const { open, setOpen } = useCommandPalette();
   const pathname = usePathname();
+  const prevPathnameRef = useRef(pathname);
+  if (pathname !== prevPathnameRef.current) {
+    prevPathnameRef.current = pathname;
+    setSidebarOpen(false);
+  }
   const meta = getTemaById(temaId);
   const immersivePath = meta?.immersivePath
     ? `/${temaId}/${meta.immersivePath}`
@@ -66,10 +71,6 @@ export function DocsShell({
       cancelled = true;
     };
   }, [temaId]);
-
-  useEffect(() => {
-    setSidebarOpen(false);
-  }, [pathname]);
 
   const extraItems = useMemo(
     () =>

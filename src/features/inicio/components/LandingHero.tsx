@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, BarChart3 } from 'lucide-react';
 import { getArchiveProgress } from '@/lib/content/progress';
@@ -13,11 +14,13 @@ export function LandingHero() {
         style={{ backgroundImage: "url('/landing/earth-night.webp')" }}
         aria-hidden
       />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src="/landing/orbits.svg"
         alt=""
-        className="landing-hero-orbits pointer-events-none absolute inset-0 hidden h-full w-full object-cover object-[72%_center] lg:block"
+        fill
+        priority
+        sizes="(min-width: 1024px) 100vw, 0px"
+        className="landing-hero-orbits pointer-events-none hidden object-cover object-[72%_center] lg:block"
         aria-hidden
       />
       <div

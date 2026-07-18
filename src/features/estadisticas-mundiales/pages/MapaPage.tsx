@@ -13,12 +13,11 @@ const WorldConnectionsMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div
+      <output
         className="flex h-[min(70vh,520px)] w-full items-center justify-center rounded-xl border border-border bg-muted text-sm text-muted-foreground"
-        role="status"
       >
         Cargando mapa…
-      </div>
+      </output>
     ),
   },
 );

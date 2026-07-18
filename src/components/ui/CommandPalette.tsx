@@ -9,6 +9,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
 } from 'react';
 import { createPortal } from 'react-dom';
 import { Search } from 'lucide-react';
@@ -29,6 +30,18 @@ const temaItems: CommandItem[] = getTemasForLanding().map((t) => ({
   group: 'Temas',
 }));
 const EMPTY_COMMAND_ITEMS: CommandItem[] = [];
+
+function subscribeMounted() {
+  return () => {};
+}
+
+function getClientMountedSnapshot() {
+  return true;
+}
+
+function getServerMountedSnapshot() {
+  return false;
+}
 
 export function useCommandPalette() {
   const [open, setOpen] = useState(false);
@@ -98,7 +111,19 @@ export function CommandPalette({
   const listId = useId();
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    subscribeMounted,
+    getClientMountedSnapshot,
+    getServerMountedSnapshot,
+  );
+  const prevOpenRef = useRef(open);
+  if (open !== prevOpenRef.current) {
+    prevOpenRef.current = open;
+    if (!open) {
+      setQuery('');
+      setActive(0);
+    }
+  }
 
   const items = useMemo(() => {
     const all = [...extraItems, ...temaItems];
@@ -121,15 +146,7 @@ export function CommandPalette({
   }, [extraItems, query]);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!open) {
-      setQuery('');
-      setActive(0);
-      return;
-    }
+    if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     const t = window.setTimeout(() => inputRef.current?.focus(), 20);
