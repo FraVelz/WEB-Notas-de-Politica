@@ -29,6 +29,9 @@ export function BookmarksMenu({
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const { bookmarks, continueReading, removeBookmark } = useBookmarks();
 
   useEffect(() => {
@@ -47,9 +50,42 @@ export function BookmarksMenu({
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+    const panel = panelRef.current;
+    if (!panel) return;
+    requestAnimationFrame(() => closeRef.current?.focus());
+    const FOCUSABLE =
+      "a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex='-1'])";
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const focusables = [...panel.querySelectorAll<HTMLElement>(FOCUSABLE)];
+      if (focusables.length === 0) return;
+      const first = focusables[0]!;
+      const last = focusables[focusables.length - 1]!;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    panel.addEventListener('keydown', handleKeyDown);
+    return () => {
+      panel.removeEventListener('keydown', handleKeyDown);
+      if (triggerRef.current?.isConnected) {
+        requestAnimationFrame(() => triggerRef.current?.focus());
+      }
+    };
+  }, [open]);
+
   return (
     <div ref={rootRef} className={cn('relative', className)}>
       <button
+        ref={triggerRef}
         type="button"
         className={cn(
           'inline-flex size-9 items-center justify-center rounded-xl border border-border',
@@ -67,19 +103,23 @@ export function BookmarksMenu({
 
       {open ? (
         <div
+          ref={panelRef}
           id={panelId}
           role="dialog"
+          aria-modal="true"
           aria-label="Marcadores guardados"
           className={cn(
             'absolute top-[calc(100%+0.5rem)] right-0 z-40 w-[min(22rem,calc(100vw-2rem))]',
             'overflow-hidden rounded-2xl border border-border bg-elevated shadow-[var(--shadow-theme)]',
           )}
+          onKeyDown={(e) => e.stopPropagation()}
         >
           <div className="flex items-center justify-between border-b border-border px-3 py-2.5">
             <p className="m-0 text-sm font-semibold text-foreground">
               Marcadores
             </p>
             <button
+              ref={closeRef}
               type="button"
               className="inline-flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground"
               aria-label="Cerrar"

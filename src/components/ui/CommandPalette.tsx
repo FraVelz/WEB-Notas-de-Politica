@@ -107,7 +107,9 @@ export function CommandPalette({
   extraItems?: CommandItem[];
 }) {
   const router = useRouter();
+  const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
   const listId = useId();
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
@@ -147,14 +149,54 @@ export function CommandPalette({
 
   useEffect(() => {
     if (!open) return;
+    triggerRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     const t = window.setTimeout(() => inputRef.current?.focus(), 20);
     return () => {
       document.body.style.overflow = prev;
       window.clearTimeout(t);
+      const el = triggerRef.current;
+      if (el?.isConnected) {
+        requestAnimationFrame(() => el.focus());
+      }
     };
   }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const el = dialogRef.current;
+    if (!el) return;
+    const FOCUSABLE =
+      "a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex='-1'])";
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const focusables = [
+        ...el.querySelectorAll<HTMLElement>(FOCUSABLE),
+      ].filter(
+        (node) =>
+          !node.hasAttribute('disabled') &&
+          node.getAttribute('aria-hidden') !== 'true',
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0]!;
+      const last = focusables[focusables.length - 1]!;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    el.addEventListener('keydown', handleKeyDown);
+    return () => el.removeEventListener('keydown', handleKeyDown);
+  }, [open, items.length]);
 
   const go = useCallback(
     (href: string) => {
@@ -170,14 +212,17 @@ export function CommandPalette({
     <div
       className="fixed inset-0 z-[100] flex items-start justify-center px-4 pt-[min(12vh,6rem)] pb-8"
       role="presentation"
+      onKeyDown={(e) => e.stopPropagation()}
     >
       <button
         type="button"
+        tabIndex={-1}
         className="absolute inset-0 cursor-default bg-[#05070a]/75 backdrop-blur-md"
         aria-label="Cerrar búsqueda"
         onClick={() => onOpenChange(false)}
       />
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label="Buscar en Prosperidad"
